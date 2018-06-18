@@ -7,7 +7,9 @@
     "build": "ng build",
     "test": "ng test",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "e2e": "ng e2e",
+    "build-docker-image": "docker image build -t keepadoo .",
+    "docker-run": "docker run -p 3000:80 --rm keepadoo"
   },
   "private": true,
   "dependencies": {
