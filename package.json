@@ -9,7 +9,10 @@
     "lint": "ng lint",
     "e2e": "ng e2e",
     "build-docker-image": "docker image build -t keepadoo .",
-    "docker-run": "docker run -p 3000:80 --rm keepadoo"
+    "docker-run": "docker run -p 3000:80 --rm keepadoo",
+    "docker-hub-build": " docker image build -t utukku/keepadoo:1.0 .",
+    "docker-push": "docker push utukku/keepadoo:1.0 ",
+    "docker-deploy": "docker run -d -p 80:80 --name keepadoo utukku/keepadoo:1.0"
   },
   "private": true,
   "dependencies": {
