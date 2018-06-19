@@ -1,6 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
+import { BehaviorSubject, Observable } from 'rxjs';
 
 (window as any).global = window;
 
@@ -17,6 +18,11 @@ export class AuthenticationService {
     scope: 'openid'
   });
 
+  private _isAuthenticated$ = new BehaviorSubject<boolean>(this.isAuthenticated());
+  get isAuthenticated$(): Observable<boolean> {
+    return this._isAuthenticated$.asObservable();
+  }
+
   constructor(private router: Router) {}
 
   public login(): void {
@@ -25,12 +31,15 @@ export class AuthenticationService {
 
   public handleAuthentication(): void {
     this.auth0.parseHash((err, authResult) => {
+      console.log('Handle authentication', err, authResult);
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
-        this.router.navigate(['/home']);
+        this._isAuthenticated$.next(true);
+        this.router.navigate(['/']);
       } else if (err) {
-        this.router.navigate(['/home']);
+        this._isAuthenticated$.next(false);
+        this.router.navigate(['/']);
         console.log(err);
       }
     });
@@ -41,10 +50,12 @@ export class AuthenticationService {
     localStorage.removeItem('id_token');
     localStorage.removeItem('expires_at');
 
+    this._isAuthenticated$.next(false);
+
     this.router.navigate(['/']);
   }
 
-  public isAuthenticated(): boolean {
+  private isAuthenticated(): boolean {
     const expiresAt = JSON.parse(localStorage.getItem('expires_at') || '{}');
     return new Date().getTime() < expiresAt;
   }

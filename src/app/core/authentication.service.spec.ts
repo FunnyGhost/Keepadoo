@@ -43,35 +43,58 @@ describe('AuthenticationService', () => {
         expect(router.navigate).toHaveBeenCalledWith(['/']);
       }
     ));
+
+    it('should broadcast that the user is not authenticated', inject(
+      [AuthenticationService],
+      (service: AuthenticationService) => {
+        let isInitialValue = true;
+        service.isAuthenticated$.subscribe((isAuthenticated: boolean) => {
+          if (isInitialValue) {
+            // ignore initial value
+            isInitialValue = false;
+          } else {
+            expect(isAuthenticated).toBe(false);
+          }
+        });
+
+        service.logout();
+      }
+    ));
   });
 
-  describe('isAuthenticated', () => {
-    it('should be true if token is still valid', inject(
-      [AuthenticationService],
-      (service: AuthenticationService) => {
-        localStorage.setItem('expires_at', '9999999999999');
+  describe('isAuthenticated$ for logged out user', () => {
+    beforeEach(() => {
+      localStorage.removeItem('expires_at');
+    });
 
-        const result = service.isAuthenticated();
-        expect(result).toBe(true);
-      }
-    ));
-    it('should be false if token is expired', inject(
-      [AuthenticationService],
-      (service: AuthenticationService) => {
-        localStorage.setItem('expires_at', '1');
+    it('should be false', inject([AuthenticationService], (service: AuthenticationService) => {
+      service.isAuthenticated$.subscribe((isAuthenticated: boolean) => {
+        expect(isAuthenticated).toBe(false);
+      });
+    }));
+  });
 
-        const result = service.isAuthenticated();
-        expect(result).toBe(false);
-      }
-    ));
-    it('should be false if token is not present', inject(
-      [AuthenticationService],
-      (service: AuthenticationService) => {
-        localStorage.removeItem('expires_at');
+  describe('isAuthenticated$ for user with expired cookie', () => {
+    beforeEach(() => {
+      localStorage.setItem('expires_at', '1');
+    });
 
-        const result = service.isAuthenticated();
-        expect(result).toBe(false);
-      }
-    ));
+    it('should be false', inject([AuthenticationService], (service: AuthenticationService) => {
+      service.isAuthenticated$.subscribe((isAuthenticated: boolean) => {
+        expect(isAuthenticated).toBe(false);
+      });
+    }));
+  });
+
+  describe('isAuthenticated$ for logged in user', () => {
+    beforeEach(() => {
+      localStorage.setItem('expires_at', '9999999999999999999');
+    });
+
+    it('should be true', inject([AuthenticationService], (service: AuthenticationService) => {
+      service.isAuthenticated$.subscribe((isAuthenticated: boolean) => {
+        expect(isAuthenticated).toBe(true);
+      });
+    }));
   });
 });
