@@ -1,3 +1,5 @@
+<h2>Profile</h2>
+
 <div *ngIf='currentUser$ | async; let currentUser'>
-  <span class='user-email'>{{currentUser.email}}</span>
+  <span class='user-email'>{{currentUser.name}}</span>
 </div>
