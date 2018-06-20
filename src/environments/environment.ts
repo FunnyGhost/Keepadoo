@@ -1,9 +1,21 @@
+import { FirebaseConfig } from '../app/core/models/firebase-config';
+
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+const firebaseConfig: FirebaseConfig = {
+  apiKey: 'AIzaSyCmdoGjhIkg5Xz2okqrX4dEZZZlCOPGAjA',
+  authDomain: 'keepadoo.firebaseapp.com',
+  databaseURL: 'https://keepadoo.firebaseio.com',
+  projectId: 'keepadoo',
+  storageBucket: 'keepadoo.appspot.com',
+  messagingSenderId: '516267612124'
+};
+
 export const environment = {
-  production: false
+  production: false,
+  firebaseConfig
 };
 
 /*
