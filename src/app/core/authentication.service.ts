@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { UserService } from './user.service';
 
 (window as any).global = window;
 
@@ -15,7 +16,7 @@ export class AuthenticationService {
     responseType: 'token id_token',
     audience: 'https://funnyghost.eu.auth0.com/userinfo',
     redirectUri: 'http://localhost:4200/callback',
-    scope: 'openid'
+    scope: 'openid profile'
   });
 
   private _isAuthenticated$ = new BehaviorSubject<boolean>(this.isAuthenticated());
@@ -23,7 +24,7 @@ export class AuthenticationService {
     return this._isAuthenticated$.asObservable();
   }
 
-  constructor(private router: Router) {}
+  constructor(private router: Router, private userService: UserService) {}
 
   public login(): void {
     this.auth0.authorize();
@@ -36,6 +37,7 @@ export class AuthenticationService {
         window.location.hash = '';
         this.setSession(authResult);
         this._isAuthenticated$.next(true);
+        this.getProfile();
         this.router.navigate(['/']);
       } else if (err) {
         this._isAuthenticated$.next(false);
@@ -53,6 +55,19 @@ export class AuthenticationService {
     this._isAuthenticated$.next(false);
 
     this.router.navigate(['/']);
+  }
+
+  private getProfile(): void {
+    const accessToken = localStorage.getItem('access_token');
+    if (!accessToken) {
+      throw new Error('Access token must exist to fetch profile');
+    }
+
+    this.auth0.client.userInfo(accessToken, (err, profile) => {
+      if (profile) {
+        this.userService.updateUser(profile);
+      }
+    });
   }
 
   private isAuthenticated(): boolean {
