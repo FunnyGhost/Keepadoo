@@ -6,7 +6,7 @@ import { UserService } from '../../core/user.service';
 import { ProfileComponent } from './profile.component';
 
 const userToUse: Partial<User> = {
-  email: 'batman@batcave.com'
+  name: 'batman@batcave.com'
 };
 
 const mockUserService = {
@@ -39,10 +39,10 @@ describe('ProfileComponent', () => {
     expect(component).toBeTruthy();
   });
 
-  it('should show the user email', () => {
-    const userEmails = fixture.debugElement.queryAll(By.css('.user-email'));
+  it('should show the user name', () => {
+    const userNames = fixture.debugElement.queryAll(By.css('.user-name'));
 
-    expect(userEmails.length).toBe(1);
-    expect(userEmails[0].nativeElement.textContent).toContain(userToUse.email);
+    expect(userNames.length).toBe(1);
+    expect(userNames[0].nativeElement.textContent).toContain(userToUse.name);
   });
 });
