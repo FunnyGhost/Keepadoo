@@ -67,6 +67,12 @@ describe('AppComponent', () => {
 
       expect(authService.login).toHaveBeenCalled();
     });
+
+    it('should not show the profile link', () => {
+      const logoutButtons = fixture.debugElement.queryAll(By.css('.profile-link'));
+
+      expect(logoutButtons.length).toBe(0);
+    });
   });
 
   describe('logged in user', () => {
@@ -94,6 +100,12 @@ describe('AppComponent', () => {
       logoutButtons[0].triggerEventHandler('click', null);
 
       expect(authService.logout).toHaveBeenCalled();
+    });
+
+    it('should show the profile link', () => {
+      const logoutButtons = fixture.debugElement.queryAll(By.css('.profile-link'));
+
+      expect(logoutButtons.length).toBe(1);
     });
   });
 });

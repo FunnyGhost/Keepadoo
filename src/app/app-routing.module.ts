@@ -6,6 +6,10 @@ const routes: Routes = [
   {
     path: 'callback',
     component: CallbackComponent
+  },
+  {
+    path: 'user',
+    loadChildren: 'src/app/user/user.module#UserModule'
   }
 ];
 

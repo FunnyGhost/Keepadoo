@@ -7,14 +7,18 @@
                 Home
             </button>
 
-            <button class="btn btn-primary btn-margin login-button" *ngIf="!(isLoggedIn$ | async)" (click)="login()">
-                Log In
-            </button>
+            <div *ngIf="!(isLoggedIn$ | async)">
+                <button class="btn btn-primary btn-margin login-button" (click)="login()">
+                    Log In
+                </button>
+            </div>
 
-            <button class="btn btn-primary btn-margin logout-button" *ngIf="(isLoggedIn$ | async)" (click)="logout()">
-                Log Out
-            </button>
-
+            <div *ngIf="(isLoggedIn$ | async)">
+                <button class="btn btn-primary btn-margin logout-button" *ngIf="(isLoggedIn$ | async)" (click)="logout()">
+                    Log Out
+                </button>
+                <a [routerLink]="['user', 'profile']" class='profile-link'>My Profile</a>
+            </div>
         </div>
     </div>
 </nav>
