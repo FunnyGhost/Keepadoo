@@ -16,6 +16,10 @@ describe('AuthenticationService', () => {
     });
   });
 
+  beforeEach(() => {
+    localStorage.removeItem('access_token');
+  });
+
   it('should be created', inject([AuthenticationService], (service: AuthenticationService) => {
     expect(service).toBeTruthy();
   }));

@@ -24,7 +24,11 @@ export class AuthenticationService {
     return this._isAuthenticated$.asObservable();
   }
 
-  constructor(private router: Router, private userService: UserService) {}
+  constructor(private router: Router, private userService: UserService) {
+    if (this.isAuthenticated()) {
+      this.setupProfile();
+    }
+  }
 
   public login(): void {
     this.auth0.authorize();
@@ -37,7 +41,7 @@ export class AuthenticationService {
         window.location.hash = '';
         this.setSession(authResult);
         this._isAuthenticated$.next(true);
-        this.getProfile();
+        this.setupProfile();
         this.router.navigate(['/']);
       } else if (err) {
         this._isAuthenticated$.next(false);
@@ -57,10 +61,11 @@ export class AuthenticationService {
     this.router.navigate(['/']);
   }
 
-  private getProfile(): void {
+  private setupProfile(): void {
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
-      throw new Error('Access token must exist to fetch profile');
+      console.log('no access token pressent');
+      return;
     }
 
     this.auth0.client.userInfo(accessToken, (err, profile) => {
