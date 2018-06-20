@@ -1,24 +1,24 @@
 <nav class="navbar navbar-default">
     <div class="container-fluid">
         <div class="navbar-header">
-            <a class="navbar-brand" href="#">Keepadoo</a>
+            <a class="navbar-brand" routerLink=''>Keepadoo</a>
 
             <button class="btn btn-primary btn-margin home-button" routerLink="/">
                 Home
             </button>
 
-            <div *ngIf="!(isLoggedIn$ | async)">
+            <ng-container *ngIf="!(isLoggedIn$ | async)">
                 <button class="btn btn-primary btn-margin login-button" (click)="login()">
                     Log In
                 </button>
-            </div>
+            </ng-container>
 
-            <div *ngIf="(isLoggedIn$ | async)">
+            <ng-container *ngIf="(isLoggedIn$ | async)">
                 <button class="btn btn-primary btn-margin logout-button" *ngIf="(isLoggedIn$ | async)" (click)="logout()">
                     Log Out
                 </button>
-                <a [routerLink]="['user', 'profile']" class='profile-link'>My Profile</a>
-            </div>
+                <a [routerLink]="['user', 'profile']" class='profile-link' routerLinkActive='active'>My Profile</a>
+            </ng-container>
         </div>
     </div>
 </nav>
