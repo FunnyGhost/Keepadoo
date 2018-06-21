@@ -10,6 +10,10 @@ const routes: Routes = [
   {
     path: 'user',
     loadChildren: 'src/app/user/user.module#UserModule'
+  },
+  {
+    path: 'movie-lists',
+    loadChildren: 'src/app/movie-lists/movie-lists.module#MovieListsModule'
   }
 ];
 

@@ -73,6 +73,12 @@ describe('AppComponent', () => {
 
       expect(logoutButtons.length).toBe(0);
     });
+
+    it('should not show the movies-lists link', () => {
+      const logoutButtons = fixture.debugElement.queryAll(By.css('.movies-lists-link'));
+
+      expect(logoutButtons.length).toBe(0);
+    });
   });
 
   describe('logged in user', () => {
@@ -104,6 +110,12 @@ describe('AppComponent', () => {
 
     it('should show the profile link', () => {
       const logoutButtons = fixture.debugElement.queryAll(By.css('.profile-link'));
+
+      expect(logoutButtons.length).toBe(1);
+    });
+
+    it('should show the movies-lists link', () => {
+      const logoutButtons = fixture.debugElement.queryAll(By.css('.movies-lists-link'));
 
       expect(logoutButtons.length).toBe(1);
     });

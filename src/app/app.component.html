@@ -17,6 +17,7 @@
                 <button class="btn btn-primary btn-margin logout-button" *ngIf="(isLoggedIn$ | async)" (click)="logout()">
                     Log Out
                 </button>
+                <a [routerLink]="['movie-lists']" class='movies-lists-link' routerLinkActive='active'>Movies lists</a>
                 <a [routerLink]="['user', 'profile']" class='profile-link' routerLinkActive='active'>My Profile</a>
             </ng-container>
         </div>
