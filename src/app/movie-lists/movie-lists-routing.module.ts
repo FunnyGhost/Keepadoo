@@ -5,11 +5,13 @@ import { MovieListsComponent } from './movie-lists.component';
 const routes: Routes = [
   {
     path: '',
-    component: MovieListsComponent
-  },
-  {
-    path: ':id',
-    loadChildren: 'src/app/movie-lists/movie-list/movie-list.module#MovieListModule'
+    component: MovieListsComponent,
+    children: [
+      {
+        path: ':id',
+        loadChildren: 'src/app/movie-lists/movie-list/movie-list.module#MovieListModule'
+      }
+    ]
   }
 ];
 
