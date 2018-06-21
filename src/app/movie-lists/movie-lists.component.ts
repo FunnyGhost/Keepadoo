@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
-import { MovieList } from '../core/models/movie-list';
-import { MovieListsService } from '../core/movie-lists.service';
+import { MovieList } from 'src/app/movie-lists/core/models/movie-list';
+import { MovieListsService } from 'src/app/movie-lists/core/movie-lists.service';
 
 @Component({
   selector: 'kpd-movie-lists',

@@ -1,0 +1,7 @@
+<ul>
+  <li *ngFor="let movieList of movieLists$ | async">
+    <a [routerLink]="['/movie-lists', movieList.key]">
+      {{ movieList | json }}
+    </a>
+  </li>
+</ul>
