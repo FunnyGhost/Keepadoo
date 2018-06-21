@@ -4,7 +4,9 @@ import { MovieListsService } from '../core/movie-lists.service';
 import { MovieListsComponent } from './movie-lists.component';
 
 const mockMovieListsService = {
-  movieLists$: new BehaviorSubject<any[]>([{}])
+  getMovieLists() {
+    return new BehaviorSubject<any[]>([{}]);
+  }
 };
 
 describe('MovieListsComponent', () => {

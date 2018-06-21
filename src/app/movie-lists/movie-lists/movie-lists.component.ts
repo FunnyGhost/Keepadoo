@@ -13,6 +13,6 @@ export class MovieListsComponent implements OnInit {
   constructor(public movieListsService: MovieListsService) {}
 
   ngOnInit() {
-    this.movieLists$ = this.movieListsService.movieLists$;
+    this.movieLists$ = this.movieListsService.getMovieLists();
   }
 }
