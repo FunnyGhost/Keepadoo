@@ -1,6 +1,7 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
+import { AngularFireAuth } from 'angularfire2/auth';
 import { BehaviorSubject } from 'rxjs';
 import { AppComponent } from './app.component';
 import { AuthenticationService } from './core/authentication.service';
@@ -12,10 +13,17 @@ const mockAuthService = {
   logout() {}
 };
 
+const mockFirebaseAuthenticationService = {
+  auth: {
+    signInAnonymously() {}
+  }
+};
+
 describe('AppComponent', () => {
   let fixture: ComponentFixture<AppComponent>;
   let component: AppComponent;
   let authService: AuthenticationService;
+  let firebaseAuthService: AngularFireAuth;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
@@ -25,6 +33,10 @@ describe('AppComponent', () => {
         {
           provide: AuthenticationService,
           useValue: mockAuthService
+        },
+        {
+          provide: AngularFireAuth,
+          useValue: mockFirebaseAuthenticationService
         }
       ]
     }).compileComponents();
@@ -34,11 +46,28 @@ describe('AppComponent', () => {
     fixture = TestBed.createComponent(AppComponent);
     component = fixture.componentInstance;
     authService = TestBed.get(AuthenticationService);
+    firebaseAuthService = TestBed.get(AngularFireAuth);
     fixture.detectChanges();
   });
 
   it('should create the app', async(() => {
     expect(component).toBeTruthy();
+  }));
+
+  it('should handle the authentication if it is present', async(() => {
+    spyOn(authService, 'handleAuthentication');
+
+    component.ngOnInit();
+
+    expect(authService.handleAuthentication).toHaveBeenCalled();
+  }));
+
+  it('should login anonymously on firebase', async(() => {
+    spyOn(firebaseAuthService.auth, 'signInAnonymously');
+
+    component.ngOnInit();
+
+    expect(firebaseAuthService.auth.signInAnonymously).toHaveBeenCalled();
   }));
 
   describe('logged out user', () => {

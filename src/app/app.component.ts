@@ -11,12 +11,11 @@ import { AuthenticationService } from './core/authentication.service';
 export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
 
-  constructor(private authService: AuthenticationService, private firebaseAuth: AngularFireAuth) {
-    this.authService.handleAuthentication();
-    this.firebaseAuth.auth.signInAnonymously();
-  }
+  constructor(private authService: AuthenticationService, private firebaseAuth: AngularFireAuth) {}
 
   ngOnInit(): void {
+    this.authService.handleAuthentication();
+    this.firebaseAuth.auth.signInAnonymously();
     this.isLoggedIn$ = this.authService.isAuthenticated$;
   }
 

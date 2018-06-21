@@ -6,9 +6,9 @@ import { Observable } from 'rxjs';
   providedIn: 'root'
 })
 export class MovieListsService {
-  public movieLists: Observable<any[]>;
+  public movieLists$: Observable<any[]>;
 
   constructor(db: AngularFireDatabase) {
-    this.movieLists = db.list('movies-lists').valueChanges();
+    this.movieLists$ = db.list('movies-lists').valueChanges();
   }
 }

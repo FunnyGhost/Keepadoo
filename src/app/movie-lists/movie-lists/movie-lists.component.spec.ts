@@ -1,6 +1,11 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-
+import { BehaviorSubject } from 'rxjs';
+import { MovieListsService } from '../core/movie-lists.service';
 import { MovieListsComponent } from './movie-lists.component';
+
+const mockMovieListsService = {
+  movieLists$: new BehaviorSubject<any[]>([{}])
+};
 
 describe('MovieListsComponent', () => {
   let component: MovieListsComponent;
@@ -8,9 +13,14 @@ describe('MovieListsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      declarations: [ MovieListsComponent ]
-    })
-    .compileComponents();
+      declarations: [MovieListsComponent],
+      providers: [
+        {
+          provide: MovieListsService,
+          useValue: mockMovieListsService
+        }
+      ]
+    }).compileComponents();
   }));
 
   beforeEach(() => {

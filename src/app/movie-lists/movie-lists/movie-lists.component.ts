@@ -8,11 +8,11 @@ import { MovieListsService } from '../core/movie-lists.service';
   styleUrls: ['./movie-lists.component.scss']
 })
 export class MovieListsComponent implements OnInit {
-  movieLists: Observable<any[]>;
+  movieLists$: Observable<any[]>;
 
   constructor(public movieListsService: MovieListsService) {}
 
   ngOnInit() {
-    this.movieLists = this.movieListsService.movieLists;
+    this.movieLists$ = this.movieListsService.movieLists$;
   }
 }
