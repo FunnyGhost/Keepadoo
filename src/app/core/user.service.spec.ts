@@ -27,6 +27,7 @@ describe('UserService', () => {
 
     it('should broadcast when the value changes', inject([UserService], (service: UserService) => {
       const firstUser = { name: 'Batman' };
+      const secondUser = { name: 'Joker' };
       service.updateUser(firstUser as User);
 
       let isInitialValue = false;
@@ -38,7 +39,6 @@ describe('UserService', () => {
         }
       });
 
-      const secondUser = { name: 'Joker' };
       service.updateUser(secondUser as User);
     }));
   });
