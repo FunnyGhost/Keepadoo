@@ -17,8 +17,6 @@ build:
       paths:
         - dist
       expire_in: 1 hour
-  only:
-    - master
 
 test:
   image: node:latest
@@ -38,3 +36,5 @@ deploy:
     - ls
     - docker build -t "$CI_REGISTRY_IMAGE:1.0" .
     - docker push "$CI_REGISTRY_IMAGE:1.0"
+  only:
+    - master
