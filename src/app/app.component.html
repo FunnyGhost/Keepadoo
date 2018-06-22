@@ -1,29 +1,23 @@
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <div class="navbar-header">
-            <a class="navbar-brand" routerLink=''>Keepadoo</a>
-
-            <button class="btn btn-primary btn-margin home-button" routerLink="/">
-                Home
+<mat-sidenav-container class="sidenav-container mat-typography">
+    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+        [mode]="(isHandset$ | async) ? 'push' : 'side'" [opened]="!(isHandset$ | async)">
+        <mat-toolbar color="primary">Menu</mat-toolbar>
+        <mat-nav-list *ngIf="!(isLoggedIn$ | async)">
+            <a mat-list-item (click)="login()" class="login-button">Login</a>
+        </mat-nav-list>
+        <mat-nav-list *ngIf="(isLoggedIn$ | async)">
+            <a mat-list-item [routerLink]="['movie-lists']" class='movies-lists-link'>Movies lists</a>
+            <a mat-list-item [routerLink]="['user', 'profile']" class='profile-link'>My Profile</a>
+            <a mat-list-item (click)="logout()" class="logout-button">Logout</a>
+        </mat-nav-list>
+    </mat-sidenav>
+    <mat-sidenav-content>
+        <mat-toolbar color="primary">
+            <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
+                <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
             </button>
-
-            <ng-container *ngIf="!(isLoggedIn$ | async)">
-                <button class="btn btn-primary btn-margin login-button" (click)="login()">
-                    Log In
-                </button>
-            </ng-container>
-
-            <ng-container *ngIf="(isLoggedIn$ | async)">
-                <button class="btn btn-primary btn-margin logout-button" *ngIf="(isLoggedIn$ | async)" (click)="logout()">
-                    Log Out
-                </button>
-                <a [routerLink]="['movie-lists']" class='movies-lists-link' routerLinkActive='active'>Movies lists</a>
-                <a [routerLink]="['user', 'profile']" class='profile-link' routerLinkActive='active'>My Profile</a>
-            </ng-container>
-        </div>
-    </div>
-</nav>
-
-<main class="container">
-    <router-outlet></router-outlet>
-</main>
+            <span>Keepadoo</span>
+        </mat-toolbar>
+        <router-outlet></router-outlet>
+    </mat-sidenav-content>
+</mat-sidenav-container>

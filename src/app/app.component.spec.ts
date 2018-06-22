@@ -1,10 +1,12 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { BehaviorSubject } from 'rxjs';
 import { AppComponent } from './app.component';
 import { AuthenticationService } from './core/authentication.service';
+import { SharedModule } from './shared/shared.module';
 
 const mockAuthService = {
   isAuthenticated$: new BehaviorSubject<boolean>(false),
@@ -27,7 +29,7 @@ describe('AppComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule],
+      imports: [RouterTestingModule, SharedModule, BrowserAnimationsModule],
       declarations: [AppComponent],
       providers: [
         {
