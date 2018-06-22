@@ -8,6 +8,7 @@
         <mat-nav-list *ngIf="(isLoggedIn$ | async)">
             <a mat-list-item [routerLink]="['movie-lists']" class='movies-lists-link'>Movies lists</a>
             <a mat-list-item [routerLink]="['user', 'profile']" class='profile-link'>My Profile</a>
+            <mat-divider></mat-divider>
             <a mat-list-item (click)="logout()" class="logout-button">Logout</a>
         </mat-nav-list>
     </mat-sidenav>
