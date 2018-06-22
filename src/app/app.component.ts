@@ -1,6 +1,8 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { AuthenticationService } from './core/authentication.service';
 
 @Component({
@@ -10,8 +12,15 @@ import { AuthenticationService } from './core/authentication.service';
 })
 export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
+  isHandset$: Observable<boolean> = this.breakpointObserver
+    .observe(Breakpoints.Handset)
+    .pipe(map(result => result.matches));
 
-  constructor(private authService: AuthenticationService, private firebaseAuth: AngularFireAuth) {}
+  constructor(
+    private authService: AuthenticationService,
+    private firebaseAuth: AngularFireAuth,
+    private breakpointObserver: BreakpointObserver
+  ) {}
 
   ngOnInit(): void {
     this.authService.handleAuthentication();
