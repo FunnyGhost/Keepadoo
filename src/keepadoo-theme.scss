@@ -1,0 +1,15 @@
+@import 'node_modules/@angular/material/theming';
+
+@include mat-core();
+
+$keepadoo-theme-primary: mat-palette($mat-deep-purple);
+$keepadoo-theme-accent: mat-palette($mat-yellow);
+$keepadoo-theme-warn: mat-palette($mat-orange);
+
+$keepadoo-theme: mat-light-theme(
+  $keepadoo-theme-primary,
+  $keepadoo-theme-accent,
+  $keepadoo-theme-warn
+);
+
+@include angular-material-theme($keepadoo-theme);
