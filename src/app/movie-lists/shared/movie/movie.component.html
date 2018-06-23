@@ -1,0 +1,13 @@
+<div class='movie-card'>
+  <mat-card>
+    <mat-card-header fxLayout="row" fxLayoutAlign="end start">
+      <button mat-icon-button color="warn">
+        <mat-icon>delete</mat-icon>
+      </button>
+    </mat-card-header>
+    <mat-card-title>{{movie.title}}</mat-card-title>
+    <mat-card-subtitle>{{movie.vote_average}} out of {{movie.vote_count}} ratings</mat-card-subtitle>
+    <img mat-card-image src="https://image.tmdb.org/t/p/w300/{{movie.poster_path}}">
+    <mat-card-content>{{movie.overview.substring(0, 50)}}...</mat-card-content>
+  </mat-card>
+</div>
