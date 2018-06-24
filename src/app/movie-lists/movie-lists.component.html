@@ -1,8 +1,6 @@
-<ul>
-  <li *ngFor="let movieList of movieLists$ | async">
-    <a [routerLink]="['/movie-lists', movieList.key]">
-      {{ movieList | json }}
-    </a>
-  </li>
-</ul>
+<nav mat-tab-nav-bar>
+  <a mat-tab-link *ngFor="let movieList of movieLists$ | async" [routerLink]="['/movie-lists', movieList.key]" routerLinkActive
+    #rla="routerLinkActive" [active]='rla.isActive'>{{movieList.name}}</a>
+</nav>
+
 <router-outlet></router-outlet>
