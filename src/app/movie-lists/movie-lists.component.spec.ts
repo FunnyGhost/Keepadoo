@@ -2,8 +2,9 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject } from 'rxjs';
 import { MovieListsService } from 'src/app/movie-lists/core/movie-lists.service';
+import { SharedModule } from '../shared/shared.module';
 import { MovieListsComponent } from './movie-lists.component';
-import { SharedModule } from './shared/shared.module';
+import { MovieListsSharedModule } from './shared/movie-lists-shared.module';
 
 const mockMovieListsService = {
   getMovieLists() {
@@ -17,7 +18,7 @@ describe('MovieListsComponent', () => {
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, SharedModule],
+      imports: [RouterTestingModule, MovieListsSharedModule, SharedModule],
       declarations: [MovieListsComponent],
       providers: [
         {
