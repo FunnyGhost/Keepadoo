@@ -1,6 +1,10 @@
 <nav mat-tab-nav-bar>
   <a mat-tab-link *ngFor="let movieList of movieLists$ | async" [routerLink]="['/movie-lists', movieList.key]" routerLinkActive
-    #rla="routerLinkActive" [active]='rla.isActive'>{{movieList.name}}</a>
+    #rla="routerLinkActive" [active]='rla.isActive'>{{movieList.name}}
+  </a>
+  <a mat-tab-link (click)='addList()'>
+    <mat-icon>add_box</mat-icon>
+  </a>
 </nav>
 
 <router-outlet></router-outlet>

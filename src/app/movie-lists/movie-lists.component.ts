@@ -16,4 +16,8 @@ export class MovieListsComponent implements OnInit {
   ngOnInit() {
     this.movieLists$ = this.movieListsService.getMovieLists();
   }
+
+  addList() {
+    console.log('add new list');
+  }
 }
