@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { Movie } from '../core/models/movie';
 import { MovieService } from '../core/movie.service';
 
@@ -12,16 +12,25 @@ import { MovieService } from '../core/movie.service';
 })
 export class MovieListComponent implements OnInit {
   movies$: Observable<Movie[]>;
+  listId: string;
 
   constructor(private route: ActivatedRoute, private movieService: MovieService) {}
 
   ngOnInit() {
     this.movies$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
-        const movieListId = params.get('id');
-        console.log('Movie list id is', movieListId);
-        return this.movieService.getMoviesInList(movieListId);
+      map((params: ParamMap) => {
+        return params.get('id');
+      }),
+      tap((listId: string) => {
+        this.listId = listId;
+      }),
+      switchMap((listId: string) => {
+        return this.movieService.getMoviesInList(listId);
       })
     );
+  }
+
+  deleteList(): void {
+    console.log('delete list', this.listId);
   }
 }

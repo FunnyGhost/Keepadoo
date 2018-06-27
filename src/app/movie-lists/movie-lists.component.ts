@@ -30,8 +30,4 @@ export class MovieListsComponent implements OnInit {
       }
     });
   }
-
-  deleteList(listId: string): void {
-    console.log('delete list', listId);
-  }
 }
