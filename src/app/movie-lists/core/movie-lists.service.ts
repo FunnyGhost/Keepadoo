@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
 import { BehaviorSubject, Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { User } from 'src/app/core/models/user';
 import { UserService } from '../../core/user.service';
 import { MovieList } from './models/movie-list';
@@ -28,6 +28,17 @@ export class MovieListsService {
         return changes.map(data => ({ key: data.payload.key, ...data.payload.val() } as MovieList));
       })
     );
+  }
+
+  public addMoviesList(name: string): void {
+    this.userMoviesList
+      .pipe(
+        tap((data: AngularFireList<{}>) => {
+          data.push({ name });
+        }),
+        take(1)
+      )
+      .subscribe();
   }
 
   private setupMoviesListSubscription() {

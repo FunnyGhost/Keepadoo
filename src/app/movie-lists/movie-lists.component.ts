@@ -25,7 +25,13 @@ export class MovieListsComponent implements OnInit {
     });
 
     dialogRef.afterClosed().subscribe(result => {
-      console.log('dialog was closed', result);
+      if (result) {
+        this.movieListsService.addMoviesList(result);
+      }
     });
+  }
+
+  deleteList(listId: string): void {
+    console.log('delete list', listId);
   }
 }
