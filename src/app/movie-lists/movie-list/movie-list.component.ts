@@ -20,7 +20,7 @@ export class MovieListComponent implements OnInit {
   constructor(
     private route: ActivatedRoute,
     private movieService: MovieService,
-    private movieListService: MovieListsService,
+    private movieListsService: MovieListsService,
     private modalService: ModalService
   ) {}
 
@@ -41,7 +41,7 @@ export class MovieListComponent implements OnInit {
   deleteList(): void {
     this.modalService.openModal(ConfirmDeleteComponent).subscribe(result => {
       if (result) {
-        this.movieListService.deleteMovieList(this.listId);
+        this.movieListsService.deleteMovieList(this.listId);
       }
     });
   }

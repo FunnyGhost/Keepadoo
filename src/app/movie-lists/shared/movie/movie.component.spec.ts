@@ -33,4 +33,14 @@ describe('MovieComponent', () => {
   it('should create', () => {
     expect(component).toBeTruthy();
   });
+
+  describe('rendering', () => {
+    it('should contain the movie title', () => {
+      expect(fixture.debugElement.nativeElement.innerHTML).toContain(movieToUse.title);
+    });
+
+    it('should contain the poster image', () => {
+      expect(fixture.debugElement.nativeElement.innerHTML).toContain(movieToUse.poster_path);
+    });
+  });
 });
