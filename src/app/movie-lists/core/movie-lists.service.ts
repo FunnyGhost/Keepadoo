@@ -41,6 +41,17 @@ export class MovieListsService {
       .subscribe();
   }
 
+  public deleteMovieList(key: string): void {
+    this.userMoviesList
+      .pipe(
+        tap((data: AngularFireList<{}>) => {
+          data.remove(key);
+        }),
+        take(1)
+      )
+      .subscribe();
+  }
+
   private setupMoviesListSubscription() {
     this.userService.userProfile$
       .pipe(
