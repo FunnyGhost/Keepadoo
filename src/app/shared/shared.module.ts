@@ -15,6 +15,7 @@ import {
   MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
+import { ConfirmDeleteComponent } from './modals/confirm-delete/confirm-delete.component';
 import { NewListComponent } from './modals/new-list/new-list.component';
 
 @NgModule({
@@ -34,8 +35,8 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     MatDialogModule,
     MatInputModule
   ],
-  declarations: [NewListComponent],
-  entryComponents: [NewListComponent],
+  declarations: [NewListComponent, ConfirmDeleteComponent],
+  entryComponents: [NewListComponent, ConfirmDeleteComponent],
   exports: [
     LayoutModule,
     MatToolbarModule,

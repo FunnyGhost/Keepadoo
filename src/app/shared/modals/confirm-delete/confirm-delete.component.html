@@ -1,0 +1,7 @@
+<div mat-dialog-content>
+  <div>Are you sure?</div>
+</div>
+<div mat-dialog-actions>
+  <button mat-button (click)="onNoClick()">Cancel</button>
+  <button mat-button [mat-dialog-close]="true" cdkFocusInitial>Delete</button>
+</div>
