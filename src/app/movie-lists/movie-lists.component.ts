@@ -2,6 +2,8 @@ import { Component, OnInit } from '@angular/core';
 import { Observable } from 'rxjs';
 import { MovieList } from 'src/app/movie-lists/core/models/movie-list';
 import { MovieListsService } from 'src/app/movie-lists/core/movie-lists.service';
+import { ModalService } from '../core/modal.service';
+import { NewListComponent } from '../shared/modals/new-list/new-list.component';
 
 @Component({
   selector: 'kpd-movie-lists',
@@ -11,9 +13,17 @@ import { MovieListsService } from 'src/app/movie-lists/core/movie-lists.service'
 export class MovieListsComponent implements OnInit {
   movieLists$: Observable<MovieList[]>;
 
-  constructor(public movieListsService: MovieListsService) {}
+  constructor(private movieListsService: MovieListsService, private modalService: ModalService) {}
 
   ngOnInit() {
     this.movieLists$ = this.movieListsService.getMovieLists();
+  }
+
+  addList() {
+    this.modalService.openModal(NewListComponent).subscribe(result => {
+      if (result) {
+        this.movieListsService.addMoviesList(result);
+      }
+    });
   }
 }

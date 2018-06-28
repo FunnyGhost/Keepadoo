@@ -1,3 +1,6 @@
+<div fxLayout="row" fxLayoutAlign="start center">
+  <button mat-raised-button color="warn" class="delete-button" (click)='deleteList()'>Delete list</button>
+</div>
 <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start stretch">
   <div *ngFor="let movie of movies$ | async" fxFlex.xl="10" fxFlex.lg="15" fxFlex.md="30" fxFlex.sm="40">
     <kpd-movie [movie]="movie"></kpd-movie>

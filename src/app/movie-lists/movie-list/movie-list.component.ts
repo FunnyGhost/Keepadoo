@@ -1,8 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable } from 'rxjs';
-import { switchMap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
+import { ModalService } from '../../core/modal.service';
+import { ConfirmDeleteComponent } from '../../shared/modals/confirm-delete/confirm-delete.component';
 import { Movie } from '../core/models/movie';
+import { MovieListsService } from '../core/movie-lists.service';
 import { MovieService } from '../core/movie.service';
 
 @Component({
@@ -12,16 +15,34 @@ import { MovieService } from '../core/movie.service';
 })
 export class MovieListComponent implements OnInit {
   movies$: Observable<Movie[]>;
+  listId: string;
 
-  constructor(private route: ActivatedRoute, private movieService: MovieService) {}
+  constructor(
+    private route: ActivatedRoute,
+    private movieService: MovieService,
+    private movieListsService: MovieListsService,
+    private modalService: ModalService
+  ) {}
 
   ngOnInit() {
     this.movies$ = this.route.paramMap.pipe(
-      switchMap((params: ParamMap) => {
-        const movieListId = params.get('id');
-        console.log('Movie list id is', movieListId);
-        return this.movieService.getMoviesInList(movieListId);
+      map((params: ParamMap) => {
+        return params.get('id');
+      }),
+      tap((listId: string) => {
+        this.listId = listId;
+      }),
+      switchMap((listId: string) => {
+        return this.movieService.getMoviesInList(listId);
       })
     );
+  }
+
+  deleteList(): void {
+    this.modalService.openModal(ConfirmDeleteComponent).subscribe(result => {
+      if (result) {
+        this.movieListsService.deleteMovieList(this.listId);
+      }
+    });
   }
 }
