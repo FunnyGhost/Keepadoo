@@ -1,4 +1,5 @@
 import { FirebaseConfig } from '../app/core/models/firebase-config';
+import { TMDBConfig } from './tmdb-config';
 
 // This file can be replaced during build by using the `fileReplacements` array.
 // `ng build ---prod` replaces `environment.ts` with `environment.prod.ts`.
@@ -13,9 +14,15 @@ const firebaseConfig: FirebaseConfig = {
   messagingSenderId: '516267612124'
 };
 
+const tmdbConfig: TMDBConfig = {
+  api_key: 'd7c178b732e89a3e82d70f43186af535',
+  apiUrl: 'https://api.themoviedb.org/3'
+};
+
 export const environment = {
   production: false,
-  firebaseConfig
+  firebaseConfig,
+  tmdbConfig
 };
 
 /*
