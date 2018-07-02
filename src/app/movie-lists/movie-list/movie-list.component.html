@@ -23,6 +23,6 @@
 </div>
 <div fxLayout="row wrap" fxLayout.xs="column" fxLayoutAlign="start stretch">
   <div *ngFor="let movie of movies$ | async" fxFlex.xl="10" fxFlex.lg="15" fxFlex.md="30" fxFlex.sm="40">
-    <kpd-movie [movie]="movie"></kpd-movie>
+    <kpd-movie [movie]="movie" (movieDeleted)="deleteMovie($event)"></kpd-movie>
   </div>
 </div>

@@ -27,6 +27,6 @@ export class MovieService {
   }
 
   public deleteMovieFromList(listId: string, movieKey: string): void {
-    this.db.list(`movies/${listId}`).push(movieKey);
+    this.db.list(`movies/${listId}`).remove(movieKey);
   }
 }
