@@ -1,4 +1,5 @@
 import { FirebaseConfig } from '../app/core/models/firebase-config';
+import { TMDBConfig } from './tmdb-config';
 
 const firebaseConfig: FirebaseConfig = {
   apiKey: 'AIzaSyCmdoGjhIkg5Xz2okqrX4dEZZZlCOPGAjA',
@@ -9,7 +10,9 @@ const firebaseConfig: FirebaseConfig = {
   messagingSenderId: '516267612124'
 };
 
-export const environment = {
-  production: true,
-  firebaseConfig
+const tmdbConfig: TMDBConfig = {
+  api_key: 'd7c178b732e89a3e82d70f43186af535',
+  apiUrl: 'https://api.themoviedb.org/3'
 };
+
+export const environment = { production: true, firebaseConfig, tmdbConfig };

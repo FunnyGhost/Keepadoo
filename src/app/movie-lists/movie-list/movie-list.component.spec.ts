@@ -1,19 +1,26 @@
+import { HttpClientTestingModule } from '@angular/common/http/testing';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
+import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { By } from '@angular/platform-browser';
+import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
 import { MovieService } from 'src/app/movie-lists/core/movie.service';
 import { MockActivatedRoute, mockModalService } from '../../../test-utilities/mocks';
 import { ModalService } from '../../core/modal.service';
+import { SharedModule } from '../../shared/shared.module';
+import { MovieSearchResult } from '../core/models/movie-search-result';
 import { MovieListsService } from '../core/movie-lists.service';
+import { TMDBService } from '../core/tmdb.service';
 import { MovieListsSharedModule } from '../shared/movie-lists-shared.module';
 import { MovieListComponent } from './movie-list.component';
 
 const mockMovieService = {
   getMoviesInList(listId: string) {
     return of([]);
-  }
+  },
+  addMovieToList(listId: string, movie: MovieSearchResult) {}
 };
 
 const mockMovieListService = {
@@ -22,13 +29,45 @@ const mockMovieListService = {
   }
 };
 
-describe('MovieListComponent', () => {
+const mockTMDBService = {
+  searchMovies(text: string) {
+    return of([]);
+  }
+};
+
+fdescribe('MovieListComponent', () => {
   let component: MovieListComponent;
   let fixture: ComponentFixture<MovieListComponent>;
 
+  beforeAll(() => {
+    Object.defineProperty(window, 'matchMedia', {
+      value: () => {
+        return {
+          matches: false,
+          addListener: () => {},
+          removeListener: () => {}
+        };
+      }
+    });
+
+    Object.defineProperty(window, 'getComputedStyle', {
+      value: () => {
+        return {
+          getPropertyValue: () => {}
+        };
+      }
+    });
+  });
+
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MovieListsSharedModule],
+      imports: [
+        RouterTestingModule,
+        BrowserAnimationsModule,
+        HttpClientTestingModule,
+        MovieListsSharedModule,
+        SharedModule
+      ],
       declarations: [MovieListComponent],
       providers: [
         {
@@ -46,6 +85,10 @@ describe('MovieListComponent', () => {
         {
           provide: ModalService,
           useValue: mockModalService
+        },
+        {
+          provide: TMDBService,
+          useValue: mockTMDBService
         }
       ]
     }).compileComponents();
@@ -115,5 +158,31 @@ describe('MovieListComponent', () => {
     deleteButton[0].triggerEventHandler('click', null);
 
     expect(movieListsService.deleteMovieList).not.toHaveBeenCalledWith(listIdToUse);
+  });
+
+  describe('search', () => {
+    it('should display an empty string', () => {
+      expect(component.searchDisplayFunction({ title: 'Thor' } as MovieSearchResult)).toBe('');
+      expect(component.searchDisplayFunction(undefined)).toBe('');
+    });
+
+    it('should add the selected movie to the current list', () => {
+      const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
+      const movieService: MovieService = TestBed.get(MovieService);
+      const selectedMovie = { title: 'Thor' } as MovieSearchResult;
+      const listIdToUse = 'some-list-id';
+      activatedRoute.setNewReturn(listIdToUse);
+
+      component.ngOnInit();
+      fixture.detectChanges();
+
+      spyOn(movieService, 'addMovieToList');
+
+      component.searchResultSelected({
+        option: { value: selectedMovie }
+      } as MatAutocompleteSelectedEvent);
+
+      expect(movieService.addMovieToList).toHaveBeenCalledWith(listIdToUse, selectedMovie);
+    });
   });
 });

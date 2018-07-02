@@ -2,8 +2,9 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { CommonModule } from '@angular/common';
 import { NgModule } from '@angular/core';
 import { FlexLayoutModule } from '@angular/flex-layout';
-import { FormsModule } from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
+  MatAutocompleteModule,
   MatButtonModule,
   MatCardModule,
   MatDialogModule,
@@ -22,6 +23,7 @@ import { NewListComponent } from './modals/new-list/new-list.component';
   imports: [
     CommonModule,
     FormsModule,
+    ReactiveFormsModule,
     LayoutModule,
     MatToolbarModule,
     MatButtonModule,
@@ -33,12 +35,15 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     FlexLayoutModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatAutocompleteModule
   ],
   declarations: [NewListComponent, ConfirmDeleteComponent],
   entryComponents: [NewListComponent, ConfirmDeleteComponent],
   exports: [
     LayoutModule,
+    FormsModule,
+    ReactiveFormsModule,
     MatToolbarModule,
     MatButtonModule,
     MatSidenavModule,
@@ -49,7 +54,8 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     FlexLayoutModule,
     MatFormFieldModule,
     MatDialogModule,
-    MatInputModule
+    MatInputModule,
+    MatAutocompleteModule
   ]
 })
 export class SharedModule {}
