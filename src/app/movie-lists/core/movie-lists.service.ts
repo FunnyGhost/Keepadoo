@@ -46,6 +46,7 @@ export class MovieListsService {
       .pipe(
         tap((data: AngularFireList<{}>) => {
           data.remove(key);
+          this.db.list(`movies`).remove(key);
         }),
         take(1)
       )
