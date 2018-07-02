@@ -2,9 +2,9 @@
 
 @include mat-core();
 
-$keepadoo-theme-primary: mat-palette($mat-deep-purple);
+$keepadoo-theme-primary: mat-palette($mat-blue);
 $keepadoo-theme-accent: mat-palette($mat-yellow);
-$keepadoo-theme-warn: mat-palette($mat-orange);
+$keepadoo-theme-warn: mat-palette($mat-red);
 
 $keepadoo-theme: mat-light-theme(
   $keepadoo-theme-primary,
