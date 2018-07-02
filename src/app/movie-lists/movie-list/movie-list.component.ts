@@ -55,6 +55,10 @@ export class MovieListComponent implements OnInit {
     this.movieResults$ = of([]);
   }
 
+  deleteMovie(movieKey: string): void {
+    this.movieService.deleteMovieFromList(this.listId, movieKey);
+  }
+
   private setupSearch(): void {
     this.movieSearchInputControl.valueChanges
       .pipe(

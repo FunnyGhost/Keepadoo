@@ -20,7 +20,8 @@ const mockMovieService = {
   getMoviesInList(listId: string) {
     return of([]);
   },
-  addMovieToList(listId: string, movie: MovieSearchResult) {}
+  addMovieToList(listId: string, movie: MovieSearchResult) {},
+  deleteMovieFromList(listId: string, movieKey: string) {}
 };
 
 const mockMovieListService = {
@@ -158,6 +159,24 @@ fdescribe('MovieListComponent', () => {
     deleteButton[0].triggerEventHandler('click', null);
 
     expect(movieListsService.deleteMovieList).not.toHaveBeenCalledWith(listIdToUse);
+  });
+
+  it('should delete the movie when the event is emitted', () => {
+    const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
+    const movieService: MovieService = TestBed.get(MovieService);
+
+    const listIdToUse = 'some-list-id';
+    activatedRoute.setNewReturn(listIdToUse);
+    spyOn(movieService, 'getMoviesInList').and.callThrough();
+    spyOn(movieService, 'deleteMovieFromList');
+
+    component.ngOnInit();
+    fixture.detectChanges();
+
+    const movieToDeleteKey = 'some-movie-key-here';
+    component.deleteMovie(movieToDeleteKey);
+
+    expect(movieService.deleteMovieFromList).toHaveBeenCalledWith(listIdToUse, movieToDeleteKey);
   });
 
   describe('search', () => {
