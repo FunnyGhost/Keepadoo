@@ -1,4 +1,4 @@
-import { Component, Input, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Movie } from 'src/app/movie-lists/core/models/movie';
 
 @Component({
@@ -8,7 +8,14 @@ import { Movie } from 'src/app/movie-lists/core/models/movie';
 })
 export class MovieComponent implements OnInit {
   @Input() movie: Movie;
+
+  @Output() movieDeleted = new EventEmitter<string>();
+
   constructor() {}
 
   ngOnInit() {}
+
+  onDeleteMovie(): void {
+    this.movieDeleted.emit(this.movie.key);
+  }
 }
