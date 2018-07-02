@@ -25,4 +25,8 @@ export class MovieService {
   public addMovieToList(listId: string, movie: MovieSearchResult): void {
     this.db.list(`movies/${listId}`).push(movie);
   }
+
+  public deleteMovieFromList(listId: string, movieKey: string): void {
+    this.db.list(`movies/${listId}`).remove(movieKey);
+  }
 }

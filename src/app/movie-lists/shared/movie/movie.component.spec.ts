@@ -1,5 +1,6 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { MatButtonModule, MatCardModule, MatIconModule } from '@angular/material';
+import { By } from '@angular/platform-browser';
 import { Movie } from '../../core/models/movie';
 import { MovieComponent } from './movie.component';
 
@@ -32,6 +33,18 @@ describe('MovieComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
+  });
+
+  it('should emit an event when the user wants to delete the movie', done => {
+    const deleteButton = fixture.debugElement.queryAll(By.css('.delete-button'));
+    expect(deleteButton.length).toBe(1);
+
+    component.movieDeleted.subscribe((movieKey: string) => {
+      expect(movieKey).toBe(movieToUse.key);
+      done();
+    });
+
+    deleteButton[0].triggerEventHandler('click', null);
   });
 
   describe('rendering', () => {
