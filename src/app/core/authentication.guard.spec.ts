@@ -8,6 +8,8 @@ class MockAuthenticationService {
   get isAuthenticated$() {
     return this._isAuthenticated$;
   }
+
+  login() {}
 }
 
 describe('AuthenticationGuard', () => {
@@ -47,6 +49,16 @@ describe('AuthenticationGuard', () => {
 
     guard.canActivate().subscribe((canAccess: boolean) => {
       expect(canAccess).toBe(false);
+      done();
+    });
+  });
+
+  it('should login the user if he/she is not authenticated', done => {
+    authService.isAuthenticated$.next(false);
+    spyOn(authService, 'login');
+
+    guard.canActivate().subscribe((canAccess: boolean) => {
+      expect(authService.login).toHaveBeenCalled();
       done();
     });
   });
