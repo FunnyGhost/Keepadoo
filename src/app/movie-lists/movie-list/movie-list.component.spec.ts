@@ -9,10 +9,10 @@ import { of } from 'rxjs';
 import { MovieService } from 'src/app/movie-lists/core/movie.service';
 import { MockActivatedRoute, mockModalService } from '../../../test-utilities/mocks';
 import { ModalService } from '../../core/modal.service';
+import { TMDBService } from '../../core/tmdb.service';
 import { SharedModule } from '../../shared/shared.module';
 import { MovieSearchResult } from '../core/models/movie-search-result';
 import { MovieListsService } from '../core/movie-lists.service';
-import { TMDBService } from '../core/tmdb.service';
 import { MovieListsSharedModule } from '../shared/movie-lists-shared.module';
 import { MovieListComponent } from './movie-list.component';
 

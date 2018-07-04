@@ -5,12 +5,12 @@ import { ActivatedRoute, ParamMap } from '@angular/router';
 import { Observable, of } from 'rxjs';
 import { auditTime, filter, map, switchMap, tap } from 'rxjs/operators';
 import { ModalService } from '../../core/modal.service';
+import { TMDBService } from '../../core/tmdb.service';
 import { ConfirmDeleteComponent } from '../../shared/modals/confirm-delete/confirm-delete.component';
 import { Movie } from '../core/models/movie';
 import { MovieSearchResult } from '../core/models/movie-search-result';
 import { MovieListsService } from '../core/movie-lists.service';
 import { MovieService } from '../core/movie.service';
-import { TMDBService } from '../core/tmdb.service';
 
 @Component({
   selector: 'kpd-movie-list',
