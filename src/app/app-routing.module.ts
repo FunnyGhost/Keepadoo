@@ -17,6 +17,11 @@ const routes: Routes = [
     path: 'movie-lists',
     canActivate: [AuthenticationGuard],
     loadChildren: 'src/app/movie-lists/movie-lists.module#MovieListsModule'
+  },
+  {
+    path: 'tv-show-lists',
+    canActivate: [AuthenticationGuard],
+    loadChildren: 'src/app/tv-show-lists/tv-show-lists.module#TvShowListsModule'
   }
 ];
 
