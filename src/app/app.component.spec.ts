@@ -100,15 +100,21 @@ describe('AppComponent', () => {
     });
 
     it('should not show the profile link', () => {
-      const logoutButtons = fixture.debugElement.queryAll(By.css('.profile-link'));
+      const elements = fixture.debugElement.queryAll(By.css('.profile-link'));
 
-      expect(logoutButtons.length).toBe(0);
+      expect(elements.length).toBe(0);
     });
 
     it('should not show the movies-lists link', () => {
-      const logoutButtons = fixture.debugElement.queryAll(By.css('.movies-lists-link'));
+      const elements = fixture.debugElement.queryAll(By.css('.movies-lists-link'));
 
-      expect(logoutButtons.length).toBe(0);
+      expect(elements.length).toBe(0);
+    });
+
+    it('should not show the movies-lists link', () => {
+      const elements = fixture.debugElement.queryAll(By.css('.tv-shows-lists-link'));
+
+      expect(elements.length).toBe(0);
     });
   });
 
@@ -125,30 +131,36 @@ describe('AppComponent', () => {
     });
 
     it('should show the logout button', () => {
-      const logoutButtons = fixture.debugElement.queryAll(By.css('.logout-button'));
+      const elements = fixture.debugElement.queryAll(By.css('.logout-button'));
 
-      expect(logoutButtons.length).toBe(1);
+      expect(elements.length).toBe(1);
     });
 
     it('should logout the user', () => {
-      const logoutButtons = fixture.debugElement.queryAll(By.css('.logout-button'));
+      const elements = fixture.debugElement.queryAll(By.css('.logout-button'));
       spyOn(authService, 'logout');
 
-      logoutButtons[0].triggerEventHandler('click', null);
+      elements[0].triggerEventHandler('click', null);
 
       expect(authService.logout).toHaveBeenCalled();
     });
 
     it('should show the profile link', () => {
-      const logoutButtons = fixture.debugElement.queryAll(By.css('.profile-link'));
+      const elements = fixture.debugElement.queryAll(By.css('.profile-link'));
 
-      expect(logoutButtons.length).toBe(1);
+      expect(elements.length).toBe(1);
     });
 
     it('should show the movies-lists link', () => {
-      const logoutButtons = fixture.debugElement.queryAll(By.css('.movies-lists-link'));
+      const elements = fixture.debugElement.queryAll(By.css('.movies-lists-link'));
 
-      expect(logoutButtons.length).toBe(1);
+      expect(elements.length).toBe(1);
+    });
+
+    it('should show the tv-show-lists link', () => {
+      const elements = fixture.debugElement.queryAll(By.css('.tv-shows-lists-link'));
+
+      expect(elements.length).toBe(1);
     });
   });
 });

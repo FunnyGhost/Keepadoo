@@ -6,39 +6,39 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { MovieService } from 'src/app/movie-lists/core/movie.service';
+import { TvShowService } from 'src/app/tv-show-lists/core/tv-show.service';
 import { MockActivatedRoute, mockModalService } from '../../../test-utilities/mocks';
 import { ModalService } from '../../core/modal.service';
 import { TMDBService } from '../../core/tmdb.service';
 import { SharedModule } from '../../shared/shared.module';
-import { MovieSearchResult } from '../core/models/movie-search-result';
-import { MovieListsService } from '../core/movie-lists.service';
-import { MovieListsSharedModule } from '../shared/movie-lists-shared.module';
-import { MovieListComponent } from './movie-list.component';
+import { TvShowSearchResult } from '../core/models/tv-show-search-result';
+import { TvShowListsService } from '../core/tv-show-lists.service';
+import { TvShowListsSharedModule } from '../shared/tv-show-lists-shared.module';
+import { TvShowListComponent } from './tv-show-list.component';
 
-const mockMovieService = {
-  getMoviesInList(listId: string) {
+const mockTvShowService = {
+  getTvShowsInList(listId: string) {
     return of([]);
   },
-  addMovieToList(listId: string, movie: MovieSearchResult) {},
-  deleteMovieFromList(listId: string, movieKey: string) {}
+  addTvShowToList(listId: string, tvShow: TvShowSearchResult) {},
+  deleteTvShowFromList(listId: string, tvShowKey: string) {}
 };
 
-const mockMovieListService = {
-  deleteMovieList(listId: string) {
+const mockTvShowListService = {
+  deleteTvShowList(listId: string) {
     return of({});
   }
 };
 
 const mockTMDBService = {
-  searchMovies(text: string) {
+  searchTvShows(text: string) {
     return of([]);
   }
 };
 
-fdescribe('MovieListComponent', () => {
-  let component: MovieListComponent;
-  let fixture: ComponentFixture<MovieListComponent>;
+fdescribe('TvShowListComponent', () => {
+  let component: TvShowListComponent;
+  let fixture: ComponentFixture<TvShowListComponent>;
 
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -66,22 +66,22 @@ fdescribe('MovieListComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule,
         HttpClientTestingModule,
-        MovieListsSharedModule,
+        TvShowListsSharedModule,
         SharedModule
       ],
-      declarations: [MovieListComponent],
+      declarations: [TvShowListComponent],
       providers: [
         {
           provide: ActivatedRoute,
           useClass: MockActivatedRoute
         },
         {
-          provide: MovieService,
-          useValue: mockMovieService
+          provide: TvShowService,
+          useValue: mockTvShowService
         },
         {
-          provide: MovieListsService,
-          useValue: mockMovieListService
+          provide: TvShowListsService,
+          useValue: mockTvShowListService
         },
         {
           provide: ModalService,
@@ -96,7 +96,7 @@ fdescribe('MovieListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MovieListComponent);
+    fixture = TestBed.createComponent(TvShowListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -107,26 +107,26 @@ fdescribe('MovieListComponent', () => {
 
   it('should get the list based on the :id in the url', () => {
     const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-    const movieService: MovieService = TestBed.get(MovieService);
+    const tvShowService: TvShowService = TestBed.get(TvShowService);
 
     const listIdToUse = 'some-list-id';
     activatedRoute.setNewReturn(listIdToUse);
-    spyOn(movieService, 'getMoviesInList').and.callThrough();
+    spyOn(tvShowService, 'getTvShowsInList').and.callThrough();
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    expect(movieService.getMoviesInList).toHaveBeenCalledWith(listIdToUse);
+    expect(tvShowService.getTvShowsInList).toHaveBeenCalledWith(listIdToUse);
   });
 
   it('should delete the list if the user confirms in the modal', () => {
     const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-    const movieListsService: MovieListsService = TestBed.get(MovieListsService);
+    const tvShowListsService: TvShowListsService = TestBed.get(TvShowListsService);
     const modalService: ModalService = TestBed.get(ModalService);
 
     const listIdToUse = 'some-list-id';
     activatedRoute.setNewReturn(listIdToUse);
-    spyOn(movieListsService, 'deleteMovieList').and.callThrough();
+    spyOn(tvShowListsService, 'deleteTvShowList').and.callThrough();
     spyOn(modalService, 'openModal').and.returnValue(of(true));
 
     component.ngOnInit();
@@ -137,17 +137,17 @@ fdescribe('MovieListComponent', () => {
 
     deleteButton[0].triggerEventHandler('click', null);
 
-    expect(movieListsService.deleteMovieList).toHaveBeenCalledWith(listIdToUse);
+    expect(tvShowListsService.deleteTvShowList).toHaveBeenCalledWith(listIdToUse);
   });
 
   it('should not delete the list if the user does not confirm in the modal', () => {
     const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-    const movieListsService: MovieListsService = TestBed.get(MovieListsService);
+    const tvShowListsService: TvShowListsService = TestBed.get(TvShowListsService);
     const modalService: ModalService = TestBed.get(ModalService);
 
     const listIdToUse = 'some-list-id';
     activatedRoute.setNewReturn(listIdToUse);
-    spyOn(movieListsService, 'deleteMovieList').and.callThrough();
+    spyOn(tvShowListsService, 'deleteTvShowList').and.callThrough();
     spyOn(modalService, 'openModal').and.returnValue(of(undefined));
 
     component.ngOnInit();
@@ -158,50 +158,50 @@ fdescribe('MovieListComponent', () => {
 
     deleteButton[0].triggerEventHandler('click', null);
 
-    expect(movieListsService.deleteMovieList).not.toHaveBeenCalledWith(listIdToUse);
+    expect(tvShowListsService.deleteTvShowList).not.toHaveBeenCalledWith(listIdToUse);
   });
 
-  it('should delete the movie when the event is emitted', () => {
+  it('should delete the tv-show when the event is emitted', () => {
     const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-    const movieService: MovieService = TestBed.get(MovieService);
+    const tvShowService: TvShowService = TestBed.get(TvShowService);
 
     const listIdToUse = 'some-list-id';
     activatedRoute.setNewReturn(listIdToUse);
-    spyOn(movieService, 'getMoviesInList').and.callThrough();
-    spyOn(movieService, 'deleteMovieFromList');
+    spyOn(tvShowService, 'getTvShowsInList').and.callThrough();
+    spyOn(tvShowService, 'deleteTvShowFromList');
 
     component.ngOnInit();
     fixture.detectChanges();
 
-    const movieToDeleteKey = 'some-movie-key-here';
-    component.deleteMovie(movieToDeleteKey);
+    const tvShowToDeleteKey = 'some-tv-show-key-here';
+    component.deleteTvShow(tvShowToDeleteKey);
 
-    expect(movieService.deleteMovieFromList).toHaveBeenCalledWith(listIdToUse, movieToDeleteKey);
+    expect(tvShowService.deleteTvShowFromList).toHaveBeenCalledWith(listIdToUse, tvShowToDeleteKey);
   });
 
   describe('search', () => {
     it('should display an empty string', () => {
-      expect(component.searchDisplayFunction({ title: 'Thor' } as MovieSearchResult)).toBe('');
+      expect(component.searchDisplayFunction({ name: 'Thor' } as TvShowSearchResult)).toBe('');
       expect(component.searchDisplayFunction(undefined)).toBe('');
     });
 
-    it('should add the selected movie to the current list', () => {
+    it('should add the selected tv-show to the current list', () => {
       const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-      const movieService: MovieService = TestBed.get(MovieService);
-      const selectedMovie = { title: 'Thor' } as MovieSearchResult;
+      const tvShowService: TvShowService = TestBed.get(TvShowService);
+      const selectedTvShow = { title: 'Thor' };
       const listIdToUse = 'some-list-id';
       activatedRoute.setNewReturn(listIdToUse);
 
       component.ngOnInit();
       fixture.detectChanges();
 
-      spyOn(movieService, 'addMovieToList');
+      spyOn(tvShowService, 'addTvShowToList');
 
       component.searchResultSelected({
-        option: { value: selectedMovie }
+        option: { value: selectedTvShow }
       } as MatAutocompleteSelectedEvent);
 
-      expect(movieService.addMovieToList).toHaveBeenCalledWith(listIdToUse, selectedMovie);
+      expect(tvShowService.addTvShowToList).toHaveBeenCalledWith(listIdToUse, selectedTvShow);
     });
   });
 });

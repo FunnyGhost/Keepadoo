@@ -1,0 +1,9 @@
+<nav mat-tab-nav-bar>
+  <a mat-tab-link *ngFor="let tvShowList of tvShowLists$ | async" [routerLink]="['/tv-show-lists', tvShowList.key]" routerLinkActive
+    #rla="routerLinkActive" [active]='rla.isActive' class="tv-show-list">{{tvShowList.name}}
+  </a>
+  <a mat-tab-link (click)='addList()' class="add-list">
+    <mat-icon>add_box</mat-icon>
+  </a>
+</nav>
+<router-outlet></router-outlet>
