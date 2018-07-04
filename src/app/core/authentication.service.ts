@@ -2,6 +2,7 @@ import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { environment } from '../../environments/environment';
 import { UserService } from './user.service';
 
 (window as any).global = window;
@@ -10,14 +11,7 @@ import { UserService } from './user.service';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  auth0 = new auth0.WebAuth({
-    clientID: 'QTMdMOEkh5ZFPNWp1qdyHsSep436KHhS',
-    domain: 'funnyghost.eu.auth0.com',
-    responseType: 'token id_token',
-    audience: 'https://funnyghost.eu.auth0.com/userinfo',
-    redirectUri: 'http://localhost:4200/callback',
-    scope: 'openid profile'
-  });
+  auth0 = new auth0.WebAuth(environment.auth0Config);
 
   private _isAuthenticated$ = new BehaviorSubject<boolean>(this.isAuthenticated());
   get isAuthenticated$(): Observable<boolean> {
