@@ -11,6 +11,7 @@ import { SharedModule } from './shared/shared.module';
 const mockAuthService = {
   isAuthenticated$: new BehaviorSubject<boolean>(false),
   handleAuthentication() {},
+  scheduleRenewal() {},
   login() {},
   logout() {}
 };

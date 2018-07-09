@@ -24,6 +24,7 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.authService.handleAuthentication();
+    this.authService.scheduleRenewal();
     this.firebaseAuth.auth.signInAnonymously();
     this.isLoggedIn$ = this.authService.isAuthenticated$;
   }
