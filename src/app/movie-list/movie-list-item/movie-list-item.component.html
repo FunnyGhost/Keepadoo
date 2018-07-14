@@ -17,7 +17,7 @@
             <mat-icon>delete</mat-icon>
           </button>
         </div>
-        <kpd-list-items [movies]="movies"></kpd-list-items>
+        <kpd-list-items [movies]="movies" (removeMovieFromList)="deleteMovie($event)"></kpd-list-items>
       </mat-tab>
     </mat-tab-group>
   </mat-card-content>

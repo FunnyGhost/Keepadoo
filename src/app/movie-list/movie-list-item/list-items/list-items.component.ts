@@ -1,5 +1,13 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild
+} from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Movie } from '../../core/models/movie';
 
@@ -9,10 +17,21 @@ import { Movie } from '../../core/models/movie';
   styleUrls: ['./list-items.component.scss']
 })
 export class ListItemsComponent implements OnInit, AfterViewInit {
-  @Input() movies: Movie[];
+  private _movies: Movie[];
+  @Input()
+  get movies(): Movie[] {
+    return this._movies;
+  }
+  set movies(value: Movie[]) {
+    this._movies = value;
+    this.dataSource = new MatTableDataSource<Movie>(this.movies);
+  }
+  @Output() removeMovieFromList = new EventEmitter<string>();
 
-  displayedColumns = ['poster', 'title', 'release_date', 'vote_average'];
+  displayedColumns = ['poster', 'title', 'release_date', 'vote_average', 'actions'];
   dataSource: MatTableDataSource<Movie>;
+
+  hoveredMovieKey: string;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
@@ -29,9 +48,7 @@ export class ListItemsComponent implements OnInit, AfterViewInit {
       });
   }
 
-  ngOnInit() {
-    this.dataSource = new MatTableDataSource<Movie>(this.movies);
-  }
+  ngOnInit() {}
 
   ngAfterViewInit() {
     this.dataSource.paginator = this.paginator;
@@ -44,10 +61,18 @@ export class ListItemsComponent implements OnInit, AfterViewInit {
     this.dataSource.filter = filterValue;
   }
 
+  onRowHovered(row: Movie): void {
+    this.hoveredMovieKey = row.key;
+  }
+
+  onDeleteMovieFromList(movie: Movie): void {
+    this.removeMovieFromList.emit(movie.key);
+  }
+
   private activateHandsetLayout(): void {
-    this.displayedColumns = ['poster', 'title', 'vote_average'];
+    this.displayedColumns = ['poster', 'title', 'vote_average', 'actions'];
   }
   private activateDesktopLayout(): void {
-    this.displayedColumns = ['poster', 'title', 'release_date', 'vote_average'];
+    this.displayedColumns = ['poster', 'title', 'release_date', 'vote_average', 'actions'];
   }
 }
