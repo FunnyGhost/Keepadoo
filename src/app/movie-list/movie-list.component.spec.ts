@@ -2,13 +2,13 @@ import { async, ComponentFixture, TestBed } from '@angular/core/testing';
 import { By } from '@angular/platform-browser';
 import { RouterTestingModule } from '@angular/router/testing';
 import { BehaviorSubject, of } from 'rxjs';
-import { MovieListsService } from 'src/app/movie-lists/core/movie-lists.service';
 import { mockModalService } from '../../test-utilities/mocks';
 import { ModalService } from '../core/modal.service';
 import { SharedModule } from '../shared/shared.module';
 import { MovieList } from './core/models/movie-list';
-import { MovieListsComponent } from './movie-lists.component';
-import { MovieListsSharedModule } from './shared/movie-lists-shared.module';
+import { MovieListsService } from './core/movie-lists.service';
+import { MovieListComponent } from './movie-list.component';
+import { MovieListSharedModule } from './shared/movie-list-shared.module';
 
 const mockMovieListsService = {
   getMovieLists() {
@@ -18,13 +18,13 @@ const mockMovieListsService = {
 };
 
 describe('MovieListsComponent', () => {
-  let component: MovieListsComponent;
-  let fixture: ComponentFixture<MovieListsComponent>;
+  let component: MovieListComponent;
+  let fixture: ComponentFixture<MovieListComponent>;
 
   beforeEach(async(() => {
     TestBed.configureTestingModule({
-      imports: [RouterTestingModule, MovieListsSharedModule, SharedModule],
-      declarations: [MovieListsComponent],
+      imports: [RouterTestingModule, MovieListSharedModule, SharedModule],
+      declarations: [MovieListComponent],
       providers: [
         {
           provide: MovieListsService,
@@ -39,7 +39,7 @@ describe('MovieListsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MovieListsComponent);
+    fixture = TestBed.createComponent(MovieListComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });
@@ -80,7 +80,7 @@ describe('MovieListsComponent', () => {
 
   it('should add a new list if the user filled in a name', () => {
     const movieListsService: MovieListsService = TestBed.get(MovieListsService);
-    spyOn(movieListsService, 'addMoviesList');
+    spyOn(movieListsService, 'addMovieList');
 
     const modalService: ModalService = TestBed.get(ModalService);
     const newListName = 'some-new-list-name';
@@ -91,12 +91,12 @@ describe('MovieListsComponent', () => {
     addNewListButton[0].triggerEventHandler('click', null);
 
     expect(modalService.openModal).toHaveBeenCalled();
-    expect(movieListsService.addMoviesList).toHaveBeenCalledWith(newListName);
+    expect(movieListsService.addMovieList).toHaveBeenCalledWith(newListName);
   });
 
   it('should not add a new list if the user dismissed the name modal', () => {
     const movieListsService: MovieListsService = TestBed.get(MovieListsService);
-    spyOn(movieListsService, 'addMoviesList');
+    spyOn(movieListsService, 'addMovieList');
 
     const modalService: ModalService = TestBed.get(ModalService);
     spyOn(modalService, 'openModal').and.returnValue(of(undefined));
@@ -106,6 +106,6 @@ describe('MovieListsComponent', () => {
     addNewListButton[0].triggerEventHandler('click', null);
 
     expect(modalService.openModal).toHaveBeenCalled();
-    expect(movieListsService.addMoviesList).not.toHaveBeenCalled();
+    expect(movieListsService.addMovieList).not.toHaveBeenCalled();
   });
 });

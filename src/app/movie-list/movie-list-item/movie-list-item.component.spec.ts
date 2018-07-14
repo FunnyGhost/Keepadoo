@@ -6,15 +6,15 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { MovieService } from 'src/app/movie-lists/core/movie.service';
+import { MovieService } from 'src/app/movie-list/core/movie.service';
 import { MockActivatedRoute, mockModalService } from '../../../test-utilities/mocks';
 import { ModalService } from '../../core/modal.service';
 import { TMDBService } from '../../core/tmdb.service';
 import { SharedModule } from '../../shared/shared.module';
 import { MovieSearchResult } from '../core/models/movie-search-result';
 import { MovieListsService } from '../core/movie-lists.service';
-import { MovieListsSharedModule } from '../shared/movie-lists-shared.module';
-import { MovieListComponent } from './movie-list.component';
+import { MovieListSharedModule } from '../shared/movie-list-shared.module';
+import { MovieListItemComponent } from './movie-list-item.component';
 
 const mockMovieService = {
   getMoviesInList(listId: string) {
@@ -36,9 +36,9 @@ const mockTMDBService = {
   }
 };
 
-fdescribe('MovieListComponent', () => {
-  let component: MovieListComponent;
-  let fixture: ComponentFixture<MovieListComponent>;
+describe('MovieListItemComponent', () => {
+  let component: MovieListItemComponent;
+  let fixture: ComponentFixture<MovieListItemComponent>;
 
   beforeAll(() => {
     Object.defineProperty(window, 'matchMedia', {
@@ -66,10 +66,10 @@ fdescribe('MovieListComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule,
         HttpClientTestingModule,
-        MovieListsSharedModule,
+        MovieListSharedModule,
         SharedModule
       ],
-      declarations: [MovieListComponent],
+      declarations: [MovieListItemComponent],
       providers: [
         {
           provide: ActivatedRoute,
@@ -96,7 +96,7 @@ fdescribe('MovieListComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(MovieListComponent);
+    fixture = TestBed.createComponent(MovieListItemComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

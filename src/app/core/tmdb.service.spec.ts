@@ -1,9 +1,9 @@
 import { HttpClient, HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { MovieSearchResult } from 'src/app/movie-lists/core/models/movie-search-result';
-import { environment } from 'src/environments/environment';
+import { environment } from '../../environments/environment';
 import { TMDBService } from './tmdb.service';
+import { MovieSearchResult } from 'src/app/movie-list/core/models/movie-search-result';
 
 describe('TMDBService', () => {
   let httpClient: HttpClient;
