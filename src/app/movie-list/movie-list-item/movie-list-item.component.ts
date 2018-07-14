@@ -1,9 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { FormControl } from '@angular/forms';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
-import { Observable, of } from 'rxjs';
-import { auditTime, filter, tap } from 'rxjs/operators';
-import { TMDBService } from '../../core/tmdb.service';
+import { Observable } from 'rxjs';
 import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
 import { MovieSearchResult } from '../core/models/movie-search-result';
@@ -16,19 +12,14 @@ import { MovieService } from '../core/movie.service';
 })
 export class MovieListItemComponent implements OnInit {
   @Input() movieList: MovieList;
-
   @Output() deleteList = new EventEmitter<string>();
 
   movies$: Observable<Movie[]>;
-  movieResults$: Observable<MovieSearchResult[]>;
 
-  movieSearchInputControl = new FormControl();
-
-  constructor(private movieService: MovieService, private tmdbService: TMDBService) {}
+  constructor(private movieService: MovieService) {}
 
   ngOnInit() {
     this.getMoviesInList();
-    this.setupSearch();
   }
 
   onDeleteList(): void {
@@ -39,28 +30,8 @@ export class MovieListItemComponent implements OnInit {
     this.movieService.deleteMovieFromList(this.movieList.key, movieKey);
   }
 
-  searchDisplayFunction(movie?: MovieSearchResult): string | undefined {
-    return '';
-  }
-
-  searchResultSelected(selectedOption: MatAutocompleteSelectedEvent) {
-    const selectedSearchResult = selectedOption.option.value as MovieSearchResult;
-    this.movieService.addMovieToList(this.movieList.key, selectedSearchResult);
-    this.movieResults$ = of([]);
-  }
-
-  private setupSearch(): void {
-    this.movieSearchInputControl.valueChanges
-      .pipe(
-        auditTime(500),
-        filter((searchText: string) => {
-          return searchText.length >= 2;
-        }),
-        tap((searchText: string) => {
-          this.movieResults$ = this.tmdbService.searchMovies(searchText);
-        })
-      )
-      .subscribe();
+  onAddMovieToList(selectedMovie: MovieSearchResult) {
+    this.movieService.addMovieToList(this.movieList.key, selectedMovie);
   }
 
   private getMoviesInList(): void {

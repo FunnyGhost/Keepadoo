@@ -8,11 +8,9 @@ import { of } from 'rxjs';
 import { MovieService } from 'src/app/movie-list/core/movie.service';
 import { MockActivatedRoute, mockModalService } from '../../../test-utilities/mocks';
 import { ModalService } from '../../core/modal.service';
-import { TMDBService } from '../../core/tmdb.service';
 import { SharedModule } from '../../shared/shared.module';
 import { MovieList } from '../core/models/movie-list';
 import { MovieSearchResult } from '../core/models/movie-search-result';
-import { MovieListsService } from '../core/movie-lists.service';
 import { MovieListItemComponent } from './movie-list-item.component';
 
 const movieListToUse: MovieList = {
@@ -26,18 +24,6 @@ const mockMovieService = {
   },
   addMovieToList(listId: string, movie: MovieSearchResult) {},
   deleteMovieFromList(listId: string, movieKey: string) {}
-};
-
-const mockMovieListService = {
-  deleteMovieList(listId: string) {
-    return of({});
-  }
-};
-
-const mockTMDBService = {
-  searchMovies(text: string) {
-    return of([]);
-  }
 };
 
 describe('MovieListItemComponent', () => {
@@ -83,16 +69,8 @@ describe('MovieListItemComponent', () => {
           useValue: mockMovieService
         },
         {
-          provide: MovieListsService,
-          useValue: mockMovieListService
-        },
-        {
           provide: ModalService,
           useValue: mockModalService
-        },
-        {
-          provide: TMDBService,
-          useValue: mockTMDBService
         }
       ],
       schemas: [NO_ERRORS_SCHEMA]
