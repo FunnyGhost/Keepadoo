@@ -1,7 +1,6 @@
 import { HttpClientTestingModule } from '@angular/common/http/testing';
+import { NO_ERRORS_SCHEMA } from '@angular/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { MatAutocompleteSelectedEvent } from '@angular/material';
-import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
@@ -11,10 +10,15 @@ import { MockActivatedRoute, mockModalService } from '../../../test-utilities/mo
 import { ModalService } from '../../core/modal.service';
 import { TMDBService } from '../../core/tmdb.service';
 import { SharedModule } from '../../shared/shared.module';
+import { MovieList } from '../core/models/movie-list';
 import { MovieSearchResult } from '../core/models/movie-search-result';
 import { MovieListsService } from '../core/movie-lists.service';
-import { MovieListSharedModule } from '../shared/movie-list-shared.module';
 import { MovieListItemComponent } from './movie-list-item.component';
+
+const movieListToUse: MovieList = {
+  key: 'some-key',
+  name: 'The awesome list'
+};
 
 const mockMovieService = {
   getMoviesInList(listId: string) {
@@ -66,7 +70,6 @@ describe('MovieListItemComponent', () => {
         RouterTestingModule,
         BrowserAnimationsModule,
         HttpClientTestingModule,
-        MovieListSharedModule,
         SharedModule
       ],
       declarations: [MovieListItemComponent],
@@ -91,117 +94,19 @@ describe('MovieListItemComponent', () => {
           provide: TMDBService,
           useValue: mockTMDBService
         }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
   beforeEach(() => {
     fixture = TestBed.createComponent(MovieListItemComponent);
     component = fixture.componentInstance;
+    component.movieList = movieListToUse;
     fixture.detectChanges();
   });
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should get the list based on the :id in the url', () => {
-    const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-    const movieService: MovieService = TestBed.get(MovieService);
-
-    const listIdToUse = 'some-list-id';
-    activatedRoute.setNewReturn(listIdToUse);
-    spyOn(movieService, 'getMoviesInList').and.callThrough();
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    expect(movieService.getMoviesInList).toHaveBeenCalledWith(listIdToUse);
-  });
-
-  it('should delete the list if the user confirms in the modal', () => {
-    const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-    const movieListsService: MovieListsService = TestBed.get(MovieListsService);
-    const modalService: ModalService = TestBed.get(ModalService);
-
-    const listIdToUse = 'some-list-id';
-    activatedRoute.setNewReturn(listIdToUse);
-    spyOn(movieListsService, 'deleteMovieList').and.callThrough();
-    spyOn(modalService, 'openModal').and.returnValue(of(true));
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    const deleteButton = fixture.debugElement.queryAll(By.css('.delete-button'));
-    expect(deleteButton.length).toBe(1);
-
-    deleteButton[0].triggerEventHandler('click', null);
-
-    expect(movieListsService.deleteMovieList).toHaveBeenCalledWith(listIdToUse);
-  });
-
-  it('should not delete the list if the user does not confirm in the modal', () => {
-    const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-    const movieListsService: MovieListsService = TestBed.get(MovieListsService);
-    const modalService: ModalService = TestBed.get(ModalService);
-
-    const listIdToUse = 'some-list-id';
-    activatedRoute.setNewReturn(listIdToUse);
-    spyOn(movieListsService, 'deleteMovieList').and.callThrough();
-    spyOn(modalService, 'openModal').and.returnValue(of(undefined));
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    const deleteButton = fixture.debugElement.queryAll(By.css('.delete-button'));
-    expect(deleteButton.length).toBe(1);
-
-    deleteButton[0].triggerEventHandler('click', null);
-
-    expect(movieListsService.deleteMovieList).not.toHaveBeenCalledWith(listIdToUse);
-  });
-
-  it('should delete the movie when the event is emitted', () => {
-    const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-    const movieService: MovieService = TestBed.get(MovieService);
-
-    const listIdToUse = 'some-list-id';
-    activatedRoute.setNewReturn(listIdToUse);
-    spyOn(movieService, 'getMoviesInList').and.callThrough();
-    spyOn(movieService, 'deleteMovieFromList');
-
-    component.ngOnInit();
-    fixture.detectChanges();
-
-    const movieToDeleteKey = 'some-movie-key-here';
-    component.deleteMovie(movieToDeleteKey);
-
-    expect(movieService.deleteMovieFromList).toHaveBeenCalledWith(listIdToUse, movieToDeleteKey);
-  });
-
-  describe('search', () => {
-    it('should display an empty string', () => {
-      expect(component.searchDisplayFunction({ title: 'Thor' } as MovieSearchResult)).toBe('');
-      expect(component.searchDisplayFunction(undefined)).toBe('');
-    });
-
-    it('should add the selected movie to the current list', () => {
-      const activatedRoute: MockActivatedRoute = TestBed.get(ActivatedRoute);
-      const movieService: MovieService = TestBed.get(MovieService);
-      const selectedMovie = { title: 'Thor' } as MovieSearchResult;
-      const listIdToUse = 'some-list-id';
-      activatedRoute.setNewReturn(listIdToUse);
-
-      component.ngOnInit();
-      fixture.detectChanges();
-
-      spyOn(movieService, 'addMovieToList');
-
-      component.searchResultSelected({
-        option: { value: selectedMovie }
-      } as MatAutocompleteSelectedEvent);
-
-      expect(movieService.addMovieToList).toHaveBeenCalledWith(listIdToUse, selectedMovie);
-    });
   });
 });

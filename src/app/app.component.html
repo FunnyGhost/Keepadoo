@@ -13,7 +13,7 @@
             </mat-toolbar-row>
             <mat-toolbar-row *ngIf="(isLoggedIn$ | async)">
                 <a [routerLink]="['movie-lists']" class='link movies-lists-link'>Movie lists</a>
-                <a [routerLink]="['tv-show-lists']" class='link tv-shows-lists-link'>Tv show lists</a>
+                <!-- <a [routerLink]="['tv-show-lists']" class='link tv-shows-lists-link'>Tv show lists</a> -->
                 <a (click)="logout()" class="link logout-button">Logout</a>
             </mat-toolbar-row>
             <mat-toolbar-row *ngIf="!(isLoggedIn$ | async)">
