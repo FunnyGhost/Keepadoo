@@ -11,16 +11,23 @@ import { MovieService } from '../core/movie.service';
   styleUrls: ['./movie-list-item.component.scss']
 })
 export class MovieListItemComponent implements OnInit {
-  @Input() movieList: MovieList;
+  private _movieList: MovieList;
+
+  @Input()
+  get movieList(): MovieList {
+    return this._movieList;
+  }
+  set movieList(value: MovieList) {
+    this._movieList = value;
+    this.getMoviesInList();
+  }
   @Output() deleteList = new EventEmitter<string>();
 
   movies$: Observable<Movie[]>;
 
   constructor(private movieService: MovieService) {}
 
-  ngOnInit() {
-    this.getMoviesInList();
-  }
+  ngOnInit() {}
 
   onDeleteList(): void {
     this.deleteList.emit(this.movieList.key);
