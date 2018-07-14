@@ -12,7 +12,9 @@ import {
   MatIconModule,
   MatInputModule,
   MatListModule,
+  MatPaginatorModule,
   MatSidenavModule,
+  MatTableModule,
   MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
@@ -36,7 +38,9 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     MatFormFieldModule,
     MatDialogModule,
     MatInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule,
+    MatPaginatorModule
   ],
   declarations: [NewListComponent, ConfirmDeleteComponent],
   entryComponents: [NewListComponent, ConfirmDeleteComponent],
@@ -55,7 +59,9 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     MatFormFieldModule,
     MatDialogModule,
     MatInputModule,
-    MatAutocompleteModule
+    MatAutocompleteModule,
+    MatTableModule,
+    MatPaginatorModule
   ]
 })
 export class SharedModule {}
