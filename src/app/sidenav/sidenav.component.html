@@ -1,0 +1,7 @@
+<mat-toolbar color="primary">Lists</mat-toolbar>
+<mat-nav-list *ngIf="showMovieLists">
+  <a mat-list-item *ngFor="let movieList of movieLists$ | async" [routerLink]="['/movie-lists', movieList.key]">{{movieList.name}}</a>
+</mat-nav-list>
+<mat-nav-list *ngIf="showTvShowLists">
+  <a mat-list-item *ngFor="let tvShowList of tvShowLists$ | async" [routerLink]="['/tv-show-lists', tvShowList.key]">{{tvShowList.name}}</a>
+</mat-nav-list>
