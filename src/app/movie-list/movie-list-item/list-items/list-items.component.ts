@@ -1,3 +1,4 @@
+import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { AfterViewInit, Component, Input, OnInit, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 import { Movie } from '../../core/models/movie';
@@ -10,13 +11,23 @@ import { Movie } from '../../core/models/movie';
 export class ListItemsComponent implements OnInit, AfterViewInit {
   @Input() movies: Movie[];
 
-  displayedColumns = ['title', 'release_date', 'vote_average'];
+  displayedColumns = ['poster', 'title', 'release_date', 'vote_average'];
   dataSource: MatTableDataSource<Movie>;
 
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
-  constructor() {}
+  constructor(breakpointObserver: BreakpointObserver) {
+    breakpointObserver
+      .observe([Breakpoints.HandsetLandscape, Breakpoints.HandsetPortrait])
+      .subscribe(result => {
+        if (result.matches) {
+          this.activateHandsetLayout();
+        } else {
+          this.activateDesktopLayout();
+        }
+      });
+  }
 
   ngOnInit() {
     this.dataSource = new MatTableDataSource<Movie>(this.movies);
@@ -31,5 +42,12 @@ export class ListItemsComponent implements OnInit, AfterViewInit {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
+  }
+
+  private activateHandsetLayout(): void {
+    this.displayedColumns = ['poster', 'title', 'vote_average'];
+  }
+  private activateDesktopLayout(): void {
+    this.displayedColumns = ['poster', 'title', 'release_date', 'vote_average'];
   }
 }
