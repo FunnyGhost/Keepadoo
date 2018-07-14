@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container mat-typography">
     <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'push' : 'side'" [opened]="!(isHandset$ | async)">
-        <kpd-sidenav></kpd-sidenav>
+        <kpd-sidenav [isAuthenticated]="isLoggedIn$ | async"></kpd-sidenav>
     </mat-sidenav>
     <mat-sidenav-content class="app-sidenav-content">
         <mat-toolbar color="primary">

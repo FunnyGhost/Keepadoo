@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Observable } from 'rxjs';
 import { filter } from 'rxjs/operators';
@@ -11,6 +11,18 @@ import { MovieListsService } from '../movie-list/core/movie-lists.service';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
+  private _isAuthenticated: boolean;
+  @Input()
+  get isAuthenticated(): boolean {
+    return this._isAuthenticated;
+  }
+  set isAuthenticated(value: boolean) {
+    this._isAuthenticated = value;
+    if (!this._isAuthenticated) {
+      this.showMovieLists = false;
+    }
+  }
+
   showMovieLists: boolean;
 
   movieLists$: Observable<MovieList[]>;
@@ -27,7 +39,7 @@ export class SidenavComponent implements OnInit {
     this.router.events
       .pipe(filter(e => e instanceof RouterEvent && e instanceof NavigationEnd))
       .subscribe((e: RouterEvent) => {
-        if (e.url.includes('movie-lists')) {
+        if (this.isAuthenticated && e.url.includes('movie-lists')) {
           this.showMovieLists = true;
         }
       });
