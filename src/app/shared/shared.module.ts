@@ -14,6 +14,7 @@ import {
   MatListModule,
   MatPaginatorModule,
   MatSidenavModule,
+  MatSortModule,
   MatTableModule,
   MatTabsModule,
   MatToolbarModule
@@ -40,7 +41,8 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     MatInputModule,
     MatAutocompleteModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ],
   declarations: [NewListComponent, ConfirmDeleteComponent],
   entryComponents: [NewListComponent, ConfirmDeleteComponent],
@@ -61,7 +63,8 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     MatInputModule,
     MatAutocompleteModule,
     MatTableModule,
-    MatPaginatorModule
+    MatPaginatorModule,
+    MatSortModule
   ]
 })
 export class SharedModule {}
