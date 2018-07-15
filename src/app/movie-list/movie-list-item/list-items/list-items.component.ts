@@ -31,8 +31,6 @@ export class ListItemsComponent implements OnInit, AfterViewInit {
   displayedColumns = ['poster', 'title', 'release_date', 'vote_average', 'actions'];
   dataSource: MatTableDataSource<Movie>;
 
-  hoveredMovieKey: string;
-
   @ViewChild(MatPaginator) paginator: MatPaginator;
   @ViewChild(MatSort) sort: MatSort;
 
@@ -59,10 +57,6 @@ export class ListItemsComponent implements OnInit, AfterViewInit {
     filterValue = filterValue.trim(); // Remove whitespace
     filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
     this.dataSource.filter = filterValue;
-  }
-
-  onRowHovered(row: Movie): void {
-    this.hoveredMovieKey = row.key;
   }
 
   onDeleteMovieFromList(movie: Movie): void {
