@@ -25,7 +25,7 @@
 }
 
 .secondary-toolbar {
-  background-color: $warn;
+  background-color: $primary;
 
   a {
     cursor: pointer;
@@ -37,10 +37,10 @@
       text-decoration: none;
     }
     &.active {
-      border-bottom: 2px solid yellow;
+      border-bottom: 2px solid $warn;
     }
     &:hover {
-      border-bottom: 2px solid yellow;
+      border-bottom: 2px solid $warn;
     }
   }
 }
