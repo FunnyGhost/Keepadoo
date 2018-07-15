@@ -1,4 +1,7 @@
 <mat-card *ngIf="movies$ | async as movies">
+  <button mat-button color="warn" (click)='onDeleteList()' class="delete-button">
+    <mat-icon>delete</mat-icon> Delete list
+  </button>
   <mat-card-header>
     <mat-card-title>
       <h2>{{movieList.name}}</h2>
@@ -12,10 +15,6 @@
       <mat-tab label="Movies">
         <div fxLayout="row wrap" fxLayoutAlign="space-between start">
           <kpd-movie-search (addMovieToList)="onAddMovieToList($event)" fxFlex.xl="30" fxFlex.lg="40" fxFlex.md="50" fxFlex.sm="70"></kpd-movie-search>
-          <button mat-button color="warn" (click)='onDeleteList()' class="delete-button" fxFlex.xl="5" fxFlex.lg="5" fxFlex.md="10"
-            fxFlex.sm="10" fxFlex.xs='10'>
-            <mat-icon>delete</mat-icon> Delete
-          </button>
         </div>
         <kpd-list-items *ngIf='movies.length' [movies]="movies" (removeMovieFromList)="deleteMovie($event)"></kpd-list-items>
       </mat-tab>
