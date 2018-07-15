@@ -2,8 +2,10 @@
   margin: 0.5rem;
 }
 
-mat-cell:first-child,
-mat-header-cell:first-child {
+.poster-cell,
+.poster-header {
+  min-width: 110px;
+  max-width: 150px;
   padding-left: 0;
 }
 

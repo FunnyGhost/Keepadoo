@@ -8,8 +8,8 @@
   <mat-table #table [dataSource]="dataSource" matSort>
 
     <ng-container matColumnDef="poster">
-      <mat-header-cell *matHeaderCellDef> Poster </mat-header-cell>
-      <mat-cell *matCellDef="let movie">
+      <mat-header-cell *matHeaderCellDef class='poster-header'> Poster </mat-header-cell>
+      <mat-cell *matCellDef="let movie" class='poster-cell'>
         <img src="https://image.tmdb.org/t/p/w92/{{movie.poster_path}}" alt="" class="thumbnail">
       </mat-cell>
     </ng-container>
@@ -21,7 +21,7 @@
 
     <ng-container matColumnDef="release_date">
       <mat-header-cell *matHeaderCellDef mat-sort-header> Release date </mat-header-cell>
-      <mat-cell *matCellDef="let movie"> {{movie.release_date}} </mat-cell>
+      <mat-cell *matCellDef="let movie"> {{movie.release_date | date}} </mat-cell>
     </ng-container>
 
     <ng-container matColumnDef="vote_average">
