@@ -1,5 +1,5 @@
+import { NO_ERRORS_SCHEMA } from '@angular/compiler/src/core';
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { By } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { RouterTestingModule } from '@angular/router/testing';
 import { AngularFireAuth } from 'angularfire2/auth';
@@ -41,7 +41,8 @@ describe('AppComponent', () => {
           provide: AngularFireAuth,
           useValue: mockFirebaseAuthenticationService
         }
-      ]
+      ],
+      schemas: [NO_ERRORS_SCHEMA]
     }).compileComponents();
   }));
 
@@ -72,96 +73,4 @@ describe('AppComponent', () => {
 
     expect(firebaseAuthService.auth.signInAnonymously).toHaveBeenCalled();
   }));
-
-  describe('logged out user', () => {
-    beforeEach(() => {
-      mockAuthService.isAuthenticated$.next(false);
-      fixture.detectChanges();
-    });
-
-    it('should show the login button', () => {
-      const loginButtons = fixture.debugElement.queryAll(By.css('.login-button'));
-
-      expect(loginButtons.length).toBe(1);
-    });
-
-    it('should not show the logout button', () => {
-      const loginButtons = fixture.debugElement.queryAll(By.css('.logout-button'));
-
-      expect(loginButtons.length).toBe(0);
-    });
-
-    it('should login the user', () => {
-      const loginButtons = fixture.debugElement.queryAll(By.css('.login-button'));
-      spyOn(authService, 'login');
-
-      loginButtons[0].triggerEventHandler('click', null);
-
-      expect(authService.login).toHaveBeenCalled();
-    });
-
-    it('should not show the profile link', () => {
-      const elements = fixture.debugElement.queryAll(By.css('.profile-link'));
-
-      expect(elements.length).toBe(0);
-    });
-
-    it('should not show the movies-lists link', () => {
-      const elements = fixture.debugElement.queryAll(By.css('.movies-lists-link'));
-
-      expect(elements.length).toBe(0);
-    });
-
-    it('should not show the movies-lists link', () => {
-      const elements = fixture.debugElement.queryAll(By.css('.tv-shows-lists-link'));
-
-      expect(elements.length).toBe(0);
-    });
-  });
-
-  describe('logged in user', () => {
-    beforeEach(() => {
-      mockAuthService.isAuthenticated$.next(true);
-      fixture.detectChanges();
-    });
-
-    it('should not show the login button', () => {
-      const loginButtons = fixture.debugElement.queryAll(By.css('.login-button'));
-
-      expect(loginButtons.length).toBe(0);
-    });
-
-    it('should show the logout button', () => {
-      const elements = fixture.debugElement.queryAll(By.css('.logout-button'));
-
-      expect(elements.length).toBe(1);
-    });
-
-    it('should logout the user', () => {
-      const elements = fixture.debugElement.queryAll(By.css('.logout-button'));
-      spyOn(authService, 'logout');
-
-      elements[0].triggerEventHandler('click', null);
-
-      expect(authService.logout).toHaveBeenCalled();
-    });
-
-    it('should show the profile link', () => {
-      const elements = fixture.debugElement.queryAll(By.css('.profile-link'));
-
-      expect(elements.length).toBe(1);
-    });
-
-    it('should show the movies-lists link', () => {
-      const elements = fixture.debugElement.queryAll(By.css('.movies-lists-link'));
-
-      expect(elements.length).toBe(1);
-    });
-
-    it('should show the tv-show-lists link', () => {
-      const elements = fixture.debugElement.queryAll(By.css('.tv-shows-lists-link'));
-
-      expect(elements.length).toBe(1);
-    });
-  });
 });

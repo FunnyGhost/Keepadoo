@@ -1,0 +1,15 @@
+.thumbnail {
+  margin: 0.5rem;
+}
+
+.poster-cell,
+.poster-header {
+  min-width: 110px;
+  max-width: 150px;
+  padding-left: 0;
+}
+
+mat-cell:last-child,
+mat-header-cell:last-child {
+  padding-right: 0;
+}

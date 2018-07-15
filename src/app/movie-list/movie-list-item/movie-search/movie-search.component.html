@@ -1,0 +1,16 @@
+<mat-form-field appearance='outline' class="search-movie">
+  <input type="text" placeholder="Add a movie..." matInput [formControl]='movieSearchInputControl' [matAutocomplete]='auto'>
+  <mat-icon matSuffix>movie</mat-icon>
+</mat-form-field>
+<mat-autocomplete #auto='matAutocomplete' (optionSelected)='searchResultSelected($event)' [displayWith]="searchDisplayFunction">
+  <mat-option *ngFor='let movie of movieResults$ | async' [value]='movie'>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <img src="https://image.tmdb.org/t/p/w92/{{movie.poster_path}}" class="search-poster">
+      <div class="search-details">
+        <h4>{{movie.title}}</h4>
+        <div>from {{movie.release_date | date}}</div>
+        <div>Rating: {{movie.vote_average}}</div>
+      </div>
+    </div>
+  </mat-option>
+</mat-autocomplete>
