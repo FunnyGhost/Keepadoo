@@ -2,4 +2,4 @@
   <mat-icon>add_box</mat-icon> Add new list
 </button>
 
-<kpd-movie-list-item *ngIf="movieList$ | async as movieList" [movieList]="movieList"></kpd-movie-list-item>
+<kpd-movie-list-item *ngIf="movieList$ | async as movieList" [movieList]="movieList" (deleteList)="deleteList($event)"></kpd-movie-list-item>
