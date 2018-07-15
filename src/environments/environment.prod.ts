@@ -16,9 +16,8 @@ const auth0Config: Auth0Config = {
   domain: 'funnyghost.eu.auth0.com',
   responseType: 'token id_token',
   audience: 'https://funnyghost.eu.auth0.com/userinfo',
-  redirectUri: 'https://keepadoo.azurewebsites.net/callback',
+  redirectUri: 'https://keepadoo.com/callback',
   scope: 'openid profile'
-
 };
 
 const tmdbConfig: TMDBConfig = {
