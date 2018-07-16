@@ -31,7 +31,6 @@ export class AuthenticationService {
 
   public handleAuthentication(): void {
     this.auth0.parseHash((err, authResult) => {
-      console.log('Handle authentication', err, authResult);
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
@@ -41,7 +40,7 @@ export class AuthenticationService {
       } else if (err) {
         this._isAuthenticated$.next(false);
         this.router.navigate(['/']);
-        console.log(err);
+        console.error(err);
       }
     });
   }
@@ -81,7 +80,7 @@ export class AuthenticationService {
   private renewToken(): void {
     this.auth0.checkSession({}, (err, result) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       } else {
         this.setSession(result);
       }
@@ -97,7 +96,6 @@ export class AuthenticationService {
   private setupProfile(): void {
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
-      console.log('no access token pressent');
       return;
     }
 
