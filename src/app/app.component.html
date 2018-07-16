@@ -11,13 +11,11 @@
                 </button>
                 <span class="title">Keepadoo</span>
             </mat-toolbar-row>
-            <mat-toolbar-row *ngIf="(isLoggedIn$ | async)" class='secondary-toolbar'>
+            <mat-toolbar-row class='secondary-toolbar'>
                 <a [routerLink]="['movie-lists']" class='link movies-lists-link' routerLinkActive='active'>Movie lists</a>
                 <!-- <a [routerLink]="['tv-show-lists ']" class='link tv-shows-lists-link '>Tv show lists</a> -->
-                <a (click)="logout()" class="link logout-button">Logout</a>
-            </mat-toolbar-row>
-            <mat-toolbar-row *ngIf="!(isLoggedIn$ | async)" class='secondary-toolbar'>
-                <a (click)="login()" class="link login-button">Login</a>
+                <a (click)="logout()" class="link logout-button" *ngIf="(isLoggedIn$ | async)">Logout</a>
+                <a (click)="login()" class="link login-button" *ngIf="!(isLoggedIn$ | async)" >Login</a>
             </mat-toolbar-row>
         </mat-toolbar>
         <div class="wrapper">
