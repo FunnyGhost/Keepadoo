@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { AuthenticationService } from '../core/authentication.service';
 
 @Component({
   selector: 'kpd-callback',
@@ -6,10 +7,9 @@ import { Component, OnInit } from '@angular/core';
   styleUrls: ['./callback.component.scss']
 })
 export class CallbackComponent implements OnInit {
-
-  constructor() { }
+  constructor(private authService: AuthenticationService) {}
 
   ngOnInit() {
+    this.authService.continueFromWhereYouLeftOff();
   }
-
 }
