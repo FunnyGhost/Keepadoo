@@ -1,5 +1,6 @@
 import { TestBed } from '@angular/core/testing';
 import { BehaviorSubject } from 'rxjs';
+import { RouterStateSnapshot } from '../../../node_modules/@angular/router';
 import { AuthenticationGuard } from './authentication.guard';
 import { AuthenticationService } from './authentication.service';
 
@@ -11,6 +12,10 @@ class MockAuthenticationService {
 
   login() {}
 }
+
+const mockRouterStateSnapshot = {
+  url: 'some-url-here'
+} as RouterStateSnapshot;
 
 describe('AuthenticationGuard', () => {
   let authService: MockAuthenticationService;
@@ -38,7 +43,7 @@ describe('AuthenticationGuard', () => {
   it('should return true if user is authenticated', done => {
     authService.isAuthenticated$.next(true);
 
-    guard.canActivate().subscribe((canAccess: boolean) => {
+    guard.canActivate(null, mockRouterStateSnapshot).subscribe((canAccess: boolean) => {
       expect(canAccess).toBe(true);
       done();
     });
@@ -47,7 +52,7 @@ describe('AuthenticationGuard', () => {
   it('should return false if user is not authenticated', done => {
     authService.isAuthenticated$.next(false);
 
-    guard.canActivate().subscribe((canAccess: boolean) => {
+    guard.canActivate(null, mockRouterStateSnapshot).subscribe((canAccess: boolean) => {
       expect(canAccess).toBe(false);
       done();
     });
@@ -57,8 +62,8 @@ describe('AuthenticationGuard', () => {
     authService.isAuthenticated$.next(false);
     spyOn(authService, 'login');
 
-    guard.canActivate().subscribe((canAccess: boolean) => {
-      expect(authService.login).toHaveBeenCalled();
+    guard.canActivate(null, mockRouterStateSnapshot).subscribe((canAccess: boolean) => {
+      expect(authService.login).toHaveBeenCalledWith(mockRouterStateSnapshot.url);
       done();
     });
   });

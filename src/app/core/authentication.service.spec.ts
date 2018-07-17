@@ -66,6 +66,21 @@ describe('AuthenticationService', () => {
     ));
   });
 
+  describe('continueFromWhereYouLeftOff', () => {
+    it('should navigate to redirectUrl', inject(
+      [AuthenticationService, Router],
+      (service: AuthenticationService, router: Router) => {
+        (router.navigateByUrl as jasmine.Spy).calls.reset();
+
+        const redirectUrlToUse = 'some-token-here';
+        localStorage.setItem('redirect_url', redirectUrlToUse);
+        service.continueFromWhereYouLeftOff();
+
+        expect(router.navigateByUrl).toHaveBeenCalledWith(redirectUrlToUse);
+      }
+    ));
+  });
+
   describe('isAuthenticated$ for logged out user', () => {
     beforeEach(() => {
       localStorage.removeItem('expires_at');

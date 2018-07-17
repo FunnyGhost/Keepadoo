@@ -13,7 +13,9 @@ import { UserService } from './user.service';
 })
 export class AuthenticationService {
   auth0 = new auth0.WebAuth(environment.auth0Config);
+
   private refreshSubscription: any;
+
   private _isAuthenticated$ = new BehaviorSubject<boolean>(this.isAuthenticated());
   get isAuthenticated$(): Observable<boolean> {
     return this._isAuthenticated$.asObservable();
@@ -25,25 +27,29 @@ export class AuthenticationService {
     }
   }
 
-  public login(): void {
+  public login(redirectUrl: string = this.router.url): void {
+    localStorage.setItem('redirect_url', redirectUrl);
     this.auth0.authorize();
   }
 
   public handleAuthentication(): void {
     this.auth0.parseHash((err, authResult) => {
-      console.log('Handle authentication', err, authResult);
       if (authResult && authResult.accessToken && authResult.idToken) {
         window.location.hash = '';
         this.setSession(authResult);
         this._isAuthenticated$.next(true);
         this.setupProfile();
-        this.router.navigate(['/']);
       } else if (err) {
         this._isAuthenticated$.next(false);
         this.router.navigate(['/']);
-        console.log(err);
+        console.error(err);
       }
     });
+  }
+
+  public continueFromWhereYouLeftOff() {
+    const redirectUrl = localStorage.getItem('redirect_url');
+    this.router.navigateByUrl(redirectUrl);
   }
 
   public logout(): void {
@@ -81,7 +87,7 @@ export class AuthenticationService {
   private renewToken(): void {
     this.auth0.checkSession({}, (err, result) => {
       if (err) {
-        console.log(err);
+        console.error(err);
       } else {
         this.setSession(result);
       }
@@ -97,7 +103,6 @@ export class AuthenticationService {
   private setupProfile(): void {
     const accessToken = localStorage.getItem('access_token');
     if (!accessToken) {
-      console.log('no access token pressent');
       return;
     }
 
