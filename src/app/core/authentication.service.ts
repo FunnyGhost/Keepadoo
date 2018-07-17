@@ -13,7 +13,9 @@ import { UserService } from './user.service';
 })
 export class AuthenticationService {
   auth0 = new auth0.WebAuth(environment.auth0Config);
+
   private refreshSubscription: any;
+
   private _isAuthenticated$ = new BehaviorSubject<boolean>(this.isAuthenticated());
   get isAuthenticated$(): Observable<boolean> {
     return this._isAuthenticated$.asObservable();
@@ -25,7 +27,8 @@ export class AuthenticationService {
     }
   }
 
-  public login(): void {
+  public login(redirectUrl: string = this.router.url): void {
+    localStorage.setItem('redirect_url', redirectUrl);
     this.auth0.authorize();
   }
 
@@ -36,13 +39,17 @@ export class AuthenticationService {
         this.setSession(authResult);
         this._isAuthenticated$.next(true);
         this.setupProfile();
-        this.router.navigate(['/']);
       } else if (err) {
         this._isAuthenticated$.next(false);
         this.router.navigate(['/']);
         console.error(err);
       }
     });
+  }
+
+  public continueFromWhereYouLeftOff() {
+    const redirectUrl = localStorage.getItem('redirect_url');
+    this.router.navigateByUrl(redirectUrl);
   }
 
   public logout(): void {
