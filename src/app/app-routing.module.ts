@@ -2,10 +2,12 @@ import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
 import { CallbackComponent } from './callback/callback.component';
 import { AuthenticationGuard } from './core/authentication.guard';
+import { CallbackGuard } from './core/callback.guard';
 
 const routes: Routes = [
   {
     path: 'callback',
+    canActivate: [CallbackGuard],
     component: CallbackComponent
   },
   {
