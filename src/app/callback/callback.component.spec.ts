@@ -1,5 +1,4 @@
 import { async, ComponentFixture, TestBed } from '@angular/core/testing';
-import { AuthenticationService } from '../core/authentication.service';
 import { CallbackComponent } from './callback.component';
 
 const mockAuthService = {
@@ -13,12 +12,7 @@ describe('CallbackComponent', () => {
   beforeEach(async(() => {
     TestBed.configureTestingModule({
       declarations: [CallbackComponent],
-      providers: [
-        {
-          provide: AuthenticationService,
-          useValue: mockAuthService
-        }
-      ]
+      providers: []
     }).compileComponents();
   }));
 
@@ -30,14 +24,5 @@ describe('CallbackComponent', () => {
 
   it('should create', () => {
     expect(component).toBeTruthy();
-  });
-
-  it('should continue from where the user left off before login', () => {
-    const authService: AuthenticationService = TestBed.get(AuthenticationService);
-    spyOn(authService, 'continueFromWhereYouLeftOff');
-
-    component.ngAfterViewInit();
-
-    expect(authService.continueFromWhereYouLeftOff).toHaveBeenCalled();
   });
 });

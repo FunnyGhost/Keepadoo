@@ -21,6 +21,13 @@ export class AuthenticationService {
     return this._isAuthenticated$.asObservable();
   }
 
+  get redirectUrl(): string {
+    return localStorage.getItem('redirect_url');
+  }
+  set redirectUrl(value: string) {
+    localStorage.setItem('redirect_url', value);
+  }
+
   constructor(private router: Router, private userService: UserService) {
     if (this.isAuthenticated()) {
       this.setupProfile();
@@ -28,7 +35,7 @@ export class AuthenticationService {
   }
 
   public login(redirectUrl: string = this.router.url): void {
-    localStorage.setItem('redirect_url', redirectUrl);
+    this.redirectUrl = redirectUrl;
     this.auth0.authorize();
   }
 
@@ -45,12 +52,6 @@ export class AuthenticationService {
         console.error(err);
       }
     });
-  }
-
-  public continueFromWhereYouLeftOff() {
-    const redirectUrl = localStorage.getItem('redirect_url');
-    console.log(redirectUrl);
-    this.router.navigateByUrl(redirectUrl);
   }
 
   public logout(): void {
