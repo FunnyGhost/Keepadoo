@@ -6,6 +6,7 @@ stages:
   - build
   - test
   - deploy
+  - publish
 
 build:
   image: node:latest
@@ -38,3 +39,9 @@ deploy:
     - docker push "$CI_REGISTRY_IMAGE:1.0"
   only:
     - master
+
+publish:
+  stage: publish
+  script:
+    - apt-get update -y && apt-get install sshpass -y
+    - ./deploy.sh $DIGITAL_OCEAN_PASS
