@@ -36,7 +36,7 @@ describe('CallbackComponent', () => {
     const authService: AuthenticationService = TestBed.get(AuthenticationService);
     spyOn(authService, 'continueFromWhereYouLeftOff');
 
-    component.ngOnInit();
+    component.ngAfterViewInit();
 
     expect(authService.continueFromWhereYouLeftOff).toHaveBeenCalled();
   });

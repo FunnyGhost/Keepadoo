@@ -49,6 +49,7 @@ export class AuthenticationService {
 
   public continueFromWhereYouLeftOff() {
     const redirectUrl = localStorage.getItem('redirect_url');
+    console.log(redirectUrl);
     this.router.navigateByUrl(redirectUrl);
   }
 
