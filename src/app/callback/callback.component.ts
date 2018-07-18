@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { AfterViewInit, Component } from '@angular/core';
 import { AuthenticationService } from '../core/authentication.service';
 
 @Component({
@@ -6,10 +6,10 @@ import { AuthenticationService } from '../core/authentication.service';
   templateUrl: './callback.component.html',
   styleUrls: ['./callback.component.scss']
 })
-export class CallbackComponent implements OnInit {
+export class CallbackComponent implements AfterViewInit {
   constructor(private authService: AuthenticationService) {}
 
-  ngOnInit() {
+  ngAfterViewInit() {
     this.authService.continueFromWhereYouLeftOff();
   }
 }
