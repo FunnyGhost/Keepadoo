@@ -36,5 +36,9 @@ deploy:
   script:
     - docker build -t "$CI_REGISTRY_IMAGE:1.0" .
     - docker push "$CI_REGISTRY_IMAGE:1.0"
+    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+    - mkdir -p ~/.ssh
+    - chmod 700 ~/.ssh
+    - ssh root@174.138.8.175 docker pull utukku/keepadoo:1.0
   only:
     - master
