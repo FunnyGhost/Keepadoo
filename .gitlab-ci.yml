@@ -49,11 +49,8 @@ publish:
   stage: publish
   before_script:
     - mkdir -p ~/.ssh
-    - echo $SSH_PASS
-    - echo $SSH_KEY
     - echo $RANDOM_VARIABLE
-    - echo $CI_REGISTRY
-    - echo "$SSH_PASS" > ~/.ssh/id_rsa
+    - echo "$RANDOM_VARIABLE" > ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - cat ~/.ssh/id_rsa
