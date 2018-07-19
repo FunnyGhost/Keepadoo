@@ -50,12 +50,11 @@ publish:
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - mkdir -p ~/.ssh
-    # Paste the PRIVATE key into a gitlab variable. Pay attention to the linebreak at the end when pasting
     - echo "$SSH_PASS" | tr -d '\r' > ~/.ssh/id_rsa
-    - chmod 600 ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
     - eval "$(ssh-agent -s)"
     - ssh-add ~/.ssh/id_rsa
-    - ssh-keyscan -H '188.166.124.226' >> ~/.ssh/known_hosts
+    - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
   script:
     - ssh root@188.166.124.226
     - docker stop keepadoo
