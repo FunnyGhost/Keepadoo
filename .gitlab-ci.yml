@@ -56,9 +56,6 @@ publish:
     - ssh-add ~/.ssh/id_rsa
     - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
   script:
-    - ssh -o StrictHostKeyChecking=no root@188.166.124.226
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
-    - docker stop keepadoo
-    - exit
+    - ssh -o StrictHostKeyChecking=no root@188.166.124.226 < ./deploy.sh
   after_script:
     - docker logout $CI_REGISTRY
