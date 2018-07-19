@@ -5,6 +5,7 @@ cache:
 stages:
   - build
   - test
+  - publish
   - deploy
 
 build:
@@ -26,19 +27,37 @@ test:
     - npm run lint
     - npm run test
 
-deploy:
+publish:
   image: docker:latest
   services:
     - docker:dind
-  stage: deploy
+  stage: publish
   before_script:
     - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - docker build -t "$CI_REGISTRY_IMAGE:1.0" .
     - docker push "$CI_REGISTRY_IMAGE:1.0"
-    - echo "$SSH_PRIVATE_KEY" | tr -d '\r' | ssh-add - > /dev/null
+  after_script:
+    - docker logout $CI_REGISTRY
+  only:
+    - master
+
+deploy:
+  image: docker:git
+  services:
+    - docker:dind
+  stage: deploy
+  before_script:
     - mkdir -p ~/.ssh
-    - chmod 700 ~/.ssh
-    - ssh root@174.138.8.175 docker pull utukku/keepadoo:1.0
+    - echo "$RANDOM_VARIABLE" > ~/.ssh/id_rsa
+    - chmod 700 ~/.ssh/id_rsa
+    - eval "$(ssh-agent -s)"
+    - cat ~/.ssh/id_rsa
+    - ssh-add ~/.ssh/id_rsa
+    - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
+  script:
+    - ssh -o StrictHostKeyChecking=no root@188.166.124.226 < ./deploy.sh
+  after_script:
+    - docker logout $CI_REGISTRY
   only:
     - master
