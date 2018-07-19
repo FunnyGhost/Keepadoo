@@ -16,7 +16,7 @@ const auth0Config: Auth0Config = {
   domain: 'funnyghost.eu.auth0.com',
   responseType: 'token id_token',
   audience: 'https://funnyghost.eu.auth0.com/userinfo',
-  redirectUri: 'https://keepadoo.com/callback',
+  redirectUri: 'https://www.keepadoo.com/callback',
   scope: 'openid profile'
 };
 
