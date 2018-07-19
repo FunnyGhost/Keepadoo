@@ -37,11 +37,18 @@ deploy:
   script:
     - docker build -t "$CI_REGISTRY_IMAGE:1.0" .
     - docker push "$CI_REGISTRY_IMAGE:1.0"
+  after_script:
+    - docker logout
   only:
     - master
 
 publish:
   stage: publish
+  before_script:
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
   script:
     - apt-get update -y && apt-get install sshpass -y
+    - chmod +x ./deploy.sh
     - ./deploy.sh $DIGITAL_OCEAN_PASS
+  after_script:
+    - docker logout
