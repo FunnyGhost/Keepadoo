@@ -43,7 +43,9 @@ stages:
 #     - master
 
 publish:
-  image: docker:dind
+  image: docker:git
+  services:
+    - docker:dind
   stage: publish
   before_script:
     - mkdir -p ~/.ssh
