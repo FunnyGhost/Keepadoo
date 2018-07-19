@@ -38,12 +38,12 @@ deploy:
     - docker build -t "$CI_REGISTRY_IMAGE:1.0" .
     - docker push "$CI_REGISTRY_IMAGE:1.0"
   after_script:
-    - docker logout
+    - docker logout $CI_REGISTRY
   only:
     - master
 
 publish:
-  image: docker:latest
+  image: gitlab/dind
   services:
     - docker:dind
   stage: publish
@@ -54,4 +54,4 @@ publish:
     - chmod +x ./deploy.sh
     - ./deploy.sh $DIGITAL_OCEAN_PASS
   after_script:
-    - docker logout
+    - docker logout $CI_REGISTRY
