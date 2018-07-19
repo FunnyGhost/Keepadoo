@@ -3,9 +3,9 @@ cache:
     - node_modules/
 
 stages:
-  - build
-  - test
-  - deploy
+  # - build
+  # - test
+  # - deploy
   - publish
 
 build:
