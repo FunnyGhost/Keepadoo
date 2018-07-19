@@ -43,12 +43,9 @@ stages:
 #     - master
 
 publish:
-  image: gitlab/dind
-  services:
-    - docker:dind
+  image: docker:latest
   stage: publish
   before_script:
-    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - mkdir -p ~/.ssh
     - echo "$SSH_PASS" | tr -d '\r' > ~/.ssh/id_rsa
     - chmod 700 ~/.ssh/id_rsa
@@ -57,6 +54,7 @@ publish:
     - ssh-keyscan -H 'gitlab.com' >> ~/.ssh/known_hosts
   script:
     - ssh root@188.166.124.226
+    - docker login -u "$CI_REGISTRY_USER" -p "$CI_REGISTRY_PASSWORD" $CI_REGISTRY
     - docker stop keepadoo
     - exit
   after_script:
