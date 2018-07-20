@@ -21,6 +21,11 @@ export class TMDBService {
     return this.httpClient.get(urlToUse, { params }).pipe(
       map((response: any) => {
         return response.results as MovieSearchResult[];
+      }),
+      map((data: MovieSearchResult[]) => {
+        return data.filter((movieSearchResult: MovieSearchResult) => {
+          return !!movieSearchResult.poster_path;
+        });
       })
     );
   }
@@ -34,6 +39,11 @@ export class TMDBService {
     return this.httpClient.get(urlToUse, { params }).pipe(
       map((response: any) => {
         return response.results as TvShowSearchResult[];
+      }),
+      map((data: TvShowSearchResult[]) => {
+        return data.filter((tvShowSearchResult: TvShowSearchResult) => {
+          return !!tvShowSearchResult.poster_path;
+        });
       })
     );
   }
