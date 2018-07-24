@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, tap } from 'rxjs/operators';
 import { MovieList } from '../movie-list/core/models/movie-list';
 import { MovieListsService } from '../movie-list/core/movie-lists.service';
 
@@ -30,7 +30,13 @@ export class SidenavComponent implements OnInit {
   constructor(private movieListsService: MovieListsService, private router: Router) {}
 
   ngOnInit() {
-    this.movieLists$ = this.movieListsService.getMovieLists();
+    this.movieLists$ = this.movieListsService.getMovieLists().pipe(
+      filter(() => this.showMovieLists),
+      filter((data: MovieList[]) => data.length > 0),
+      tap((data: MovieList[]) => {
+        this.router.navigate(['movie-lists', data[data.length - 1].key]);
+      })
+    );
 
     this.setupRouteListening();
   }
