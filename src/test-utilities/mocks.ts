@@ -2,7 +2,8 @@ import { of } from 'rxjs';
 
 export const mockRouter = {
   navigate: jasmine.createSpy('navigate'),
-  navigateByUrl: jasmine.createSpy('navigateByUrl')
+  navigateByUrl: jasmine.createSpy('navigateByUrl'),
+  events: of([])
 };
 
 export class MockActivatedRoute {
