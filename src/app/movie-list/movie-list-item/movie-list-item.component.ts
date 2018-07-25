@@ -1,4 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { MatButtonToggleChange } from '@angular/material';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
@@ -12,6 +14,7 @@ import { MovieService } from '../core/movie.service';
 })
 export class MovieListItemComponent implements OnInit {
   private _movieList: MovieList;
+  public displayMode: string;
 
   @Input()
   get movieList(): MovieList {
@@ -25,12 +28,25 @@ export class MovieListItemComponent implements OnInit {
 
   movies$: Observable<Movie[]>;
 
-  constructor(private movieService: MovieService) {}
+  constructor(private movieService: MovieService, private store: Store<any>) {}
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.store.pipe(select('movieLists')).subscribe(movieLists => {
+      if (movieLists) {
+        this.displayMode = movieLists.displayMode;
+      }
+    });
+  }
 
   onDeleteList(): void {
     this.deleteList.emit(this.movieList.key);
+  }
+
+  onDisplayModeChanged(change: MatButtonToggleChange): void {
+    this.store.dispatch({
+      type: 'CHANGE_LIST_MODE',
+      payload: change.value
+    });
   }
 
   deleteMovie(movieKey: string): void {

@@ -6,6 +6,7 @@ import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 import {
   MatAutocompleteModule,
   MatButtonModule,
+  MatButtonToggleModule,
   MatCardModule,
   MatDialogModule,
   MatFormFieldModule,
@@ -42,7 +43,8 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     MatAutocompleteModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonToggleModule
   ],
   declarations: [NewListComponent, ConfirmDeleteComponent],
   entryComponents: [NewListComponent, ConfirmDeleteComponent],
@@ -64,7 +66,8 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     MatAutocompleteModule,
     MatTableModule,
     MatPaginatorModule,
-    MatSortModule
+    MatSortModule,
+    MatButtonToggleModule
   ]
 })
 export class SharedModule {}
