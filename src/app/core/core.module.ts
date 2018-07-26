@@ -6,6 +6,7 @@ import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { environment } from '../../environments/environment';
+import { reducer } from '../state/user.reducer';
 
 @NgModule({
   imports: [
@@ -14,7 +15,8 @@ import { environment } from '../../environments/environment';
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
     AngularFireDatabaseModule,
-    StoreModule.forRoot({})
+    StoreModule.forRoot({}),
+    StoreModule.forFeature('users', reducer)
   ],
   declarations: []
 })
