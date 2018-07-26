@@ -1,6 +1,6 @@
 import { TestBed } from '@angular/core/testing';
+import { RouterStateSnapshot } from '@angular/router';
 import { BehaviorSubject } from 'rxjs';
-import { RouterStateSnapshot } from '../../../node_modules/@angular/router';
 import { AuthenticationGuard } from './authentication.guard';
 import { AuthenticationService } from './authentication.service';
 

@@ -5,12 +5,12 @@ import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { ActivatedRoute } from '@angular/router';
 import { RouterTestingModule } from '@angular/router/testing';
 import { of } from 'rxjs';
-import { MovieService } from 'src/app/movie-list/core/movie.service';
 import { MockActivatedRoute, mockModalService } from '../../../test-utilities/mocks';
 import { ModalService } from '../../core/modal.service';
 import { SharedModule } from '../../shared/shared.module';
 import { MovieList } from '../core/models/movie-list';
 import { MovieSearchResult } from '../core/models/movie-search-result';
+import { MovieService } from '../core/movie.service';
 import { MovieListItemComponent } from './movie-list-item.component';
 
 const movieListToUse: MovieList = {

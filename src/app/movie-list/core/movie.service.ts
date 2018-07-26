@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { AngularFireDatabase } from 'angularfire2/database';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { Movie } from 'src/app/movie-list/core/models/movie';
+import { Movie } from './models/movie';
 import { MovieSearchResult } from './models/movie-search-result';
 
 @Injectable({

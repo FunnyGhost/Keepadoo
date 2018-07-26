@@ -2,8 +2,8 @@ import { HttpClient, HttpParams } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
-import { MovieSearchResult } from 'src/app/movie-list/core/models/movie-search-result';
 import { environment } from '../../environments/environment';
+import { MovieSearchResult } from '../movie-list/core/models/movie-search-result';
 import { TvShowSearchResult } from '../tv-show-lists/core/models/tv-show-search-result';
 
 @Injectable({
