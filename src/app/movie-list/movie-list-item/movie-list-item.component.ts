@@ -2,10 +2,13 @@ import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { DisplayMode } from '../core/models/enums';
 import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
 import { MovieSearchResult } from '../core/models/movie-search-result';
 import { MovieService } from '../core/movie.service';
+import * as selectors from '../state/movie-state';
+import { MovieState } from '../state/movie-state';
 
 @Component({
   selector: 'kpd-movie-list-item',
@@ -14,7 +17,9 @@ import { MovieService } from '../core/movie.service';
 })
 export class MovieListItemComponent implements OnInit {
   private _movieList: MovieList;
-  public displayMode: string;
+
+  public displayMode: DisplayMode;
+  public displayModes = DisplayMode;
 
   @Input()
   get movieList(): MovieList {
@@ -28,13 +33,11 @@ export class MovieListItemComponent implements OnInit {
 
   movies$: Observable<Movie[]>;
 
-  constructor(private movieService: MovieService, private store: Store<any>) {}
+  constructor(private movieService: MovieService, private store: Store<MovieState>) {}
 
   ngOnInit() {
-    this.store.pipe(select('movieLists')).subscribe(movieLists => {
-      if (movieLists) {
-        this.displayMode = movieLists.displayMode;
-      }
+    this.store.pipe(select(selectors.getDisplayMode)).subscribe((displayMode: DisplayMode) => {
+      this.displayMode = displayMode;
     });
   }
 

@@ -4,7 +4,7 @@ import { StoreModule } from '@ngrx/store';
 import { reducer } from '../state/movie.reducer';
 
 @NgModule({
-  imports: [CommonModule, StoreModule.forFeature('movieLists', reducer)],
+  imports: [CommonModule, StoreModule.forFeature('movies', reducer)],
   declarations: []
 })
 export class CoreModule {}

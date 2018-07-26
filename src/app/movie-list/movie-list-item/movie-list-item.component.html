@@ -15,10 +15,10 @@
       <mat-tab label="Movies">
         <div>
           <mat-button-toggle-group [value]='displayMode' (change)='onDisplayModeChanged($event)'>
-            <mat-button-toggle value="grid">
+            <mat-button-toggle [value]="displayModes.Grid">
               <mat-icon>grid_on</mat-icon>
             </mat-button-toggle>
-            <mat-button-toggle value="list">
+            <mat-button-toggle [value]="displayModes.List">
               <mat-icon>list</mat-icon>
             </mat-button-toggle>
           </mat-button-toggle-group>

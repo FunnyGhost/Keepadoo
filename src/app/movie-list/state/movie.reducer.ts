@@ -1,8 +1,15 @@
-export function reducer(state, action) {
+import { DisplayMode } from '../core/models/enums';
+import { MovieState } from './movie-state';
+
+const initialState: MovieState = {
+  displayMode: DisplayMode.List,
+  currentList: null,
+  moviesInCurrentList: []
+};
+
+export function reducer(state: MovieState = initialState, action): MovieState {
   switch (action.type) {
     case 'CHANGE_LIST_MODE':
-      console.log('previous state: ', state);
-      console.log('payload:', action.payload);
       return {
         ...state,
         displayMode: action.payload
