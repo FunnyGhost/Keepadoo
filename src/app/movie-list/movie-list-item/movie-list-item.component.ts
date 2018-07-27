@@ -1,7 +1,8 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { tap } from '../../../../node_modules/rxjs/operators';
 import { DisplayMode } from '../core/models/enums';
 import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
@@ -17,33 +18,30 @@ import { MovieState } from '../state/movie.state';
   styleUrls: ['./movie-list-item.component.scss']
 })
 export class MovieListItemComponent implements OnInit {
-  private _movieList: MovieList;
-
-  public displayMode: DisplayMode;
-  public displayModes = DisplayMode;
-
-  @Input()
-  get movieList(): MovieList {
-    return this._movieList;
-  }
-  set movieList(value: MovieList) {
-    this._movieList = value;
-    this.getMoviesInList();
-  }
   @Output() deleteList = new EventEmitter<string>();
 
-  movies$: Observable<Movie[]>;
+  public displayMode$: Observable<DisplayMode>;
+  public displayModes = DisplayMode;
+  public movies$: Observable<Movie[]>;
+  public currentMovieList: MovieList;
 
   constructor(private movieService: MovieService, private store: Store<MovieState>) {}
 
   ngOnInit() {
-    this.store.pipe(select(selectors.getDisplayMode)).subscribe((displayMode: DisplayMode) => {
-      this.displayMode = displayMode;
-    });
+    this.store
+      .pipe(
+        select(selectors.getCurrentList),
+        tap((movieList: MovieList) => {
+          this.currentMovieList = movieList;
+          this.getMoviesInList(movieList.key);
+        })
+      )
+      .subscribe();
+    this.displayMode$ = this.store.pipe(select(selectors.getDisplayMode));
   }
 
   onDeleteList(): void {
-    this.deleteList.emit(this.movieList.key);
+    this.deleteList.emit(this.currentMovieList.key);
   }
 
   onDisplayModeChanged(change: MatButtonToggleChange): void {
@@ -51,14 +49,14 @@ export class MovieListItemComponent implements OnInit {
   }
 
   deleteMovie(movieKey: string): void {
-    this.movieService.deleteMovieFromList(this.movieList.key, movieKey);
+    this.movieService.deleteMovieFromList(this.currentMovieList.key, movieKey);
   }
 
   onAddMovieToList(selectedMovie: MovieSearchResult) {
-    this.movieService.addMovieToList(this.movieList.key, selectedMovie);
+    this.movieService.addMovieToList(this.currentMovieList.key, selectedMovie);
   }
 
-  private getMoviesInList(): void {
-    this.movies$ = this.movieService.getMoviesInList(this.movieList.key);
+  private getMoviesInList(listId: string): void {
+    this.movies$ = this.movieService.getMoviesInList(listId);
   }
 }

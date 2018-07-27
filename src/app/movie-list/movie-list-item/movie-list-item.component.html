@@ -4,7 +4,7 @@
   </button>
   <mat-card-header>
     <mat-card-title>
-      <h2>{{movieList.name}}</h2>
+      <h2>{{currentMovieList.name}}</h2>
     </mat-card-title>
     <mat-card-subtitle>
       Movies in list: {{ movies.length }}
@@ -14,7 +14,7 @@
     <mat-tab-group>
       <mat-tab label="Movies">
         <div>
-          <mat-button-toggle-group [value]='displayMode' (change)='onDisplayModeChanged($event)'>
+          <mat-button-toggle-group [value]='displayMode$ | async' (change)='onDisplayModeChanged($event)'>
             <mat-button-toggle [value]="displayModes.Grid">
               <mat-icon>grid_on</mat-icon>
             </mat-button-toggle>
