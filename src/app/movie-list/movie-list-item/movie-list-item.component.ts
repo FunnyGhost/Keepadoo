@@ -7,8 +7,9 @@ import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
 import { MovieSearchResult } from '../core/models/movie-search-result';
 import { MovieService } from '../core/movie.service';
-import * as selectors from '../state/movie-state';
-import { MovieState } from '../state/movie-state';
+import * as actions from '../state/movie.action';
+import * as selectors from '../state/movie.state';
+import { MovieState } from '../state/movie.state';
 
 @Component({
   selector: 'kpd-movie-list-item',
@@ -46,10 +47,7 @@ export class MovieListItemComponent implements OnInit {
   }
 
   onDisplayModeChanged(change: MatButtonToggleChange): void {
-    this.store.dispatch({
-      type: 'CHANGE_LIST_MODE',
-      payload: change.value
-    });
+    this.store.dispatch(new actions.ChangeListDisplayMode(change.value));
   }
 
   deleteMovie(movieKey: string): void {
