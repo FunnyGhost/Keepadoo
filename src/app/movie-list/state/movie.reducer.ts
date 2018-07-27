@@ -1,14 +1,12 @@
 import { DisplayMode } from '../core/models/enums';
 import { Movie } from '../core/models/movie';
-import { MovieList } from '../core/models/movie-list';
 import { MovieActions, MovieActionTypes } from './movie.action';
 import { MovieState } from './movie.state';
 
 const initialState: MovieState = {
   displayMode: DisplayMode.List,
   currentList: null,
-  moviesInCurrentList: [],
-  movieLists: []
+  moviesInCurrentList: []
 };
 
 export function reducer(state: MovieState = initialState, action: MovieActions): MovieState {
@@ -18,20 +16,10 @@ export function reducer(state: MovieState = initialState, action: MovieActions):
         ...state,
         displayMode: action.payload
       };
-    case MovieActionTypes.AddMovieList:
-      return {
-        ...state,
-        movieLists: [...state.movieLists, action.payload]
-      };
     case MovieActionTypes.AddMovieToCurrentList:
       return {
         ...state,
         moviesInCurrentList: [...state.moviesInCurrentList, action.payload]
-      };
-    case MovieActionTypes.DeleteCurrentMovieList:
-      return {
-        ...state,
-        movieLists: state.movieLists.filter((list: MovieList) => list.key !== state.currentList.key)
       };
     case MovieActionTypes.RemoveMovieFromCurrentList:
       return {
@@ -41,12 +29,9 @@ export function reducer(state: MovieState = initialState, action: MovieActions):
         )
       };
     case MovieActionTypes.SelectMovieList:
-      const selectedMovieList = state.movieLists.find(
-        (list: MovieList) => list.key !== action.payload
-      );
       return {
         ...state,
-        currentList: selectedMovieList
+        currentList: action.payload
       };
     default:
       return state;

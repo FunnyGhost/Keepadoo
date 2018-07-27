@@ -1,9 +1,12 @@
 import { Action } from '@ngrx/store';
 import { User } from '../core/models/user';
+import { MovieList } from '../movie-list/core/models/movie-list';
 
 export enum UserActionTypes {
   SetCurrentUser = '[User] Set current user',
-  ClearCurrentUser = '[User] Clear current user'
+  ClearCurrentUser = '[User] Clear current user',
+  SetMovieLists = '[User] Set movie lists',
+  ClearMovieLists = '[User] Clear movie lists'
 }
 
 export class SetCurrentUser implements Action {
@@ -16,4 +19,14 @@ export class ClearCurrentUser implements Action {
   readonly type = UserActionTypes.ClearCurrentUser;
 }
 
-export type UserActions = SetCurrentUser | ClearCurrentUser;
+export class SetMovieLists implements Action {
+  readonly type = UserActionTypes.SetMovieLists;
+
+  constructor(public payload: MovieList[]) {}
+}
+
+export class ClearMovieLists implements Action {
+  readonly type = UserActionTypes.ClearMovieLists;
+}
+
+export type UserActions = SetCurrentUser | ClearCurrentUser | SetMovieLists | ClearMovieLists;

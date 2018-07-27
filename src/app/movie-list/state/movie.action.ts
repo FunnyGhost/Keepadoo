@@ -27,7 +27,7 @@ export class AddMovieList implements Action {
 export class SelectMovieList implements Action {
   readonly type = MovieActionTypes.SelectMovieList;
 
-  constructor(public payload: string) {}
+  constructor(public payload: MovieList) {}
 }
 
 export class DeleteCurrentMovieList implements Action {

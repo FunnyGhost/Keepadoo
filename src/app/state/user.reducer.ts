@@ -2,7 +2,8 @@ import { UserState } from './state';
 import { UserActions, UserActionTypes } from './user.action';
 
 const initialState: UserState = {
-  currentUser: null
+  currentUser: null,
+  movieLists: []
 };
 
 export function reducer(state: UserState = initialState, action: UserActions): UserState {
@@ -16,6 +17,16 @@ export function reducer(state: UserState = initialState, action: UserActions): U
       return {
         ...state,
         currentUser: null
+      };
+    case UserActionTypes.SetMovieLists:
+      return {
+        ...state,
+        movieLists: action.payload
+      };
+    case UserActionTypes.ClearMovieLists:
+      return {
+        ...state,
+        movieLists: []
       };
     default:
       return state;
