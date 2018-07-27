@@ -9,9 +9,11 @@ export interface State {
 export interface UserState {
   currentUser: User;
   movieLists: MovieList[];
+  error: string;
 }
 
 const getUserFeatureState = createFeatureSelector<UserState>('users');
 
 export const getCurrentUser = createSelector(getUserFeatureState, state => state.currentUser);
 export const getMovieLists = createSelector(getUserFeatureState, state => state.movieLists);
+export const getError = createSelector(getUserFeatureState, state => state.error);
