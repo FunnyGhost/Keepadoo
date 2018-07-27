@@ -1,7 +1,7 @@
 <mat-sidenav-container class="sidenav-container mat-typography">
     <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
         [mode]="(isHandset$ | async) ? 'push' : 'side'" [opened]="!(isHandset$ | async)">
-        <kpd-sidenav [isAuthenticated]="isLoggedIn$ | async"></kpd-sidenav>
+        <kpd-sidenav></kpd-sidenav>
     </mat-sidenav>
     <mat-sidenav-content class="app-sidenav-content">
         <mat-toolbar color="primary">
@@ -15,7 +15,7 @@
                 <a [routerLink]="['movie-lists']" class='link movies-lists-link' routerLinkActive='active'>Movie lists</a>
                 <!-- <a [routerLink]="['tv-show-lists ']" class='link tv-shows-lists-link '>Tv show lists</a> -->
                 <a (click)="logout()" class="link logout-button" *ngIf="(isLoggedIn$ | async)">Logout</a>
-                <a (click)="login()" class="link login-button" *ngIf="!(isLoggedIn$ | async)" >Login</a>
+                <a (click)="login()" class="link login-button" *ngIf="!(isLoggedIn$ | async)">Login</a>
             </mat-toolbar-row>
         </mat-toolbar>
         <div class="wrapper">
