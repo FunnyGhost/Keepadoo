@@ -20,4 +20,32 @@ export class UserEffect {
       )
     )
   );
+
+  @Effect()
+  addMovieList$ = this.actions$.pipe(
+    ofType(userActions.UserActionTypes.AddMovieList),
+    mergeMap((action: userActions.AddMovieList) =>
+      this.movieListsService.addMovieList(action.payload.name).pipe(
+        map((movieLists: MovieList[]) => new userActions.AddMovieListSuccess()),
+        catchError(err => of(new userActions.LoadFailed(err)))
+      )
+    )
+  );
+
+  @Effect()
+  addMovieListSuccess$ = this.actions$.pipe(
+    ofType(userActions.UserActionTypes.AddMovieListSuccess),
+    map(() => new userActions.LoadMovieLists())
+  );
+
+  @Effect()
+  deleteMovieList$ = this.actions$.pipe(
+    ofType(userActions.UserActionTypes.DeleteMovieList),
+    mergeMap((action: userActions.DeleteMovieList) =>
+      this.movieListsService.deleteMovieList(action.payload).pipe(
+        map((movieListKey: string) => new userActions.DeleteMovieListSuccess(movieListKey)),
+        catchError(err => of(new userActions.DeleteMovieListFailed(err)))
+      )
+    )
+  );
 }

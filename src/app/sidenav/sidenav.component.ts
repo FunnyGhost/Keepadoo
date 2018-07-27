@@ -22,7 +22,6 @@ export class SidenavComponent implements OnInit {
     this.setupRouteListening();
 
     this.movieLists$ = this.userStore.pipe(select(selectors.getMovieLists)).pipe(
-      tap((data: MovieList[]) => console.log('movie lists', data)),
       filter(() => this.showMovieLists),
       tap((data: MovieList[]) => {
         if (data.length > 0) {

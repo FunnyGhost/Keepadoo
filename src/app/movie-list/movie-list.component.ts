@@ -8,8 +8,8 @@ import { ConfirmDeleteComponent } from '../shared/modals/confirm-delete/confirm-
 import { NewListComponent } from '../shared/modals/new-list/new-list.component';
 import * as userSelectors from '../state/state';
 import { UserState } from '../state/state';
+import * as userActions from '../state/user.action';
 import { MovieList } from './core/models/movie-list';
-import { MovieListsService } from './core/movie-lists.service';
 import * as movieActions from './state/movie.action';
 import * as movieSelectors from './state/movie.state';
 import { MovieState } from './state/movie.state';
@@ -23,7 +23,6 @@ export class MovieListComponent implements OnInit {
   movieList$: Observable<MovieList>;
 
   constructor(
-    private movieListsService: MovieListsService,
     private userStore: Store<UserState>,
     private movieStore: Store<MovieState>,
     private modalService: ModalService,
@@ -44,7 +43,9 @@ export class MovieListComponent implements OnInit {
               return movieLists.find((movieList: MovieList) => movieList.key === listId);
             }),
             tap((movieList: MovieList) => {
-              this.movieStore.dispatch(new movieActions.SelectMovieList(movieList));
+              if (movieList) {
+                this.movieStore.dispatch(new movieActions.SelectMovieList(movieList));
+              }
             })
           );
         })
@@ -55,7 +56,8 @@ export class MovieListComponent implements OnInit {
   addList() {
     this.modalService.openModal(NewListComponent).subscribe(result => {
       if (result) {
-        this.movieListsService.addMovieList(result);
+        const movieListToAdd: MovieList = { key: null, name: result };
+        this.userStore.dispatch(new userActions.AddMovieList(movieListToAdd));
       }
     });
   }
@@ -63,7 +65,7 @@ export class MovieListComponent implements OnInit {
   deleteList(listId: string): void {
     this.modalService.openModal(ConfirmDeleteComponent).subscribe(result => {
       if (result) {
-        this.movieListsService.deleteMovieList(listId);
+        this.userStore.dispatch(new userActions.DeleteMovieList(listId));
       }
     });
   }

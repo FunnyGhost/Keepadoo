@@ -32,8 +32,12 @@ export class MovieListItemComponent implements OnInit {
       .pipe(
         select(selectors.getCurrentList),
         tap((movieList: MovieList) => {
-          this.currentMovieList = movieList;
-          this.getMoviesInList(movieList.key);
+          if (movieList) {
+            this.currentMovieList = movieList;
+            this.getMoviesInList(movieList.key);
+          } else {
+            this.currentMovieList = null;
+          }
         })
       )
       .subscribe();

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { User } from '../../core/models/user';
 import { UserService } from '../../core/user.service';
@@ -26,31 +26,27 @@ export class MovieListsService {
       }),
       map(changes => {
         return changes.map(data => ({ key: data.payload.key, ...data.payload.val() } as MovieList));
+      }),
+      take(1)
+    );
+  }
+
+  public addMovieList(name: string): Observable<void> {
+    return this.userMoviesList.pipe(
+      switchMap((data: AngularFireList<{}>) => {
+        return from(data.push({ name }));
       })
     );
   }
 
-  public addMovieList(name: string): void {
-    this.userMoviesList
-      .pipe(
-        tap((data: AngularFireList<{}>) => {
-          data.push({ name });
-        }),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  public deleteMovieList(key: string): void {
-    this.userMoviesList
-      .pipe(
-        tap((data: AngularFireList<{}>) => {
-          data.remove(key);
-          this.db.list(`movies`).remove(key);
-        }),
-        take(1)
-      )
-      .subscribe();
+  public deleteMovieList(key: string): Observable<string> {
+    return this.userMoviesList.pipe(
+      switchMap((data: AngularFireList<{}>) => {
+        data.remove(key);
+        return from(this.db.list(`movies`).remove(key));
+      }),
+      map(() => key)
+    );
   }
 
   private setupMovieListSubscription() {
