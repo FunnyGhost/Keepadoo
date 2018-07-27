@@ -19,7 +19,7 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         ...state,
         currentUser: null
       };
-    case UserActionTypes.SetMovieLists:
+    case UserActionTypes.LoadMovieListsSuccess:
       return {
         ...state,
         movieLists: action.payload,

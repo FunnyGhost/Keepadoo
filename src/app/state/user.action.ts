@@ -7,7 +7,7 @@ export enum UserActionTypes {
   ClearCurrentUser = '[User] Clear current user',
   LoadMovieLists = '[User] Load movie lists',
   LoadFailed = '[User] Load failed',
-  SetMovieLists = '[User] Set movie lists',
+  LoadMovieListsSuccess = '[User] Set movie lists',
   ClearMovieLists = '[User] Clear movie lists'
 }
 
@@ -31,8 +31,8 @@ export class LoadFailed implements Action {
   constructor(public payload: string) {}
 }
 
-export class SetMovieLists implements Action {
-  readonly type = UserActionTypes.SetMovieLists;
+export class LoadMovieListsSuccess implements Action {
+  readonly type = UserActionTypes.LoadMovieListsSuccess;
 
   constructor(public payload: MovieList[]) {}
 }
@@ -46,5 +46,5 @@ export type UserActions =
   | ClearCurrentUser
   | LoadMovieLists
   | LoadFailed
-  | SetMovieLists
+  | LoadMovieListsSuccess
   | ClearMovieLists;

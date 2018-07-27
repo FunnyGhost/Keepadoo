@@ -15,7 +15,7 @@ export class UserEffect {
     ofType(userActions.UserActionTypes.LoadMovieLists),
     mergeMap((action: userActions.LoadMovieLists) =>
       this.movieListsService.getMovieLists().pipe(
-        map((movieLists: MovieList[]) => new userActions.SetMovieLists(movieLists)),
+        map((movieLists: MovieList[]) => new userActions.LoadMovieListsSuccess(movieLists)),
         catchError(err => of(new userActions.LoadFailed(err)))
       )
     )
