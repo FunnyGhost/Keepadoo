@@ -12,6 +12,7 @@ export interface MovieState {
   displayMode: DisplayMode;
   currentList: MovieList;
   moviesInCurrentList: Movie[];
+  error: string;
 }
 
 // Selectors
@@ -19,6 +20,7 @@ const getMovieFeatureState = createFeatureSelector<MovieState>('movies');
 
 export const getDisplayMode = createSelector(getMovieFeatureState, state => state.displayMode);
 export const getCurrentList = createSelector(getMovieFeatureState, state => state.currentList);
+export const getError = createSelector(getMovieFeatureState, state => state.error);
 export const getMoviesInCurrentList = createSelector(
   getMovieFeatureState,
   state => state.moviesInCurrentList

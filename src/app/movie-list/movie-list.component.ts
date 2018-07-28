@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, take, tap } from 'rxjs/operators';
 import { ModalService } from '../core/modal.service';
 import { ConfirmDeleteComponent } from '../shared/modals/confirm-delete/confirm-delete.component';
 import { NewListComponent } from '../shared/modals/new-list/new-list.component';
@@ -39,6 +39,7 @@ export class MovieListComponent implements OnInit {
         }),
         switchMap((listId: string) => {
           return this.userStore.pipe(select(userSelectors.getMovieLists)).pipe(
+            take(1),
             map((movieLists: MovieList[]) => {
               return movieLists.find((movieList: MovieList) => movieList.key === listId);
             }),
