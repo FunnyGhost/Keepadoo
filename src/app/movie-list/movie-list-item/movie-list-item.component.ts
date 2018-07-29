@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -13,7 +13,8 @@ import { MovieState } from '../state/movie.state';
 @Component({
   selector: 'kpd-movie-list-item',
   templateUrl: './movie-list-item.component.html',
-  styleUrls: ['./movie-list-item.component.scss']
+  styleUrls: ['./movie-list-item.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MovieListItemComponent implements OnInit {
   @Output() deleteList = new EventEmitter<string>();

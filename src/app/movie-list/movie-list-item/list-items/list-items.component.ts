@@ -1,6 +1,7 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import {
   AfterViewInit,
+  ChangeDetectionStrategy,
   Component,
   EventEmitter,
   Input,
@@ -14,7 +15,8 @@ import { Movie } from '../../core/models/movie';
 @Component({
   selector: 'kpd-list-items',
   templateUrl: './list-items.component.html',
-  styleUrls: ['./list-items.component.scss']
+  styleUrls: ['./list-items.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class ListItemsComponent implements OnInit, AfterViewInit {
   private _movies: Movie[];
@@ -54,8 +56,8 @@ export class ListItemsComponent implements OnInit, AfterViewInit {
   }
 
   applyFilter(filterValue: string) {
-    filterValue = filterValue.trim(); // Remove whitespace
-    filterValue = filterValue.toLowerCase(); // MatTableDataSource defaults to lowercase matches
+    filterValue = filterValue.trim();
+    filterValue = filterValue.toLowerCase();
     this.dataSource.filter = filterValue;
   }
 

@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
@@ -17,7 +17,8 @@ import { MovieState } from './state/movie.state';
 @Component({
   selector: 'kpd-movie-list',
   templateUrl: './movie-list.component.html',
-  styleUrls: ['./movie-list.component.scss']
+  styleUrls: ['./movie-list.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MovieListComponent implements OnInit {
   movieList$: Observable<MovieList>;
