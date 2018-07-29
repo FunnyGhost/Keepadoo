@@ -1,4 +1,4 @@
-import { Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { FormControl } from '@angular/forms';
 import { MatAutocompleteSelectedEvent } from '@angular/material';
 import { Observable, of } from 'rxjs';
@@ -9,13 +9,13 @@ import { MovieSearchResult } from '../../core/models/movie-search-result';
 @Component({
   selector: 'kpd-movie-search',
   templateUrl: './movie-search.component.html',
-  styleUrls: ['./movie-search.component.scss']
+  styleUrls: ['./movie-search.component.scss'],
+  changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MovieSearchComponent implements OnInit {
   @Output() addMovieToList = new EventEmitter<MovieSearchResult>();
 
   movieResults$: Observable<MovieSearchResult[]>;
-
   movieSearchInputControl = new FormControl();
 
   constructor(private tmdbService: TMDBService) {}

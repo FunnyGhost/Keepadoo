@@ -1,10 +1,14 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { StoreModule } from '@ngrx/store';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { EffectsModule } from '../../../node_modules/@ngrx/effects';
 import { environment } from '../../environments/environment';
+import { UserEffect } from '../state/user.effect';
+import { reducer } from '../state/user.reducer';
 
 @NgModule({
   imports: [
@@ -12,7 +16,11 @@ import { environment } from '../../environments/environment';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFireDatabaseModule
+    AngularFireDatabaseModule,
+    StoreModule.forRoot({}),
+    StoreModule.forFeature('users', reducer),
+    EffectsModule.forRoot([]),
+    EffectsModule.forFeature([UserEffect])
   ],
   declarations: []
 })

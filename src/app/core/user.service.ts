@@ -1,19 +1,36 @@
 import { Injectable } from '@angular/core';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { select, Store } from '@ngrx/store';
+import { Observable } from 'rxjs';
+import { tap } from '../../../node_modules/rxjs/operators';
+import * as selectors from '../state/state';
+import { UserState } from '../state/state';
+import * as actions from '../state/user.action';
 import { User } from './models/user';
 
 @Injectable({
   providedIn: 'root'
 })
 export class UserService {
-  private _userProfile$ = new BehaviorSubject<User>(null);
-  get userProfile$(): Observable<User> {
-    return this._userProfile$.asObservable();
+  public userProfile$: Observable<User>;
+
+  constructor(private store: Store<UserState>) {
+    this.userProfile$ = store.pipe(
+      select(selectors.getCurrentUser),
+      tap((user: User) => {
+        if (user) {
+          store.dispatch(new actions.LoadMovieLists());
+        } else {
+          store.dispatch(new actions.ClearMovieLists());
+        }
+      })
+    );
   }
 
-  constructor() {}
-
   updateUser(user: User): void {
-    this._userProfile$.next(user);
+    this.store.dispatch(new actions.SetCurrentUser(user));
+  }
+
+  clearUser(): void {
+    this.store.dispatch(new actions.ClearCurrentUser());
   }
 }

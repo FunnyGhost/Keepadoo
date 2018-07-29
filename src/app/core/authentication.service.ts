@@ -61,6 +61,7 @@ export class AuthenticationService {
     localStorage.removeItem('expires_at');
 
     this._isAuthenticated$.next(false);
+    this.userService.clearUser();
 
     this.router.navigate(['/']);
   }
