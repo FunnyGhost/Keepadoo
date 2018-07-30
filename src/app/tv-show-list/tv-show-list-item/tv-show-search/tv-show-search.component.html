@@ -1,0 +1,16 @@
+<mat-form-field appearance='outline' class="search-tv-show">
+  <input type="text" placeholder="Add a tv-show..." matInput [formControl]='tvShowSearchInputControl' [matAutocomplete]='auto'>
+  <mat-icon matSuffix>tv</mat-icon>
+</mat-form-field>
+<mat-autocomplete #auto='matAutocomplete' (optionSelected)='searchResultSelected($event)' [displayWith]="searchDisplayFunction">
+  <mat-option *ngFor='let tvShow of tvShowResults$ | async' [value]='tvShow'>
+    <div fxLayout="row" fxLayoutAlign="start center">
+      <img src="https://image.tmdb.org/t/p/w92/{{tvShow.poster_path}}" class="search-poster">
+      <div class="search-details">
+        <h4>{{tvShow.name}}</h4>
+        <div>from {{tvShow.release_date | date}}</div>
+        <div>Rating: {{tvShow.vote_average}}</div>
+      </div>
+    </div>
+  </mat-option>
+</mat-autocomplete>

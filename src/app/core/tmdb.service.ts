@@ -4,7 +4,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
 import { MovieSearchResult } from '../movie-list/core/models/movie-search-result';
-import { TvShowSearchResult } from '../tv-show-lists/core/models/tv-show-search-result';
+import { TvShowSearchResult } from '../tv-show-list/core/models/tv-show-search-result';
 
 @Injectable({
   providedIn: 'root'

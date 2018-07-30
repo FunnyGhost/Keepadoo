@@ -6,6 +6,7 @@ import { filter, tap } from 'rxjs/operators';
 import { MovieList } from '../movie-list/core/models/movie-list';
 import * as selectors from '../state/state';
 import { UserState } from '../state/state';
+import { TvShowList } from '../tv-show-list/core/models/tv-show-list';
 
 @Component({
   selector: 'kpd-sidenav',
@@ -15,6 +16,8 @@ import { UserState } from '../state/state';
 export class SidenavComponent implements OnInit {
   showMovieLists: boolean;
   movieLists$: Observable<MovieList[]>;
+  showTvShowLists: boolean;
+  tvShowLists$: Observable<TvShowList[]>;
 
   constructor(private userStore: Store<UserState>, private router: Router) {}
 
@@ -29,6 +32,15 @@ export class SidenavComponent implements OnInit {
         }
       })
     );
+
+    this.tvShowLists$ = this.userStore.pipe(select(selectors.getTvShowLists)).pipe(
+      filter(() => this.showTvShowLists),
+      tap((data: TvShowList[]) => {
+        if (data.length > 0) {
+          this.router.navigate(['tv-show-lists', data[data.length - 1].key]);
+        }
+      })
+    );
   }
 
   private setupRouteListening() {
@@ -37,6 +49,10 @@ export class SidenavComponent implements OnInit {
       .subscribe((e: RouterEvent) => {
         if (e.url.includes('movie-lists')) {
           this.showMovieLists = true;
+          this.showTvShowLists = false;
+        } else if (e.url.includes('tv-show-lists')) {
+          this.showTvShowLists = true;
+          this.showMovieLists = false;
         }
       });
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { tap } from '../../../node_modules/rxjs/operators';
+import { tap } from 'rxjs/operators';
 import * as selectors from '../state/state';
 import { UserState } from '../state/state';
 import * as actions from '../state/user.action';
@@ -19,8 +19,10 @@ export class UserService {
       tap((user: User) => {
         if (user) {
           store.dispatch(new actions.LoadMovieLists());
+          store.dispatch(new actions.LoadTvShowLists());
         } else {
           store.dispatch(new actions.ClearMovieLists());
+          store.dispatch(new actions.ClearTvShowLists());
         }
       })
     );

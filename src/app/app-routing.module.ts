@@ -17,12 +17,12 @@ const routes: Routes = [
     path: 'movie-lists',
     canActivate: [AuthenticationGuard],
     loadChildren: 'src/app/movie-list/movie-list.module#MovieListModule'
+  },
+  {
+    path: 'tv-show-lists',
+    canActivate: [AuthenticationGuard],
+    loadChildren: 'src/app/tv-show-list/tv-show-list.module#TvShowListModule'
   }
-  // {
-  //   path: 'tv-show-lists',
-  //   canActivate: [AuthenticationGuard],
-  //   loadChildren: 'src/app/tv-show-lists/tv-show-lists.module#TvShowListsModule'
-  // }
 ];
 
 @NgModule({

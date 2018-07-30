@@ -3,3 +3,7 @@
   <a mat-list-item class="movie-list" *ngFor="let movieList of movieLists$ | async" [routerLink]="['/movie-lists', movieList.key]"
     routerLinkActive='mat-list-item-focus'>{{movieList.name}}</a>
 </mat-nav-list>
+<mat-nav-list *ngIf="showTvShowLists">
+  <a mat-list-item class="tv-show-list" *ngFor="let tvShowList of tvShowLists$ | async" [routerLink]="['/tv-show-lists', tvShowList.key]"
+    routerLinkActive='mat-list-item-focus'>{{tvShowList.name}}</a>
+</mat-nav-list>
