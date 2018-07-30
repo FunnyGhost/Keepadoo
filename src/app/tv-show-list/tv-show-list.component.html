@@ -1,0 +1,5 @@
+<button mat-button color="warn" (click)='addList()' class="add-button">
+  <mat-icon>add_box</mat-icon> Add new list
+</button>
+
+<kpd-tv-show-list-item *ngIf="tvShowList$ | async as tvShowList" (deleteList)="deleteList($event)"></kpd-tv-show-list-item>

@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { BehaviorSubject, Observable } from 'rxjs';
+import { BehaviorSubject, from, Observable } from 'rxjs';
 import { filter, map, switchMap, take, tap } from 'rxjs/operators';
 import { User } from '../../core/models/user';
 import { UserService } from '../../core/user.service';
@@ -28,31 +28,27 @@ export class TvShowListsService {
         return changes.map(
           data => ({ key: data.payload.key, ...data.payload.val() } as TvShowList)
         );
+      }),
+      take(1)
+    );
+  }
+
+  public addTvShowList(name: string): Observable<void> {
+    return this.userTvShowLists.pipe(
+      switchMap((data: AngularFireList<{}>) => {
+        return from(data.push({ name }));
       })
     );
   }
 
-  public addTvShowList(name: string): void {
-    this.userTvShowLists
-      .pipe(
-        tap((data: AngularFireList<{}>) => {
-          data.push({ name });
-        }),
-        take(1)
-      )
-      .subscribe();
-  }
-
-  public deleteTvShowList(key: string): void {
-    this.userTvShowLists
-      .pipe(
-        tap((data: AngularFireList<{}>) => {
-          data.remove(key);
-          this.db.list(`tv-shows`).remove(key);
-        }),
-        take(1)
-      )
-      .subscribe();
+  public deleteTvShowList(key: string): Observable<string> {
+    return this.userTvShowLists.pipe(
+      switchMap((data: AngularFireList<{}>) => {
+        data.remove(key);
+        return from(this.db.list(`tv-shows`).remove(key));
+      }),
+      map(() => key)
+    );
   }
 
   private setupTvShowListsSubscription() {

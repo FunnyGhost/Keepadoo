@@ -1,0 +1,35 @@
+<ng-container *ngIf='currentTvShowList$ | async as currentTvShowList'>
+  <mat-card *ngIf="tvShows$ | async as tvShows">
+    <button mat-button color="warn" (click)='onDeleteList(currentTvShowList.key)' class="delete-button">
+      <mat-icon>delete</mat-icon> Delete list
+    </button>
+    <mat-card-header>
+      <mat-card-title>
+        <h2>{{currentTvShowList.name}}</h2>
+      </mat-card-title>
+      <mat-card-subtitle>
+        Tv-shows in list: {{ tvShows.length }}
+      </mat-card-subtitle>
+    </mat-card-header>
+    <mat-card-content>
+      <mat-tab-group>
+        <mat-tab label="Tv-shows">
+          <div>
+            <mat-button-toggle-group [value]='displayMode$ | async' (change)='onDisplayModeChanged($event)'>
+              <mat-button-toggle [value]="displayModes.Grid">
+                <mat-icon>grid_on</mat-icon>
+              </mat-button-toggle>
+              <mat-button-toggle [value]="displayModes.List">
+                <mat-icon>list</mat-icon>
+              </mat-button-toggle>
+            </mat-button-toggle-group>
+          </div>
+          <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+            <kpd-tv-show-search (addTvShowToList)="onAddTvShowToList($event)" fxFlex.xl="30" fxFlex.lg="40" fxFlex.md="50" fxFlex.sm="70"></kpd-tv-show-search>
+          </div>
+          <kpd-list-items *ngIf='tvShows.length' [tvShows]="tvShows" (removeTvShowFromList)="deleteTvShow($event)"></kpd-list-items>
+        </mat-tab>
+      </mat-tab-group>
+    </mat-card-content>
+  </mat-card>
+</ng-container>

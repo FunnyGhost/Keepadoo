@@ -1,6 +1,7 @@
 import { Action } from '@ngrx/store';
 import { User } from '../core/models/user';
 import { MovieList } from '../movie-list/core/models/movie-list';
+import { TvShowList } from '../tv-show-list/core/models/tv-show-list';
 
 export enum UserActionTypes {
   SetCurrentUser = '[User] Set current user',
@@ -14,7 +15,16 @@ export enum UserActionTypes {
   AddMovieListSuccess = '[User] Add movie list success',
   DeleteMovieList = '[User] Delete movie list',
   DeleteMovieListFailed = '[User] Delete movie list failed',
-  DeleteMovieListSuccess = '[User] Delete movie list success'
+  DeleteMovieListSuccess = '[User] Delete movie list success',
+  LoadTvShowLists = '[User] Load tv-show lists',
+  LoadTvShowListsSuccess = '[User] Load tv-show lists success',
+  ClearTvShowLists = '[User] Clear tv-show lists',
+  AddTvShowList = '[User] Add tv-show list',
+  AddTvShowListFailed = '[User] Add tv-show list failed',
+  AddTvShowListSuccess = '[User] Add tv-show list success',
+  DeleteTvShowList = '[User] Delete tv-show list',
+  DeleteTvShowListFailed = '[User] Delete tv-show list failed',
+  DeleteTvShowListSuccess = '[User] Delete tv-show list success'
 }
 
 export class SetCurrentUser implements Action {
@@ -81,6 +91,54 @@ export class DeleteMovieListFailed implements Action {
   constructor(public payload: string) {}
 }
 
+export class LoadTvShowLists implements Action {
+  readonly type = UserActionTypes.LoadTvShowLists;
+}
+
+export class LoadTvShowListsSuccess implements Action {
+  readonly type = UserActionTypes.LoadTvShowListsSuccess;
+
+  constructor(public payload: TvShowList[]) {}
+}
+
+export class ClearTvShowLists implements Action {
+  readonly type = UserActionTypes.ClearTvShowLists;
+}
+
+export class AddTvShowList implements Action {
+  readonly type = UserActionTypes.AddTvShowList;
+
+  constructor(public payload: TvShowList) {}
+}
+
+export class AddTvShowListSuccess implements Action {
+  readonly type = UserActionTypes.AddTvShowListSuccess;
+}
+
+export class AddTvShowListFailed implements Action {
+  readonly type = UserActionTypes.AddTvShowListFailed;
+
+  constructor(public payload: string) {}
+}
+
+export class DeleteTvShowList implements Action {
+  readonly type = UserActionTypes.DeleteTvShowList;
+
+  constructor(public payload: string) {}
+}
+
+export class DeleteTvShowListSuccess implements Action {
+  readonly type = UserActionTypes.DeleteTvShowListSuccess;
+
+  constructor(public payload: string) {}
+}
+
+export class DeleteTvShowListFailed implements Action {
+  readonly type = UserActionTypes.DeleteTvShowListFailed;
+
+  constructor(public payload: string) {}
+}
+
 export type UserActions =
   | SetCurrentUser
   | ClearCurrentUser
@@ -93,4 +151,13 @@ export type UserActions =
   | AddMovieListFailed
   | DeleteMovieList
   | DeleteMovieListSuccess
-  | DeleteMovieListFailed;
+  | DeleteMovieListFailed
+  | LoadTvShowLists
+  | LoadTvShowListsSuccess
+  | ClearTvShowLists
+  | AddTvShowList
+  | AddTvShowListSuccess
+  | AddTvShowListFailed
+  | DeleteTvShowList
+  | DeleteTvShowListSuccess
+  | DeleteTvShowListFailed;

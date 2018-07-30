@@ -1,10 +1,12 @@
 import { MovieList } from '../movie-list/core/models/movie-list';
+import { TvShowList } from '../tv-show-list/core/models/tv-show-list';
 import { UserState } from './state';
 import { UserActions, UserActionTypes } from './user.action';
 
 const initialState: UserState = {
   currentUser: null,
   movieLists: [],
+  tvShowLists: [],
   error: ''
 };
 
@@ -52,6 +54,35 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         )
       };
     case UserActionTypes.DeleteMovieListFailed:
+      return {
+        ...state,
+        error: action.payload
+      };
+    case UserActionTypes.LoadTvShowListsSuccess:
+      return {
+        ...state,
+        tvShowLists: action.payload,
+        error: ''
+      };
+    case UserActionTypes.AddTvShowListSuccess:
+      return {
+        ...state,
+        error: ''
+      };
+    case UserActionTypes.AddTvShowListFailed:
+      return {
+        ...state,
+        error: action.payload
+      };
+    case UserActionTypes.DeleteTvShowListSuccess:
+      return {
+        ...state,
+        error: '',
+        tvShowLists: state.tvShowLists.filter(
+          (tvShowList: TvShowList) => tvShowList.key !== action.payload
+        )
+      };
+    case UserActionTypes.DeleteTvShowListFailed:
       return {
         ...state,
         error: action.payload
