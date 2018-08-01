@@ -46,7 +46,6 @@ export class AuthenticationService {
         this.setSession(authResult);
         this._isAuthenticated$.next(true);
         this.setupProfile();
-        this.router.navigateByUrl(this.redirectUrl);
       } else if (err) {
         this._isAuthenticated$.next(false);
         this.router.navigate(['/']);
