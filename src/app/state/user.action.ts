@@ -6,6 +6,8 @@ import { TvShowList } from '../tv-show-list/core/models/tv-show-list';
 export enum UserActionTypes {
   SetCurrentUser = '[User] Set current user',
   ClearCurrentUser = '[User] Clear current user',
+  SetUserMessage = '[User] Set message',
+  ClearUserMessage = '[User] Clear message',
   LoadMovieLists = '[User] Load movie lists',
   LoadFailed = '[User] Load failed',
   LoadMovieListsSuccess = '[User] Load movie lists success',
@@ -35,6 +37,16 @@ export class SetCurrentUser implements Action {
 
 export class ClearCurrentUser implements Action {
   readonly type = UserActionTypes.ClearCurrentUser;
+}
+
+export class SetUserMessage implements Action {
+  readonly type = UserActionTypes.SetUserMessage;
+
+  constructor(public payload: string) {}
+}
+
+export class ClearUserMessage implements Action {
+  readonly type = UserActionTypes.ClearUserMessage;
 }
 
 export class LoadMovieLists implements Action {
@@ -142,6 +154,8 @@ export class DeleteTvShowListFailed implements Action {
 export type UserActions =
   | SetCurrentUser
   | ClearCurrentUser
+  | SetUserMessage
+  | ClearUserMessage
   | LoadMovieLists
   | LoadFailed
   | LoadMovieListsSuccess

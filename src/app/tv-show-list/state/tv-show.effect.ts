@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import * as userActions from '../../state//user.action';
 import { TvShow } from '../core/models/tv-show';
 import { TvShowList } from '../core/models/tv-show-list';
 import { TvShowService } from '../core/tv-show.service';
@@ -49,9 +50,15 @@ export class TvShowEffect {
   );
 
   @Effect()
-  addTvShowSuccess$ = this.actions$.pipe(
+  addTvShowSuccessThenLoad$ = this.actions$.pipe(
     ofType(tvShowActions.TvShowActionTypes.AddTvShowToCurrentListSuccess),
     map(() => new tvShowActions.LoadTvShowsInList())
+  );
+
+  @Effect()
+  addTvShowSuccessThenSetMessage$ = this.actions$.pipe(
+    ofType(tvShowActions.TvShowActionTypes.AddTvShowToCurrentListSuccess),
+    map(() => new userActions.SetUserMessage('Tv show added to list'))
   );
 
   @Effect()
@@ -65,5 +72,11 @@ export class TvShowEffect {
           catchError(err => of(new tvShowActions.RemoveTvShowFromCurrentListFailed(err)))
         )
     )
+  );
+
+  @Effect()
+  removeTvShowSuccess$ = this.actions$.pipe(
+    ofType(tvShowActions.TvShowActionTypes.RemoveTvShowFromCurrentListSuccess),
+    map(() => new userActions.SetUserMessage('Tv show removed from list'))
   );
 }

@@ -3,6 +3,7 @@ import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
 import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import * as userActions from '../../state//user.action';
 import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
 import { MovieService } from '../core/movie.service';
@@ -49,9 +50,15 @@ export class MovieEffect {
   );
 
   @Effect()
-  addMovieSuccess$ = this.actions$.pipe(
+  addMovieSuccessThenLoad$ = this.actions$.pipe(
     ofType(movieActions.MovieActionTypes.AddMovieToCurrentListSuccess),
     map(() => new movieActions.LoadMoviesInList())
+  );
+
+  @Effect()
+  addMovieSuccessThenSetMessage$ = this.actions$.pipe(
+    ofType(movieActions.MovieActionTypes.AddMovieToCurrentListSuccess),
+    map(() => new userActions.SetUserMessage('Movie added to list'))
   );
 
   @Effect()
@@ -64,5 +71,11 @@ export class MovieEffect {
         catchError(err => of(new movieActions.RemoveMovieFromCurrentListFailed(err)))
       )
     )
+  );
+
+  @Effect()
+  removeMovieSuccess$ = this.actions$.pipe(
+    ofType(movieActions.MovieActionTypes.RemoveMovieFromCurrentListSuccess),
+    map(() => new userActions.SetUserMessage('Movie removed from list'))
   );
 }
