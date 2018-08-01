@@ -1,6 +1,7 @@
 import { CommonModule } from '@angular/common';
 import { HttpClientModule } from '@angular/common/http';
 import { NgModule } from '@angular/core';
+import { MatSnackBarModule } from '@angular/material';
 import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AngularFireModule } from 'angularfire2';
@@ -20,8 +21,10 @@ import { reducer } from '../state/user.reducer';
     StoreModule.forRoot({}),
     StoreModule.forFeature('users', reducer),
     EffectsModule.forRoot([]),
-    EffectsModule.forFeature([UserEffect])
+    EffectsModule.forFeature([UserEffect]),
+    MatSnackBarModule
   ],
+  providers: [],
   declarations: []
 })
 export class CoreModule {}

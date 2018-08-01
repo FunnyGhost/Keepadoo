@@ -4,6 +4,7 @@ import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from './core/authentication.service';
+import { SnackbarService } from './core/snackbar.service';
 
 @Component({
   selector: 'kpd-root',
@@ -19,7 +20,8 @@ export class AppComponent implements OnInit {
   constructor(
     private authService: AuthenticationService,
     private firebaseAuth: AngularFireAuth,
-    private breakpointObserver: BreakpointObserver
+    private breakpointObserver: BreakpointObserver,
+    private snackbarService: SnackbarService
   ) {}
 
   ngOnInit(): void {

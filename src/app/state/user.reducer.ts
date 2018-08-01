@@ -7,7 +7,8 @@ const initialState: UserState = {
   currentUser: null,
   movieLists: [],
   tvShowLists: [],
-  error: ''
+  error: '',
+  message: ''
 };
 
 export function reducer(state: UserState = initialState, action: UserActions): UserState {
@@ -21,7 +22,19 @@ export function reducer(state: UserState = initialState, action: UserActions): U
       return {
         ...state,
         currentUser: null,
-        movieLists: []
+        movieLists: [],
+        tvShowLists: [],
+        message: ''
+      };
+    case UserActionTypes.SetUserMessage:
+      return {
+        ...state,
+        message: action.payload
+      };
+    case UserActionTypes.ClearUserMessage:
+      return {
+        ...state,
+        message: ''
       };
     case UserActionTypes.LoadMovieListsSuccess:
       return {
@@ -38,7 +51,8 @@ export function reducer(state: UserState = initialState, action: UserActions): U
     case UserActionTypes.AddMovieListSuccess:
       return {
         ...state,
-        error: ''
+        error: '',
+        message: 'Movie list added'
       };
     case UserActionTypes.AddMovieListFailed:
       return {
@@ -51,7 +65,8 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         error: '',
         movieLists: state.movieLists.filter(
           (movieList: MovieList) => movieList.key !== action.payload
-        )
+        ),
+        message: 'Movie list deleted'
       };
     case UserActionTypes.DeleteMovieListFailed:
       return {
@@ -67,7 +82,8 @@ export function reducer(state: UserState = initialState, action: UserActions): U
     case UserActionTypes.AddTvShowListSuccess:
       return {
         ...state,
-        error: ''
+        error: '',
+        message: 'Tv-show list added'
       };
     case UserActionTypes.AddTvShowListFailed:
       return {
@@ -80,7 +96,8 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         error: '',
         tvShowLists: state.tvShowLists.filter(
           (tvShowList: TvShowList) => tvShowList.key !== action.payload
-        )
+        ),
+        message: 'Movie list deleted'
       };
     case UserActionTypes.DeleteTvShowListFailed:
       return {
