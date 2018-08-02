@@ -2,7 +2,7 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { map, switchMap, take, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ModalService } from '../core/modal.service';
 import { ConfirmDeleteComponent } from '../shared/modals/confirm-delete/confirm-delete.component';
 import { NewListComponent } from '../shared/modals/new-list/new-list.component';
@@ -40,7 +40,6 @@ export class TvShowListComponent implements OnInit {
         }),
         switchMap((listId: string) => {
           return this.userStore.pipe(select(userSelectors.getTvShowLists)).pipe(
-            take(1),
             map((tvShowLists: TvShowList[]) => {
               return tvShowLists.find((tvShowList: TvShowList) => tvShowList.key === listId);
             }),
