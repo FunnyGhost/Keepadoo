@@ -6,6 +6,7 @@ import { UserActions, UserActionTypes } from './user.action';
 const initialState: UserState = {
   currentUser: null,
   movieLists: [],
+  discoverMovies: [],
   tvShowLists: [],
   error: '',
   message: ''
@@ -40,6 +41,12 @@ export function reducer(state: UserState = initialState, action: UserActions): U
       return {
         ...state,
         movieLists: action.payload,
+        error: ''
+      };
+    case UserActionTypes.LoadDiscoverMoviesSuccess:
+      return {
+        ...state,
+        discoverMovies: action.payload,
         error: ''
       };
     case UserActionTypes.LoadFailed:

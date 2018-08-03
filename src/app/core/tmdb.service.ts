@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { MovieDiscover } from '../movie-list/core/models/movie-discover';
 import { MovieSearchResult } from '../movie-list/core/models/movie-search-result';
 import { TvShowSearchResult } from '../tv-show-list/core/models/tv-show-search-result';
 
@@ -24,6 +25,27 @@ export class TMDBService {
       }),
       map((data: MovieSearchResult[]) => {
         return data.filter((movieSearchResult: MovieSearchResult) => {
+          return !!movieSearchResult.poster_path;
+        });
+      })
+    );
+  }
+
+  discoverMovies(): Observable<MovieDiscover[]> {
+    const urlToUse = `${environment.tmdbConfig.apiUrl}/discover/movie`;
+    const params = new HttpParams()
+      .set('api_key', environment.tmdbConfig.api_key)
+      .set('include_adult', 'false')
+      .set('include_video', 'false')
+      .set('page', '1')
+      .set('sort_by', 'popularity.desc');
+
+    return this.httpClient.get(urlToUse, { params }).pipe(
+      map((response: any) => {
+        return response.results as MovieDiscover[];
+      }),
+      map((data: MovieDiscover[]) => {
+        return data.filter((movieSearchResult: MovieDiscover) => {
           return !!movieSearchResult.poster_path;
         });
       })

@@ -9,9 +9,10 @@ import { CallbackComponent } from './callback/callback.component';
 import { CoreModule } from './core/core.module';
 import { SharedModule } from './shared/shared.module';
 import { SidenavComponent } from './sidenav/sidenav.component';
+import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, CallbackComponent, SidenavComponent],
+  declarations: [AppComponent, CallbackComponent, SidenavComponent, HomeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,

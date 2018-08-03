@@ -1,7 +1,9 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap } from 'rxjs/operators';
+import { catchError, map, mergeMap, mergeMapTo } from 'rxjs/operators';
+import { TMDBService } from '../core/tmdb.service';
+import { MovieDiscover } from '../movie-list/core/models/movie-discover';
 import { MovieList } from '../movie-list/core/models/movie-list';
 import { MovieListsService } from '../movie-list/core/movie-lists.service';
 import { TvShowList } from '../tv-show-list/core/models/tv-show-list';
@@ -13,6 +15,7 @@ export class UserEffect {
   constructor(
     private actions$: Actions,
     private movieListsService: MovieListsService,
+    private tmdbService: TMDBService,
     private tvShowListsService: TvShowListsService
   ) {}
 
@@ -22,6 +25,20 @@ export class UserEffect {
     mergeMap((action: userActions.LoadMovieLists) =>
       this.movieListsService.getMovieLists().pipe(
         map((movieLists: MovieList[]) => new userActions.LoadMovieListsSuccess(movieLists)),
+        catchError(err => of(new userActions.LoadFailed(err)))
+      )
+    )
+  );
+
+  @Effect()
+  loadDiscoverMovies$ = this.actions$.pipe(
+    ofType(userActions.UserActionTypes.LoadDiscoverMovies),
+    mergeMapTo(
+      this.tmdbService.discoverMovies().pipe(
+        map(
+          (discoveredMovies: MovieDiscover[]) =>
+            new userActions.LoadDiscoverMoviesSuccess(discoveredMovies)
+        ),
         catchError(err => of(new userActions.LoadFailed(err)))
       )
     )

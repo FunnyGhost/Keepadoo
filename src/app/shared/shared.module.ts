@@ -49,6 +49,7 @@ import { NewListComponent } from './modals/new-list/new-list.component';
   declarations: [NewListComponent, ConfirmDeleteComponent],
   entryComponents: [NewListComponent, ConfirmDeleteComponent],
   exports: [
+    CommonModule,
     LayoutModule,
     FormsModule,
     ReactiveFormsModule,
