@@ -1,0 +1,7 @@
+<h2 class="mat-display-1">Popular movies</h2>
+
+<div class="discoverable-movies">
+  <span *ngFor='let movie of (discoverableMovies$ | async)' class='discoverable-movie'>
+    <img src="https://image.tmdb.org/t/p/w300/{{movie.poster_path}}" alt="" class="thumbnail">
+  </span>
+</div>

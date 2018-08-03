@@ -1,0 +1,14 @@
+h2.mat-display-1 {
+  padding: 8px;
+  margin-bottom: 8px;
+}
+
+.discoverable-movies {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+
+  .discoverable-movie {
+    padding: 8px;
+  }
+}
