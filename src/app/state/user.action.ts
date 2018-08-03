@@ -1,5 +1,6 @@
 import { Action } from '@ngrx/store';
 import { User } from '../core/models/user';
+import { MovieDiscover } from '../movie-list/core/models/movie-discover';
 import { MovieList } from '../movie-list/core/models/movie-list';
 import { TvShowList } from '../tv-show-list/core/models/tv-show-list';
 
@@ -11,6 +12,8 @@ export enum UserActionTypes {
   LoadMovieLists = '[User] Load movie lists',
   LoadFailed = '[User] Load failed',
   LoadMovieListsSuccess = '[User] Load movie lists success',
+  LoadDiscoverMovies = '[User] Load movies for discovering',
+  LoadDiscoverMoviesSuccess = '[User] Load movies for discovering success',
   ClearMovieLists = '[User] Clear movie lists',
   AddMovieList = '[User] Add movie list',
   AddMovieListFailed = '[User] Add movie list failed',
@@ -63,6 +66,16 @@ export class LoadMovieListsSuccess implements Action {
   readonly type = UserActionTypes.LoadMovieListsSuccess;
 
   constructor(public payload: MovieList[]) {}
+}
+
+export class LoadDiscoverMovies implements Action {
+  readonly type = UserActionTypes.LoadDiscoverMovies;
+}
+
+export class LoadDiscoverMoviesSuccess implements Action {
+  readonly type = UserActionTypes.LoadDiscoverMoviesSuccess;
+
+  constructor(public payload: MovieDiscover[]) {}
 }
 
 export class ClearMovieLists implements Action {
@@ -159,6 +172,8 @@ export type UserActions =
   | LoadMovieLists
   | LoadFailed
   | LoadMovieListsSuccess
+  | LoadDiscoverMovies
+  | LoadDiscoverMoviesSuccess
   | ClearMovieLists
   | AddMovieList
   | AddMovieListSuccess
