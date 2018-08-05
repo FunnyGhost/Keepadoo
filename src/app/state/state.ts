@@ -13,6 +13,7 @@ export interface UserState {
   movieLists: MovieList[];
   discoverMovies: MovieDiscover[];
   tvShowLists: TvShowList[];
+  isLoading: boolean;
   message: string;
   error: string;
 }
@@ -23,5 +24,6 @@ export const getCurrentUser = createSelector(getUserFeatureState, state => state
 export const getMovieLists = createSelector(getUserFeatureState, state => state.movieLists);
 export const getDiscoverMovies = createSelector(getUserFeatureState, state => state.discoverMovies);
 export const getTvShowLists = createSelector(getUserFeatureState, state => state.tvShowLists);
+export const getIsLoading = createSelector(getUserFeatureState, state => state.isLoading);
 export const getMessage = createSelector(getUserFeatureState, state => state.message);
 export const getError = createSelector(getUserFeatureState, state => state.error);
