@@ -9,6 +9,8 @@ export enum UserActionTypes {
   ClearCurrentUser = '[User] Clear current user',
   SetUserMessage = '[User] Set message',
   ClearUserMessage = '[User] Clear message',
+  SetIsLoading = '[User] Is loading',
+  SetIsNotLoading = '[User] Is not loading',
   LoadMovieLists = '[User] Load movie lists',
   LoadFailed = '[User] Load failed',
   LoadMovieListsSuccess = '[User] Load movie lists success',
@@ -40,6 +42,14 @@ export class SetCurrentUser implements Action {
 
 export class ClearCurrentUser implements Action {
   readonly type = UserActionTypes.ClearCurrentUser;
+}
+
+export class SetIsLoading implements Action {
+  readonly type = UserActionTypes.SetIsLoading;
+}
+
+export class SetIsNotLoading implements Action {
+  readonly type = UserActionTypes.SetIsNotLoading;
 }
 
 export class SetUserMessage implements Action {
@@ -167,6 +177,8 @@ export class DeleteTvShowListFailed implements Action {
 export type UserActions =
   | SetCurrentUser
   | ClearCurrentUser
+  | SetIsLoading
+  | SetIsNotLoading
   | SetUserMessage
   | ClearUserMessage
   | LoadMovieLists

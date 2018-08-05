@@ -1,10 +1,12 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import { AuthenticationService } from './core/authentication.service';
-import { SnackbarService } from './core/snackbar.service';
+import * as selectors from './state/state';
+import { UserState } from './state/state';
 
 @Component({
   selector: 'kpd-root',
@@ -13,6 +15,7 @@ import { SnackbarService } from './core/snackbar.service';
 })
 export class AppComponent implements OnInit {
   isLoggedIn$: Observable<boolean>;
+  isLoading$: Observable<boolean>;
   isHandset$: Observable<boolean> = this.breakpointObserver
     .observe(Breakpoints.Handset)
     .pipe(map(result => result.matches));
@@ -21,7 +24,7 @@ export class AppComponent implements OnInit {
     private authService: AuthenticationService,
     private firebaseAuth: AngularFireAuth,
     private breakpointObserver: BreakpointObserver,
-    private snackbarService: SnackbarService
+    private userStore: Store<UserState>
   ) {}
 
   ngOnInit(): void {
@@ -29,6 +32,7 @@ export class AppComponent implements OnInit {
     this.authService.scheduleRenewal();
     this.firebaseAuth.auth.signInAnonymously();
     this.isLoggedIn$ = this.authService.isAuthenticated$;
+    this.isLoading$ = this.userStore.pipe(select(selectors.getIsLoading));
   }
 
   login(): void {

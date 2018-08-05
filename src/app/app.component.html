@@ -19,6 +19,9 @@
             </mat-toolbar-row>
         </mat-toolbar>
         <div class="wrapper">
+            <div class="loading" *ngIf='isLoading$ | async'>
+                <mat-spinner color='warn'></mat-spinner>
+            </div>
             <router-outlet></router-outlet>
         </div>
     </mat-sidenav-content>

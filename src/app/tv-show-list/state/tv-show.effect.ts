@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, map, mapTo, mergeMap, withLatestFrom } from 'rxjs/operators';
 import * as userActions from '../../state//user.action';
 import { TvShow } from '../core/models/tv-show';
 import { TvShowList } from '../core/models/tv-show-list';
@@ -35,6 +35,18 @@ export class TvShowEffect {
   selectTvShowList$ = this.actions$.pipe(
     ofType(tvShowActions.TvShowActionTypes.SelectTvShowList),
     map(() => new tvShowActions.LoadTvShowsInList())
+  );
+
+  @Effect()
+  loadTvShowsInListSetLoading$ = this.actions$.pipe(
+    ofType(tvShowActions.TvShowActionTypes.LoadTvShowsInList),
+    mapTo(new userActions.SetIsLoading())
+  );
+
+  @Effect()
+  loadTvShowsInListSuccess$ = this.actions$.pipe(
+    ofType(tvShowActions.TvShowActionTypes.LoadTvShowsInListSuccess),
+    mapTo(new userActions.SetIsNotLoading())
   );
 
   @Effect()
