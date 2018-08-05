@@ -10,7 +10,7 @@ import { MovieList } from './models/movie-list';
   providedIn: 'root'
 })
 export class MovieListsService {
-  private userMoviesList = new BehaviorSubject<AngularFireList<{}>>(null);
+  private userMoviesList = new BehaviorSubject<AngularFireList<{}>>({} as AngularFireList<{}>);
 
   constructor(private db: AngularFireDatabase, private userService: UserService) {
     this.setupMovieListSubscription();

@@ -9,7 +9,7 @@ export interface State {
 }
 
 export interface UserState {
-  currentUser: User;
+  currentUser: User | null;
   movieLists: MovieList[];
   discoverMovies: MovieDiscover[];
   tvShowLists: TvShowList[];

@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from
 import { MatButtonToggleChange } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { DisplayMode } from '../core/models/enums';
 import { TvShow } from '../core/models/tv-show';
 import { TvShowList } from '../core/models/tv-show-list';
@@ -27,7 +28,10 @@ export class TvShowListItemComponent implements OnInit {
   constructor(private store: Store<TvShowState>) {}
 
   ngOnInit() {
-    this.currentTvShowList$ = this.store.pipe(select(selectors.getCurrentList));
+    this.currentTvShowList$ = this.store.pipe(
+      select(selectors.getCurrentList),
+      filter(Boolean)
+    );
     this.tvShows$ = this.store.pipe(select(selectors.getTvShowsInCurrentList));
     this.displayMode$ = this.store.pipe(select(selectors.getDisplayMode));
   }

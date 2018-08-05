@@ -10,7 +10,7 @@ import { TvShowList } from './models/tv-show-list';
   providedIn: 'root'
 })
 export class TvShowListsService {
-  private userTvShowLists = new BehaviorSubject<AngularFireList<{}>>(null);
+  private userTvShowLists = new BehaviorSubject<AngularFireList<{}>>({} as AngularFireList<{}>);
 
   constructor(private db: AngularFireDatabase, private userService: UserService) {
     this.setupTvShowListsSubscription();
