@@ -2,6 +2,7 @@ import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from
 import { MatButtonToggleChange } from '@angular/material';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { filter } from '../../../../node_modules/rxjs/operators';
 import { DisplayMode } from '../core/models/enums';
 import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
@@ -27,7 +28,10 @@ export class MovieListItemComponent implements OnInit {
   constructor(private store: Store<MovieState>) {}
 
   ngOnInit() {
-    this.currentMovieList$ = this.store.pipe(select(selectors.getCurrentList));
+    this.currentMovieList$ = this.store.pipe(
+      select(selectors.getCurrentList),
+      filter(Boolean)
+    );
     this.movies$ = this.store.pipe(select(selectors.getMoviesInCurrentList));
     this.displayMode$ = this.store.pipe(select(selectors.getDisplayMode));
   }

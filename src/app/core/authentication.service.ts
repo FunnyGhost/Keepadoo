@@ -1,9 +1,10 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
 import * as auth0 from 'auth0-js';
-import { BehaviorSubject, Observable, of, timer } from 'rxjs';
+import { BehaviorSubject, Observable, of, Subscription, timer } from 'rxjs';
 import { mergeMap } from 'rxjs/operators';
 import { environment } from '../../environments/environment';
+import { User } from './models/user';
 import { UserService } from './user.service';
 
 (window as any).global = window;
@@ -14,7 +15,7 @@ import { UserService } from './user.service';
 export class AuthenticationService {
   auth0 = new auth0.WebAuth(environment.auth0Config);
 
-  private refreshSubscription: any;
+  private refreshSubscription: Subscription;
 
   private _isAuthenticated$ = new BehaviorSubject<boolean>(this.isAuthenticated());
   get isAuthenticated$(): Observable<boolean> {
@@ -22,7 +23,7 @@ export class AuthenticationService {
   }
 
   get redirectUrl(): string {
-    return localStorage.getItem('redirect_url');
+    return localStorage.getItem('redirect_url') || '';
   }
   set redirectUrl(value: string) {
     localStorage.setItem('redirect_url', value);
@@ -71,7 +72,7 @@ export class AuthenticationService {
     }
     this.unscheduleRenewal();
 
-    const expiresAt = JSON.parse(window.localStorage.getItem('expires_at'));
+    const expiresAt = JSON.parse(window.localStorage.getItem('expires_at') || '');
 
     const expiresIn$ = of(expiresAt).pipe(
       mergeMap(expiration => {
@@ -88,7 +89,7 @@ export class AuthenticationService {
   }
 
   private renewToken(): void {
-    this.auth0.checkSession({}, (err, result) => {
+    this.auth0.checkSession({}, (err: any, result: any) => {
       if (err) {
         console.error(err);
       } else {
@@ -109,9 +110,20 @@ export class AuthenticationService {
       return;
     }
 
-    this.auth0.client.userInfo(accessToken, (err, profile) => {
+    this.auth0.client.userInfo(accessToken, (err: any, profile: auth0.Auth0UserProfile) => {
       if (profile) {
-        this.userService.updateUser(profile);
+        const user: User = {
+          email_verified: profile.email_verified || false,
+          email: profile.email || '',
+          updated_at: new Date(profile.updated_at),
+          name: profile.name,
+          picture: profile.picture,
+          user_id: profile.user_id,
+          nickname: profile.nickname,
+          created_at: new Date(profile.created_at),
+          sub: profile.sub
+        };
+        this.userService.updateUser(user);
       }
     });
   }
@@ -121,7 +133,7 @@ export class AuthenticationService {
     return new Date().getTime() < expiresAt;
   }
 
-  private setSession(authResult): void {
+  private setSession(authResult: any): void {
     const expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime());
     localStorage.setItem('access_token', authResult.accessToken);
     localStorage.setItem('id_token', authResult.idToken);

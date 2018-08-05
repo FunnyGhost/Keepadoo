@@ -10,7 +10,7 @@ export interface State extends State {
 
 export interface TvShowState {
   displayMode: DisplayMode;
-  currentList: TvShowList;
+  currentList: TvShowList | null;
   tvShowsInCurrentList: TvShow[];
   error: string;
 }

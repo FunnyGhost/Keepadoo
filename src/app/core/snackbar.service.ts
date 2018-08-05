@@ -21,7 +21,7 @@ export class SnackbarService {
         filter(Boolean),
         switchMap((message: string) => {
           return this.snackBar
-            .open(message, null, {
+            .open(message, undefined, {
               duration: 2000
             })
             .afterDismissed();

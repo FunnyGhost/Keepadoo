@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, map, mapTo, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, map, mapTo, mergeMap, withLatestFrom } from 'rxjs/operators';
 import * as userActions from '../../state//user.action';
 import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
@@ -22,7 +22,12 @@ export class MovieEffect {
   @Effect()
   loadMoviesInList$ = this.actions$.pipe(
     ofType(movieActions.MovieActionTypes.LoadMoviesInList),
-    withLatestFrom(this.movieStore.pipe(select(movieSelectors.getCurrentList))),
+    withLatestFrom(
+      this.movieStore.pipe(
+        select(movieSelectors.getCurrentList),
+        filter(Boolean)
+      )
+    ),
     mergeMap(([action, currentMovieList]) =>
       this.movieService.getMoviesInList(currentMovieList.key).pipe(
         map((movies: Movie[]) => new movieActions.LoadMoviesInListSuccess(movies)),

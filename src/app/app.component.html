@@ -18,6 +18,11 @@
                 <a (click)="login()" class="link login-button" *ngIf="!(isLoggedIn$ | async)">Login</a>
             </mat-toolbar-row>
         </mat-toolbar>
+        <div class="error-container" *ngIf='hasError$ | async'>
+            <div class="error">
+                Some error occured. Please refresh the page or try again later.
+            </div>
+        </div>
         <div class="wrapper">
             <div class="loading" *ngIf='isLoading$ | async'>
                 <mat-spinner color='warn'></mat-spinner>

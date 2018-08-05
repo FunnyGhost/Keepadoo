@@ -46,11 +46,12 @@ export class SidenavComponent implements OnInit {
   private setupRouteListening() {
     this.router.events
       .pipe(filter(e => e instanceof RouterEvent && e instanceof NavigationEnd))
-      .subscribe((e: RouterEvent) => {
-        if (e.url.includes('movie-lists')) {
+      .subscribe((e: any) => {
+        const currentEvent = e as RouterEvent;
+        if (currentEvent.url.includes('movie-lists')) {
           this.showMovieLists = true;
           this.showTvShowLists = false;
-        } else if (e.url.includes('tv-show-lists')) {
+        } else if (currentEvent.url.includes('tv-show-lists')) {
           this.showTvShowLists = true;
           this.showMovieLists = false;
         }

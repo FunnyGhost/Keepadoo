@@ -10,7 +10,7 @@ export interface State extends State {
 
 export interface MovieState {
   displayMode: DisplayMode;
-  currentList: MovieList;
+  currentList: MovieList | null;
   moviesInCurrentList: Movie[];
   error: string;
 }

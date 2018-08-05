@@ -20,6 +20,21 @@
   }
 }
 
+.error-container {
+  margin: 1rem;
+
+  .error {
+    text-align: center;
+    margin: auto;
+    padding: 16px;
+    background: rgba(255, 0, 0, 0.6);
+    color: rgb(58, 2, 2);
+    font-size: 1rem;
+    font-weight: 500;
+    border-radius: 3px;
+  }
+}
+
 .wrapper {
   margin: 1rem;
   position: relative;
