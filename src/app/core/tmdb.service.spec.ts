@@ -1,7 +1,7 @@
 import { HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { MovieDiscover } from '../movie-list/core/models/movie-discover';
 import { MovieSearchResult } from '../movie-list/core/models/movie-search-result';
 import { TvShowSearchResult } from '../tv-show-list/core/models/tv-show-search-result';
