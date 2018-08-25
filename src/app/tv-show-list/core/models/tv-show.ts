@@ -1,5 +1,6 @@
 export interface TvShow {
   key: string;
+  listId: string;
   poster_path?: string;
   popularity?: number;
   id?: number;
