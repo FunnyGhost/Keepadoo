@@ -18,7 +18,8 @@ import { TvShowState } from '../state/tv-show.state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class TvShowListItemComponent implements OnInit {
-  @Output() deleteList = new EventEmitter<string>();
+  @Output()
+  deleteList = new EventEmitter<string>();
 
   public displayMode$: Observable<DisplayMode>;
   public displayModes = DisplayMode;
@@ -45,7 +46,7 @@ export class TvShowListItemComponent implements OnInit {
   }
 
   deleteTvShow(tvShowKey: string): void {
-    this.store.dispatch(new actions.RemoveTvShowFromCurrentList({ key: tvShowKey }));
+    this.store.dispatch(new actions.RemoveTvShowFromCurrentList({ key: tvShowKey } as TvShow));
   }
 
   onAddTvShowToList(selectedTvShow: TvShowSearchResult) {
