@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase } from 'angularfire2/database';
+import { AngularFirestore } from 'angularfire2/firestore';
 import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { TvShow } from './models/tv-show';
@@ -9,25 +9,36 @@ import { TvShowSearchResult } from './models/tv-show-search-result';
   providedIn: 'root'
 })
 export class TvShowService {
-  constructor(private db: AngularFireDatabase) {}
+  constructor(private db: AngularFirestore) {}
 
   public getTvShowsInList(listId: string): Observable<TvShow[]> {
     return this.db
-      .list(`tv-shows/${listId}`)
+      .collection(`tv-shows`, ref => {
+        let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+        query = query.where('listId', '==', listId);
+        return query;
+      })
       .snapshotChanges()
       .pipe(
         map(changes => {
-          return changes.map(data => ({ key: data.payload.key, ...data.payload.val() } as TvShow));
+          return changes.map(
+            data => ({ key: data.payload.doc.id, ...data.payload.doc.data() } as TvShow)
+          );
         }),
         take(1)
       );
   }
 
-  public addTvShowToList(listId: string, tvShow: TvShowSearchResult): Observable<void> {
-    return from(this.db.list(`tv-shows/${listId}`).push(tvShow));
+  public addTvShowToList(listId: string, tvShow: TvShowSearchResult): Observable<any> {
+    return from(this.db.collection(`tv-shows`).add({ ...tvShow, listId }));
   }
 
   public deleteTvShowFromList(listId: string, tvShowKey: string): Observable<void> {
-    return from(this.db.list(`tv-shows/${listId}`).remove(tvShowKey));
+    return from(
+      this.db
+        .collection(`tv-shows`)
+        .doc(tvShowKey)
+        .delete()
+    );
   }
 }
