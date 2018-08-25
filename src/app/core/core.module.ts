@@ -6,7 +6,7 @@ import { EffectsModule } from '@ngrx/effects';
 import { StoreModule } from '@ngrx/store';
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireAuthModule } from 'angularfire2/auth';
-import { AngularFireDatabaseModule } from 'angularfire2/database';
+import { AngularFirestoreModule } from 'angularfire2/firestore';
 import { environment } from '../../environments/environment';
 import { UserEffect } from '../state/user.effect';
 import { reducer } from '../state/user.reducer';
@@ -17,7 +17,7 @@ import { reducer } from '../state/user.reducer';
     HttpClientModule,
     AngularFireModule.initializeApp(environment.firebaseConfig),
     AngularFireAuthModule,
-    AngularFireDatabaseModule,
+    AngularFirestoreModule,
     StoreModule.forRoot({}),
     StoreModule.forFeature('users', reducer),
     EffectsModule.forRoot([]),
