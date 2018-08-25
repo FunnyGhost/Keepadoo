@@ -18,7 +18,8 @@ import { MovieState } from '../state/movie.state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MovieListItemComponent implements OnInit {
-  @Output() deleteList = new EventEmitter<string>();
+  @Output()
+  deleteList = new EventEmitter<string>();
 
   public displayMode$: Observable<DisplayMode>;
   public displayModes = DisplayMode;
@@ -45,7 +46,7 @@ export class MovieListItemComponent implements OnInit {
   }
 
   deleteMovie(movieKey: string): void {
-    this.store.dispatch(new actions.RemoveMovieFromCurrentList({ key: movieKey }));
+    this.store.dispatch(new actions.RemoveMovieFromCurrentList({ key: movieKey } as Movie));
   }
 
   onAddMovieToList(selectedMovie: MovieSearchResult) {
