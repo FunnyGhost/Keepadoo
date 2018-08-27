@@ -14,8 +14,8 @@
             <mat-toolbar-row class='secondary-toolbar'>
                 <a [routerLink]="['movie-lists']" class='link movies-lists-link' routerLinkActive='active'>Movie lists</a>
                 <a [routerLink]="['tv-show-lists']" class='link tv-shows-lists-link' routerLinkActive='active'>Tv show lists</a>
+                <a [routerLink]="['/user/login']" class="link login-button" *ngIf="!(isLoggedIn$ | async)" routerLinkActive='active'>Login</a>
                 <a (click)="logout()" class="link logout-button" *ngIf="(isLoggedIn$ | async)">Logout</a>
-                <a (click)="login()" class="link login-button" *ngIf="!(isLoggedIn$ | async)">Login</a>
             </mat-toolbar-row>
         </mat-toolbar>
         <div class="error-container" *ngIf='hasError$ | async'>
