@@ -25,7 +25,7 @@ export class LoginComponent implements OnInit {
       return;
     }
 
-    this.authService.register(this.loginForm.value as AuthenticationModel).then(
+    this.authService.login(this.loginForm.value as AuthenticationModel).then(
       res => {
         this.errorMessage = '';
       },
