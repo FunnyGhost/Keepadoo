@@ -2,8 +2,7 @@ import { Component, OnDestroy, OnInit } from '@angular/core';
 import { Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Subscription } from '../../../node_modules/rxjs';
-import { filter, tap } from '../../../node_modules/rxjs/operators';
-import { AuthenticationService } from '../core/authentication.service';
+import { filter, switchMapTo, tap } from '../../../node_modules/rxjs/operators';
 import * as userSelectors from '../state/state';
 import { UserState } from '../state/state';
 
@@ -15,19 +14,17 @@ import { UserState } from '../state/state';
 export class CallbackComponent implements OnInit, OnDestroy {
   private userSubscription: Subscription;
 
-  constructor(
-    private authService: AuthenticationService,
-    private router: Router,
-    private userStore: Store<UserState>
-  ) {}
+  constructor(private router: Router, private userStore: Store<UserState>) {}
 
   ngOnInit() {
     this.userSubscription = this.userStore
       .pipe(
         select(userSelectors.getCurrentUser),
         filter(Boolean),
-        tap(() => {
-          this.router.navigateByUrl(this.authService.redirectUrl);
+        switchMapTo(this.userStore.select(userSelectors.getRedirectUrl)),
+        filter(Boolean),
+        tap((redirectUrl: string) => {
+          this.router.navigateByUrl(redirectUrl);
         })
       )
       .subscribe();
