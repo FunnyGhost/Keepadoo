@@ -1,9 +1,11 @@
 import { Injectable } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { from, Observable } from 'rxjs';
 import { filter, map, mapTo, take, tap } from 'rxjs/operators';
 import { User } from '../../core/models/user';
-import { UserService } from '../../core/user.service';
+import * as userSelectors from '../../state/state';
+import { UserState } from '../../state/state';
 import { MovieList } from './models/movie-list';
 
 @Injectable({
@@ -13,7 +15,7 @@ export class MovieListsService {
   private movieListsFirestoreCollection: AngularFirestoreCollection<{}>;
   private userId: string;
 
-  constructor(private db: AngularFirestore, private userService: UserService) {
+  constructor(private db: AngularFirestore, private userStore: Store<UserState>) {
     this.setupMovieListSubscription();
   }
 
@@ -55,13 +57,14 @@ export class MovieListsService {
   }
 
   private setupMovieListSubscription() {
-    this.userService.userProfile$
+    this.userStore
       .pipe(
+        select(userSelectors.getCurrentUser),
         filter((user: User) => {
-          return !!user && !!user.sub;
+          return !!user && !!user.userId;
         }),
         tap((user: User) => {
-          this.userId = user.sub;
+          this.userId = user.userId;
           this.movieListsFirestoreCollection = this.db.collection(`movies-lists`, ref => {
             let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
             query = query.where('userId', '==', this.userId);

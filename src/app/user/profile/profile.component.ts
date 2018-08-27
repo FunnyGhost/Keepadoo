@@ -1,7 +1,10 @@
 import { Component, OnInit } from '@angular/core';
+import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { filter } from 'rxjs/operators';
 import { User } from '../../core/models/user';
-import { UserService } from '../../core/user.service';
+import * as userSelectors from '../../state/state';
+import { UserState } from '../../state/state';
 
 @Component({
   selector: 'kpd-profile',
@@ -10,9 +13,12 @@ import { UserService } from '../../core/user.service';
 })
 export class ProfileComponent implements OnInit {
   currentUser$: Observable<User>;
-  constructor(private userService: UserService) {}
+  constructor(private userStore: Store<UserState>) {}
 
   ngOnInit() {
-    this.currentUser$ = this.userService.userProfile$;
+    this.currentUser$ = this.userStore.pipe(
+      select(userSelectors.getCurrentUser),
+      filter(Boolean)
+    );
   }
 }

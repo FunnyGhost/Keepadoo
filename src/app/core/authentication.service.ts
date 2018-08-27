@@ -1,13 +1,25 @@
 import { Injectable } from '@angular/core';
+import { Store } from '@ngrx/store';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
+import { User } from 'firebase/app';
 import { AuthenticationModel } from '../authentication.model';
+import { UserState } from '../state/state';
+import * as actions from '../state/user.action';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  constructor(private afAuth: AngularFireAuth) {}
+  constructor(private afAuth: AngularFireAuth, store: Store<UserState>) {
+    this.afAuth.authState.subscribe((user: User | null) => {
+      if (user) {
+        store.dispatch(new actions.SetCurrentUser({ userId: user.uid, email: user.email || '' }));
+      } else {
+        store.dispatch(new actions.ClearCurrentUser());
+      }
+    });
+  }
 
   public loginWithFacebook(): Promise<any> {
     return new Promise<any>((resolve, reject) => {
@@ -81,5 +93,9 @@ export class AuthenticationService {
           err => reject(err)
         );
     });
+  }
+
+  public logout(): void {
+    this.afAuth.auth.signOut();
   }
 }
