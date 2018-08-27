@@ -29,9 +29,9 @@ export class AppComponent implements OnInit {
 
   ngOnInit(): void {
     this.isLoggedIn$ = this.userStore
-      .pipe(select(selectors.getIsLoading))
+      .pipe(select(selectors.getCurrentUser))
       .pipe(map((user: User) => !!user));
-    this.isLoading$ = this.userStore.pipe(select(selectors.getIsLoading));
+    setTimeout(() => (this.isLoading$ = this.userStore.pipe(select(selectors.getIsLoading))));
     this.hasError$ = this.userStore.pipe(
       select(selectors.getError),
       filter(Boolean),
