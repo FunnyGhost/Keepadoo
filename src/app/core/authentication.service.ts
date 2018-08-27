@@ -1,4 +1,5 @@
 import { Injectable } from '@angular/core';
+import { Router } from '@angular/router';
 import { Store } from '@ngrx/store';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
@@ -11,12 +12,13 @@ import * as actions from '../state/user.action';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  constructor(private afAuth: AngularFireAuth, store: Store<UserState>) {
+  constructor(private afAuth: AngularFireAuth, store: Store<UserState>, router: Router) {
     this.afAuth.authState.subscribe((user: User | null) => {
       if (user) {
         store.dispatch(new actions.SetCurrentUser({ userId: user.uid, email: user.email || '' }));
       } else {
         store.dispatch(new actions.ClearCurrentUser());
+        router.navigateByUrl('/');
       }
     });
   }
