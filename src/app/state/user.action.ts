@@ -31,7 +31,8 @@ export enum UserActionTypes {
   AddTvShowListSuccess = '[User] Add tv-show list success',
   DeleteTvShowList = '[User] Delete tv-show list',
   DeleteTvShowListFailed = '[User] Delete tv-show list failed',
-  DeleteTvShowListSuccess = '[User] Delete tv-show list success'
+  DeleteTvShowListSuccess = '[User] Delete tv-show list success',
+  SetRedirectUrl = '[User] Set redirectUrl'
 }
 
 export class SetCurrentUser implements Action {
@@ -174,6 +175,12 @@ export class DeleteTvShowListFailed implements Action {
   constructor(public payload: string) {}
 }
 
+export class SetRedirectUrl implements Action {
+  readonly type = UserActionTypes.SetRedirectUrl;
+
+  constructor(public payload: string) {}
+}
+
 export type UserActions =
   | SetCurrentUser
   | ClearCurrentUser
@@ -201,4 +208,5 @@ export type UserActions =
   | AddTvShowListFailed
   | DeleteTvShowList
   | DeleteTvShowListSuccess
-  | DeleteTvShowListFailed;
+  | DeleteTvShowListFailed
+  | SetRedirectUrl;

@@ -15,6 +15,7 @@ export interface UserState {
   tvShowLists: TvShowList[];
   isLoading: boolean;
   message: string;
+  redirectUrl: string;
   error: string;
 }
 
@@ -26,4 +27,5 @@ export const getDiscoverMovies = createSelector(getUserFeatureState, state => st
 export const getTvShowLists = createSelector(getUserFeatureState, state => state.tvShowLists);
 export const getIsLoading = createSelector(getUserFeatureState, state => state.isLoading);
 export const getMessage = createSelector(getUserFeatureState, state => state.message);
+export const getRedirectUrl = createSelector(getUserFeatureState, state => state.redirectUrl);
 export const getError = createSelector(getUserFeatureState, state => state.error);

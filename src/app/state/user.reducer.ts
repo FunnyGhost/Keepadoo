@@ -10,6 +10,7 @@ const initialState: UserState = {
   tvShowLists: [],
   isLoading: false,
   error: '',
+  redirectUrl: '',
   message: ''
 };
 
@@ -26,7 +27,8 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         currentUser: null,
         movieLists: [],
         tvShowLists: [],
-        message: ''
+        message: '',
+        redirectUrl: ''
       };
     case UserActionTypes.SetIsLoading:
       return {
@@ -168,6 +170,11 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         ...state,
         error: action.payload,
         isLoading: false
+      };
+    case UserActionTypes.SetRedirectUrl:
+      return {
+        ...state,
+        redirectUrl: action.payload
       };
     default:
       return state;
