@@ -9,13 +9,12 @@ export enum UserActionTypes {
   ClearCurrentUser = '[User] Clear current user',
   SetUserMessage = '[User] Set message',
   ClearUserMessage = '[User] Clear message',
-  SetIsLoading = '[User] Is loading',
-  SetIsNotLoading = '[User] Is not loading',
   LoadMovieLists = '[User] Load movie lists',
-  LoadFailed = '[User] Load failed',
+  LoadMovieListsFailed = '[User] Load movie lists failed',
   LoadMovieListsSuccess = '[User] Load movie lists success',
   LoadDiscoverMovies = '[User] Load movies for discovering',
   LoadDiscoverMoviesSuccess = '[User] Load movies for discovering success',
+  LoadDiscoverMoviesFailed = '[User] Load movies for discovering failed',
   ClearMovieLists = '[User] Clear movie lists',
   AddMovieList = '[User] Add movie list',
   AddMovieListFailed = '[User] Add movie list failed',
@@ -25,6 +24,7 @@ export enum UserActionTypes {
   DeleteMovieListSuccess = '[User] Delete movie list success',
   LoadTvShowLists = '[User] Load tv-show lists',
   LoadTvShowListsSuccess = '[User] Load tv-show lists success',
+  LoadTvShowListsFailed = '[User] Load tv-show lists failed',
   ClearTvShowLists = '[User] Clear tv-show lists',
   AddTvShowList = '[User] Add tv-show list',
   AddTvShowListFailed = '[User] Add tv-show list failed',
@@ -45,14 +45,6 @@ export class ClearCurrentUser implements Action {
   readonly type = UserActionTypes.ClearCurrentUser;
 }
 
-export class SetIsLoading implements Action {
-  readonly type = UserActionTypes.SetIsLoading;
-}
-
-export class SetIsNotLoading implements Action {
-  readonly type = UserActionTypes.SetIsNotLoading;
-}
-
 export class SetUserMessage implements Action {
   readonly type = UserActionTypes.SetUserMessage;
 
@@ -68,7 +60,7 @@ export class LoadMovieLists implements Action {
 }
 
 export class LoadFailed implements Action {
-  readonly type = UserActionTypes.LoadFailed;
+  readonly type = UserActionTypes.LoadMovieListsFailed;
 
   constructor(public payload: string) {}
 }
@@ -184,8 +176,6 @@ export class SetRedirectUrl implements Action {
 export type UserActions =
   | SetCurrentUser
   | ClearCurrentUser
-  | SetIsLoading
-  | SetIsNotLoading
   | SetUserMessage
   | ClearUserMessage
   | LoadMovieLists

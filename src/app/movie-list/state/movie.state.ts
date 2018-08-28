@@ -12,6 +12,9 @@ export interface MovieState {
   displayMode: DisplayMode;
   currentList: MovieList | null;
   moviesInCurrentList: Movie[];
+  loadMoviesInListLoading: boolean;
+  addMovieLoading: boolean;
+  removeMovieLoading: boolean;
   error: string;
 }
 

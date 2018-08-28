@@ -7,6 +7,9 @@ const initialState: MovieState = {
   displayMode: DisplayMode.List,
   currentList: null,
   moviesInCurrentList: [],
+  loadMoviesInListLoading: false,
+  addMovieLoading: false,
+  removeMovieLoading: false,
   error: ''
 };
 
@@ -16,18 +19,39 @@ export function reducer(state: MovieState = initialState, action: MovieActions):
       return { ...state, displayMode: action.payload };
     case MovieActionTypes.SelectMovieList:
       return { ...state, currentList: action.payload };
+    case MovieActionTypes.LoadMoviesInList:
+      return { ...state, loadMoviesInListLoading: true, error: '' };
     case MovieActionTypes.LoadMoviesInListSuccess:
-      return { ...state, moviesInCurrentList: action.payload, error: '' };
+      return {
+        ...state,
+        moviesInCurrentList: action.payload,
+        error: '',
+        loadMoviesInListLoading: false
+      };
     case MovieActionTypes.LoadMoviesInListFailed:
-      return { ...state, moviesInCurrentList: [], error: action.payload };
+      return {
+        ...state,
+        moviesInCurrentList: [],
+        error: action.payload,
+        loadMoviesInListLoading: false
+      };
+    case MovieActionTypes.AddMovieToCurrentList:
+      return { ...state, error: '', addMovieLoading: true };
     case MovieActionTypes.AddMovieToCurrentListSuccess:
-      return { ...state, error: '' };
+      return { ...state, error: '', addMovieLoading: false };
     case MovieActionTypes.AddMovieToCurrentListFailed:
-      return { ...state, error: action.payload };
+      return { ...state, error: action.payload, addMovieLoading: false };
+    case MovieActionTypes.RemoveMovieFromCurrentList:
+      return {
+        ...state,
+        error: '',
+        removeMovieLoading: true
+      };
     case MovieActionTypes.RemoveMovieFromCurrentListSuccess:
       return {
         ...state,
         error: '',
+        removeMovieLoading: false,
         moviesInCurrentList: state.moviesInCurrentList.filter(
           (movie: Movie) => movie.key !== action.payload.key
         )
@@ -35,6 +59,7 @@ export function reducer(state: MovieState = initialState, action: MovieActions):
     case MovieActionTypes.RemoveMovieFromCurrentListFailed:
       return {
         ...state,
+        removeMovieLoading: false,
         error: action.payload
       };
 

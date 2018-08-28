@@ -6,9 +6,11 @@ import { UserActions, UserActionTypes } from './user.action';
 const initialState: UserState = {
   currentUser: null,
   movieLists: [],
+  movieListsLoading: false,
   discoverMovies: [],
+  discoverMoviesLoading: false,
   tvShowLists: [],
-  isLoading: false,
+  tvShowListsLoading: false,
   error: '',
   redirectUrl: '',
   message: ''
@@ -30,16 +32,6 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         message: '',
         redirectUrl: ''
       };
-    case UserActionTypes.SetIsLoading:
-      return {
-        ...state,
-        isLoading: true
-      };
-    case UserActionTypes.SetIsNotLoading:
-      return {
-        ...state,
-        isLoading: false
-      };
     case UserActionTypes.SetUserMessage:
       return {
         ...state,
@@ -53,56 +45,52 @@ export function reducer(state: UserState = initialState, action: UserActions): U
     case UserActionTypes.LoadMovieLists:
       return {
         ...state,
-        isLoading: true
+        movieListsLoading: true
       };
     case UserActionTypes.LoadMovieListsSuccess:
       return {
         ...state,
         movieLists: action.payload,
-        isLoading: false,
+        movieListsLoading: false,
         error: ''
       };
     case UserActionTypes.LoadDiscoverMovies:
       return {
         ...state,
-        isLoading: true
+        discoverMoviesLoading: true
       };
     case UserActionTypes.LoadDiscoverMoviesSuccess:
       return {
         ...state,
         discoverMovies: action.payload,
-        isLoading: false,
+        discoverMoviesLoading: false,
         error: ''
       };
-    case UserActionTypes.LoadFailed:
+    case UserActionTypes.LoadMovieListsFailed:
       return {
         ...state,
         movieLists: [],
-        isLoading: false,
+        discoverMoviesLoading: false,
         error: action.payload
       };
     case UserActionTypes.AddMovieList:
       return {
-        ...state,
-        isLoading: true
+        ...state
       };
     case UserActionTypes.AddMovieListSuccess:
       return {
         ...state,
         error: '',
-        message: 'Movie list added',
-        isLoading: false
+        message: 'Movie list added'
       };
     case UserActionTypes.AddMovieListFailed:
       return {
         ...state,
-        error: action.payload,
-        isLoading: false
+        error: action.payload
       };
     case UserActionTypes.DeleteMovieList:
       return {
-        ...state,
-        isLoading: true
+        ...state
       };
     case UserActionTypes.DeleteMovieListSuccess:
       return {
@@ -111,49 +99,41 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         movieLists: state.movieLists.filter(
           (movieList: MovieList) => movieList.key !== action.payload
         ),
-        isLoading: false,
         message: 'Movie list deleted'
       };
     case UserActionTypes.DeleteMovieListFailed:
       return {
         ...state,
-        error: action.payload,
-        isLoading: false
+        error: action.payload
       };
     case UserActionTypes.LoadTvShowLists:
       return {
-        ...state,
-        isLoading: true
+        ...state
       };
     case UserActionTypes.LoadTvShowListsSuccess:
       return {
         ...state,
         tvShowLists: action.payload,
-        isLoading: false,
         error: ''
       };
     case UserActionTypes.AddTvShowList:
       return {
-        ...state,
-        isLoading: true
+        ...state
       };
     case UserActionTypes.AddTvShowListSuccess:
       return {
         ...state,
         error: '',
-        message: 'Tv-show list added',
-        isLoading: false
+        message: 'Tv-show list added'
       };
     case UserActionTypes.AddTvShowListFailed:
       return {
         ...state,
-        error: action.payload,
-        isLoading: false
+        error: action.payload
       };
     case UserActionTypes.LoadMovieLists:
       return {
-        ...state,
-        isLoading: true
+        ...state
       };
     case UserActionTypes.DeleteTvShowListSuccess:
       return {
@@ -162,14 +142,12 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         tvShowLists: state.tvShowLists.filter(
           (tvShowList: TvShowList) => tvShowList.key !== action.payload
         ),
-        isLoading: false,
         message: 'Movie list deleted'
       };
     case UserActionTypes.DeleteTvShowListFailed:
       return {
         ...state,
-        error: action.payload,
-        isLoading: false
+        error: action.payload
       };
     case UserActionTypes.SetRedirectUrl:
       return {

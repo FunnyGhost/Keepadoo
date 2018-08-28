@@ -12,6 +12,9 @@ export interface TvShowState {
   displayMode: DisplayMode;
   currentList: TvShowList | null;
   tvShowsInCurrentList: TvShow[];
+  loadTvShowsInListLoading: boolean;
+  addTvShowLoading: boolean;
+  removeTvShowLoading: boolean;
   error: string;
 }
 
