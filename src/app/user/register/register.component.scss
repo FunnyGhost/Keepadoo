@@ -1,0 +1,44 @@
+.wrapper {
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: center;
+
+  mat-card {
+    width: 300px;
+
+    div.title {
+      font-size: 24px;
+      margin-bottom: 8px;
+    }
+
+    form {
+      display: flex;
+      flex-direction: column;
+
+      mat-form-field {
+        margin: 16px 0;
+      }
+
+      .error {
+        color: red;
+        margin: 8px 0;
+      }
+
+      button {
+        margin-top: 8px;
+      }
+
+      a.login-link {
+        text-decoration: none;
+        color: #b9b9b9;
+        font-size: 12px;
+        margin: 8px 0;
+
+        &:visited {
+          text-decoration: none;
+        }
+      }
+    }
+  }
+}

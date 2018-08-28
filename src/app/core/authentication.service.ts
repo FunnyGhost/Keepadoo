@@ -18,7 +18,7 @@ export class AuthenticationService {
         store.dispatch(new actions.SetCurrentUser({ userId: user.uid, email: user.email || '' }));
       } else {
         store.dispatch(new actions.ClearCurrentUser());
-        router.navigateByUrl('/');
+        // router.navigateByUrl('/');
       }
     });
   }
