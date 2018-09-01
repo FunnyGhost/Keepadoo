@@ -1,6 +1,6 @@
 <ng-container *ngIf='currentTvShowList$ | async as currentTvShowList'>
   <mat-card *ngIf="tvShows$ | async as tvShows">
-    <button mat-button color="warn" (click)='onDeleteList(currentTvShowList.key)' class="delete-button">
+    <button mat-button color="accent" (click)='onDeleteList(currentTvShowList.key)' class="delete-button">
       <mat-icon>delete</mat-icon> Delete list
     </button>
     <mat-card-header>
