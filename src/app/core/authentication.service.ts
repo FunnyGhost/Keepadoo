@@ -12,13 +12,21 @@ import * as actions from '../state/user.action';
   providedIn: 'root'
 })
 export class AuthenticationService {
+  private readonly publicUrls: string[] = ['/user/login', '/user/register', '/'];
+
   constructor(private afAuth: AngularFireAuth, store: Store<UserState>, router: Router) {
     this.afAuth.authState.subscribe((user: User | null) => {
+      const currentUrl = router.url;
       if (user) {
         store.dispatch(new actions.SetCurrentUser({ userId: user.uid, email: user.email || '' }));
+        if (this.publicUrls.includes(currentUrl)) {
+          router.navigateByUrl('/movie-lists');
+        }
       } else {
         store.dispatch(new actions.ClearCurrentUser());
-        // router.navigateByUrl('/');
+        if (!this.publicUrls.includes(currentUrl)) {
+          router.navigateByUrl('/');
+        }
       }
     });
   }
