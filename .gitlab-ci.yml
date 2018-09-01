@@ -15,15 +15,14 @@ build:
     - npm install
     - npm run build-prod
   artifacts:
-      paths:
-        - dist
-      expire_in: 1 hour
+    paths:
+      - dist
+    expire_in: 1 hour
 
 test:
   image: node:latest
   stage: test
   script:
-    - npm install
     - npm run lint
     - npm run test
 
