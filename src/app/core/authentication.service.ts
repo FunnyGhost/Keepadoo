@@ -77,7 +77,7 @@ export class AuthenticationService {
       );
     });
   }
-  public register(user: AuthenticationModel) {
+  public register(user: AuthenticationModel): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       firebase
         .auth()
@@ -91,7 +91,7 @@ export class AuthenticationService {
     });
   }
 
-  public login(user: AuthenticationModel) {
+  public login(user: AuthenticationModel): Promise<any> {
     return new Promise<any>((resolve, reject) => {
       firebase
         .auth()
