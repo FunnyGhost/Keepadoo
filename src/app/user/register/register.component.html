@@ -29,6 +29,10 @@
 
         <a [routerLink]="['/user/login']" class='login-link'>or login here</a>
 
+        <div class="form-error">
+          {{this.errorMessage}}
+        </div>
+
       </form>
     </mat-card-content>
   </mat-card>

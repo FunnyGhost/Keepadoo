@@ -19,6 +19,10 @@
 
         <a [routerLink]="['/user/register']" class='register-link'>or register here</a>
 
+        <div class="form-error">
+          {{this.errorMessage}}
+        </div>
+
       </form>
 
     </mat-card-content>
