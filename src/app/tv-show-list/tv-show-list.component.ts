@@ -60,7 +60,7 @@ export class TvShowListComponent implements OnInit {
   addList() {
     this.modalService.openModal(NewListComponent).subscribe(result => {
       if (result) {
-        const tvShowListToAdd: TvShowList = { key: '', name: result };
+        const tvShowListToAdd: TvShowList = { name: result } as TvShowList;
         this.userStore.dispatch(new userActions.AddTvShowList(tvShowListToAdd));
       }
     });

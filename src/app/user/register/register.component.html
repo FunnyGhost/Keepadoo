@@ -1,0 +1,39 @@
+<div class="wrapper">
+  <mat-card class="login-card">
+    <mat-card-content>
+      <div class="title">Register</div>
+      <form class="login-form" [formGroup]="registerForm" (ngSubmit)="register()">
+
+        <mat-form-field>
+          <input formControlName="email" matInput placeholder="batman@gotham.dc" name="email">
+          <mat-error *ngIf='registerForm.get("email")?.invalid && registerForm.get("email")?.touched'>Email invalid</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input formControlName="password" matInput placeholder="password" type="password" name="password">
+          <mat-error *ngIf='registerForm.get("password")?.invalid && registerForm.get("password")?.touched'>Password must
+            have at least 6 characters</mat-error>
+        </mat-form-field>
+
+        <mat-form-field>
+          <input formControlName="confirmPassword" matInput placeholder="confirm password" type="password" name="confirmPassword">
+          <mat-error *ngIf='registerForm.get("confirmPassword")?.invalid && registerForm.get("confirmPassword")?.touched'>Password
+            must have at least 6 characters</mat-error>
+        </mat-form-field>
+
+        <div class="error" *ngIf='registerForm.hasError("passwordMatch") && registerForm.get("password")?.touched && registerForm.get("confirmPassword")?.touched'>
+          Password don't match.
+        </div>
+
+        <button mat-raised-button color="primary" type='submit' [disabled]='registerForm.invalid'>Register</button>
+
+        <a [routerLink]="['/user/login']" class='login-link'>or login here</a>
+
+        <div class="form-error">
+          {{this.errorMessage}}
+        </div>
+
+      </form>
+    </mat-card-content>
+  </mat-card>
+</div>

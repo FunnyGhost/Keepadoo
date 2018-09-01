@@ -1,144 +1,111 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import * as auth0 from 'auth0-js';
-import { BehaviorSubject, Observable, of, Subscription, timer } from 'rxjs';
-import { mergeMap } from 'rxjs/operators';
-import { environment } from '../../environments/environment';
-import { User } from './models/user';
-import { UserService } from './user.service';
-
-(window as any).global = window;
+import { Store } from '@ngrx/store';
+import { AngularFireAuth } from 'angularfire2/auth';
+import * as firebase from 'firebase/app';
+import { User } from 'firebase/app';
+import { AuthenticationModel } from '../authentication.model';
+import { UserState } from '../state/state';
+import * as actions from '../state/user.action';
 
 @Injectable({
   providedIn: 'root'
 })
 export class AuthenticationService {
-  auth0 = new auth0.WebAuth(environment.auth0Config);
+  private readonly publicUrls: string[] = ['/user/login', '/user/register', '/'];
 
-  private refreshSubscription: Subscription;
-
-  private _isAuthenticated$ = new BehaviorSubject<boolean>(this.isAuthenticated());
-  get isAuthenticated$(): Observable<boolean> {
-    return this._isAuthenticated$.asObservable();
-  }
-
-  get redirectUrl(): string {
-    return localStorage.getItem('redirect_url') || '';
-  }
-  set redirectUrl(value: string) {
-    localStorage.setItem('redirect_url', value);
-  }
-
-  constructor(private router: Router, private userService: UserService) {
-    if (this.isAuthenticated()) {
-      this.setupProfile();
-    }
-  }
-
-  public login(redirectUrl: string = this.router.url): void {
-    this.redirectUrl = redirectUrl;
-    this.auth0.authorize();
-  }
-
-  public handleAuthentication(): void {
-    this.auth0.parseHash((err, authResult) => {
-      if (authResult && authResult.accessToken && authResult.idToken) {
-        window.location.hash = '';
-        this.setSession(authResult);
-        this._isAuthenticated$.next(true);
-        this.setupProfile();
-      } else if (err) {
-        this._isAuthenticated$.next(false);
-        this.router.navigate(['/']);
-        console.error(err);
+  constructor(private afAuth: AngularFireAuth, store: Store<UserState>, router: Router) {
+    this.afAuth.authState.subscribe((user: User | null) => {
+      const currentUrl = router.url;
+      if (user) {
+        store.dispatch(new actions.SetCurrentUser({ userId: user.uid, email: user.email || '' }));
+        if (this.publicUrls.includes(currentUrl)) {
+          router.navigateByUrl('/movie-lists');
+        }
+      } else {
+        store.dispatch(new actions.ClearCurrentUser());
+        if (!this.publicUrls.includes(currentUrl)) {
+          router.navigateByUrl('/');
+        }
       }
+    });
+  }
+
+  public loginWithFacebook(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const provider = new firebase.auth.FacebookAuthProvider();
+      this.afAuth.auth.signInWithPopup(provider).then(
+        res => {
+          resolve(res);
+        },
+        err => {
+          console.log(err);
+          reject(err);
+        }
+      );
+    });
+  }
+
+  public loginWithGoogle(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const provider = new firebase.auth.GoogleAuthProvider();
+      provider.addScope('profile');
+      provider.addScope('email');
+      this.afAuth.auth.signInWithPopup(provider).then(
+        res => {
+          resolve(res);
+        },
+        err => {
+          console.log(err);
+          reject(err);
+        }
+      );
+    });
+  }
+
+  public loginWithTwitter(): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      const provider = new firebase.auth.TwitterAuthProvider();
+      this.afAuth.auth.signInWithPopup(provider).then(
+        res => {
+          resolve(res);
+        },
+        err => {
+          console.log(err);
+          reject(err);
+        }
+      );
+    });
+  }
+  public register(user: AuthenticationModel): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      firebase
+        .auth()
+        .createUserWithEmailAndPassword(user.email, user.password)
+        .then(
+          res => {
+            resolve(res);
+          },
+          err => reject(err)
+        );
+    });
+  }
+
+  public login(user: AuthenticationModel): Promise<any> {
+    return new Promise<any>((resolve, reject) => {
+      firebase
+        .auth()
+        .signInWithEmailAndPassword(user.email, user.password)
+        .then(
+          res => {
+            resolve(res);
+          },
+          err => reject(err)
+        );
     });
   }
 
   public logout(): void {
-    localStorage.removeItem('access_token');
-    localStorage.removeItem('id_token');
-    localStorage.removeItem('expires_at');
-
-    this._isAuthenticated$.next(false);
-    this.userService.clearUser();
-
-    this.router.navigate(['/']);
-  }
-
-  public scheduleRenewal(): void {
-    if (!this.isAuthenticated()) {
-      return;
-    }
-    this.unscheduleRenewal();
-
-    const expiresAt = JSON.parse(window.localStorage.getItem('expires_at') || '');
-
-    const expiresIn$ = of(expiresAt).pipe(
-      mergeMap(expiration => {
-        const now = Date.now();
-
-        return timer(Math.max(1, expiration - now));
-      })
-    );
-
-    this.refreshSubscription = expiresIn$.subscribe(() => {
-      this.renewToken();
-      this.scheduleRenewal();
-    });
-  }
-
-  private renewToken(): void {
-    this.auth0.checkSession({}, (err: any, result: any) => {
-      if (err) {
-        console.error(err);
-      } else {
-        this.setSession(result);
-      }
-    });
-  }
-
-  private unscheduleRenewal(): void {
-    if (this.refreshSubscription) {
-      this.refreshSubscription.unsubscribe();
-    }
-  }
-
-  private setupProfile(): void {
-    const accessToken = localStorage.getItem('access_token');
-    if (!accessToken) {
-      return;
-    }
-
-    this.auth0.client.userInfo(accessToken, (err: any, profile: auth0.Auth0UserProfile) => {
-      if (profile) {
-        const user: User = {
-          email_verified: profile.email_verified || false,
-          email: profile.email || '',
-          updated_at: new Date(profile.updated_at),
-          name: profile.name,
-          picture: profile.picture,
-          user_id: profile.user_id,
-          nickname: profile.nickname,
-          created_at: new Date(profile.created_at),
-          sub: profile.sub
-        };
-        this.userService.updateUser(user);
-      }
-    });
-  }
-
-  private isAuthenticated(): boolean {
-    const expiresAt = JSON.parse(localStorage.getItem('expires_at') || '{}');
-    return new Date().getTime() < expiresAt;
-  }
-
-  private setSession(authResult: any): void {
-    const expiresAt = JSON.stringify(authResult.expiresIn * 1000 + new Date().getTime());
-    localStorage.setItem('access_token', authResult.accessToken);
-    localStorage.setItem('id_token', authResult.idToken);
-    localStorage.setItem('expires_at', expiresAt);
-
-    this.scheduleRenewal();
+    this.afAuth.auth.signOut();
   }
 }

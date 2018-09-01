@@ -1,10 +1,10 @@
 import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
 import { Component, OnInit } from '@angular/core';
 import { select, Store } from '@ngrx/store';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { map } from 'rxjs/operators';
 import { AuthenticationService } from './core/authentication.service';
+import { User } from './core/models/user';
 import * as selectors from './state/state';
 import { UserState } from './state/state';
 
@@ -23,29 +23,14 @@ export class AppComponent implements OnInit {
 
   constructor(
     private authService: AuthenticationService,
-    private firebaseAuth: AngularFireAuth,
     private breakpointObserver: BreakpointObserver,
     private userStore: Store<UserState>
   ) {}
 
   ngOnInit(): void {
-    this.authService.handleAuthentication();
-    this.authService.scheduleRenewal();
-    this.firebaseAuth.auth.signInAnonymously();
-    this.isLoggedIn$ = this.authService.isAuthenticated$;
-    this.isLoading$ = this.userStore.pipe(select(selectors.getIsLoading));
-    this.hasError$ = this.userStore.pipe(
-      select(selectors.getError),
-      filter(Boolean),
-      map((error: string) => {
-        console.error(error);
-        return true;
-      })
-    );
-  }
-
-  login(): void {
-    this.authService.login();
+    this.isLoggedIn$ = this.userStore
+      .pipe(select(selectors.getCurrentUser))
+      .pipe(map((user: User) => !!user));
   }
 
   logout(): void {

@@ -9,13 +9,12 @@ export enum UserActionTypes {
   ClearCurrentUser = '[User] Clear current user',
   SetUserMessage = '[User] Set message',
   ClearUserMessage = '[User] Clear message',
-  SetIsLoading = '[User] Is loading',
-  SetIsNotLoading = '[User] Is not loading',
   LoadMovieLists = '[User] Load movie lists',
-  LoadFailed = '[User] Load failed',
+  LoadMovieListsFailed = '[User] Load movie lists failed',
   LoadMovieListsSuccess = '[User] Load movie lists success',
   LoadDiscoverMovies = '[User] Load movies for discovering',
   LoadDiscoverMoviesSuccess = '[User] Load movies for discovering success',
+  LoadDiscoverMoviesFailed = '[User] Load movies for discovering failed',
   ClearMovieLists = '[User] Clear movie lists',
   AddMovieList = '[User] Add movie list',
   AddMovieListFailed = '[User] Add movie list failed',
@@ -25,13 +24,15 @@ export enum UserActionTypes {
   DeleteMovieListSuccess = '[User] Delete movie list success',
   LoadTvShowLists = '[User] Load tv-show lists',
   LoadTvShowListsSuccess = '[User] Load tv-show lists success',
+  LoadTvShowListsFailed = '[User] Load tv-show lists failed',
   ClearTvShowLists = '[User] Clear tv-show lists',
   AddTvShowList = '[User] Add tv-show list',
   AddTvShowListFailed = '[User] Add tv-show list failed',
   AddTvShowListSuccess = '[User] Add tv-show list success',
   DeleteTvShowList = '[User] Delete tv-show list',
   DeleteTvShowListFailed = '[User] Delete tv-show list failed',
-  DeleteTvShowListSuccess = '[User] Delete tv-show list success'
+  DeleteTvShowListSuccess = '[User] Delete tv-show list success',
+  SetRedirectUrl = '[User] Set redirectUrl'
 }
 
 export class SetCurrentUser implements Action {
@@ -42,14 +43,6 @@ export class SetCurrentUser implements Action {
 
 export class ClearCurrentUser implements Action {
   readonly type = UserActionTypes.ClearCurrentUser;
-}
-
-export class SetIsLoading implements Action {
-  readonly type = UserActionTypes.SetIsLoading;
-}
-
-export class SetIsNotLoading implements Action {
-  readonly type = UserActionTypes.SetIsNotLoading;
 }
 
 export class SetUserMessage implements Action {
@@ -67,7 +60,7 @@ export class LoadMovieLists implements Action {
 }
 
 export class LoadFailed implements Action {
-  readonly type = UserActionTypes.LoadFailed;
+  readonly type = UserActionTypes.LoadMovieListsFailed;
 
   constructor(public payload: string) {}
 }
@@ -174,11 +167,15 @@ export class DeleteTvShowListFailed implements Action {
   constructor(public payload: string) {}
 }
 
+export class SetRedirectUrl implements Action {
+  readonly type = UserActionTypes.SetRedirectUrl;
+
+  constructor(public payload: string) {}
+}
+
 export type UserActions =
   | SetCurrentUser
   | ClearCurrentUser
-  | SetIsLoading
-  | SetIsNotLoading
   | SetUserMessage
   | ClearUserMessage
   | LoadMovieLists
@@ -201,4 +198,5 @@ export type UserActions =
   | AddTvShowListFailed
   | DeleteTvShowList
   | DeleteTvShowListSuccess
-  | DeleteTvShowListFailed;
+  | DeleteTvShowListFailed
+  | SetRedirectUrl;

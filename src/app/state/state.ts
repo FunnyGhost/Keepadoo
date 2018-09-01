@@ -11,10 +11,13 @@ export interface State {
 export interface UserState {
   currentUser: User | null;
   movieLists: MovieList[];
+  movieListsLoading: boolean;
   discoverMovies: MovieDiscover[];
+  discoverMoviesLoading: boolean;
   tvShowLists: TvShowList[];
-  isLoading: boolean;
+  tvShowListsLoading: boolean;
   message: string;
+  redirectUrl: string;
   error: string;
 }
 
@@ -24,6 +27,6 @@ export const getCurrentUser = createSelector(getUserFeatureState, state => state
 export const getMovieLists = createSelector(getUserFeatureState, state => state.movieLists);
 export const getDiscoverMovies = createSelector(getUserFeatureState, state => state.discoverMovies);
 export const getTvShowLists = createSelector(getUserFeatureState, state => state.tvShowLists);
-export const getIsLoading = createSelector(getUserFeatureState, state => state.isLoading);
 export const getMessage = createSelector(getUserFeatureState, state => state.message);
+export const getRedirectUrl = createSelector(getUserFeatureState, state => state.redirectUrl);
 export const getError = createSelector(getUserFeatureState, state => state.error);

@@ -60,7 +60,7 @@ export class MovieListComponent implements OnInit {
   addList() {
     this.modalService.openModal(NewListComponent).subscribe(result => {
       if (result) {
-        const movieListToAdd: MovieList = { key: '', name: result };
+        const movieListToAdd = { name: result } as MovieList;
         this.userStore.dispatch(new userActions.AddMovieList(movieListToAdd));
       }
     });

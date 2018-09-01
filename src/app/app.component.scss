@@ -67,10 +67,10 @@
       text-decoration: none;
     }
     &.active {
-      border-bottom: 2px solid $warn;
+      border-bottom: 2px solid $accent;
     }
     &:hover {
-      border-bottom: 2px solid $warn;
+      border-bottom: 2px solid $accent;
     }
   }
 }

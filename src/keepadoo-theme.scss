@@ -3,8 +3,8 @@
 @include mat-core();
 
 $keepadoo-theme-primary: mat-palette($mat-gray, 900);
-$keepadoo-theme-accent: mat-palette($mat-red, A700);
-$keepadoo-theme-warn: mat-palette($mat-lime);
+$keepadoo-theme-accent: mat-palette($mat-lime, A700);
+$keepadoo-theme-warn: mat-palette($mat-red);
 
 $keepadoo-theme: mat-dark-theme(
   $keepadoo-theme-primary,

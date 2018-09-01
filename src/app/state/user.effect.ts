@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { of } from 'rxjs';
-import { catchError, map, mergeMap, mergeMapTo } from 'rxjs/operators';
+import { catchError, map, mapTo, mergeMap, mergeMapTo } from 'rxjs/operators';
 import { TMDBService } from '../core/tmdb.service';
 import { MovieDiscover } from '../movie-list/core/models/movie-discover';
 import { MovieList } from '../movie-list/core/models/movie-list';
@@ -62,6 +62,18 @@ export class UserEffect {
   );
 
   @Effect()
+  reloadUserMovieLists = this.actions$.pipe(
+    ofType(userActions.UserActionTypes.SetCurrentUser),
+    mapTo(new userActions.LoadMovieLists())
+  );
+
+  @Effect()
+  clearUserMovieLists = this.actions$.pipe(
+    ofType(userActions.UserActionTypes.ClearCurrentUser),
+    mapTo(new userActions.ClearMovieLists())
+  );
+
+  @Effect()
   deleteMovieList$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.DeleteMovieList),
     mergeMap((action: userActions.DeleteMovieList) =>
@@ -98,6 +110,18 @@ export class UserEffect {
   addTvShowListSuccess$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.AddTvShowListSuccess),
     map(() => new userActions.LoadTvShowLists())
+  );
+
+  @Effect()
+  reloadUserTvShowLists$ = this.actions$.pipe(
+    ofType(userActions.UserActionTypes.SetCurrentUser),
+    map(() => new userActions.LoadTvShowLists())
+  );
+
+  @Effect()
+  clearserTvShowLists$ = this.actions$.pipe(
+    ofType(userActions.UserActionTypes.ClearCurrentUser),
+    map(() => new userActions.ClearTvShowLists())
   );
 
   @Effect()

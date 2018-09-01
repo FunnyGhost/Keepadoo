@@ -1,64 +1,75 @@
 import { Injectable } from '@angular/core';
-import { AngularFireDatabase, AngularFireList } from 'angularfire2/database';
-import { BehaviorSubject, from, Observable } from 'rxjs';
-import { filter, map, switchMap, take, tap } from 'rxjs/operators';
+import { select, Store } from '@ngrx/store';
+import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { from, Observable } from 'rxjs';
+import { filter, map, mapTo, take, tap } from 'rxjs/operators';
 import { User } from '../../core/models/user';
-import { UserService } from '../../core/user.service';
+import * as userSelectors from '../../state/state';
+import { UserState } from '../../state/state';
 import { TvShowList } from './models/tv-show-list';
 
 @Injectable({
   providedIn: 'root'
 })
 export class TvShowListsService {
-  private userTvShowLists = new BehaviorSubject<AngularFireList<{}>>({} as AngularFireList<{}>);
+  private tvShowListsFirestoreCollection: AngularFirestoreCollection<{}>;
+  private userId: string;
 
-  constructor(private db: AngularFireDatabase, private userService: UserService) {
-    this.setupTvShowListsSubscription();
+  constructor(private db: AngularFirestore, private userStore: Store<UserState>) {
+    this.setupTvShowListSubscription();
   }
 
   public getTvShowLists(): Observable<TvShowList[]> {
-    return this.userTvShowLists.pipe(
-      filter((firebaseData: AngularFireList<{}>) => {
-        return !!firebaseData;
-      }),
-      switchMap((firebaseData: AngularFireList<{}>) => {
-        return firebaseData.snapshotChanges();
-      }),
+    return this.tvShowListsFirestoreCollection.auditTrail().pipe(
       map(changes => {
         return changes.map(
-          data => ({ key: data.payload.key, ...data.payload.val() } as TvShowList)
+          data => ({ key: data.payload.doc.id, ...data.payload.doc.data() } as TvShowList)
         );
       }),
       take(1)
     );
   }
 
-  public addTvShowList(name: string): Observable<void> {
-    return this.userTvShowLists.pipe(
-      switchMap((data: AngularFireList<{}>) => {
-        return from(data.push({ name }));
-      })
-    );
+  public addTvShowList(name: string): Observable<any> {
+    return from(this.tvShowListsFirestoreCollection.add({ name: name, userId: this.userId }));
   }
 
   public deleteTvShowList(key: string): Observable<string> {
-    return this.userTvShowLists.pipe(
-      switchMap((data: AngularFireList<{}>) => {
-        data.remove(key);
-        return from(this.db.list(`tv-shows`).remove(key));
-      }),
-      map(() => key)
-    );
+    this.deleteTvShowsInList(key);
+
+    return from(this.tvShowListsFirestoreCollection.doc(key).delete()).pipe(mapTo(key));
   }
 
-  private setupTvShowListsSubscription() {
-    this.userService.userProfile$
+  private deleteTvShowsInList(listId: string): void {
+    this.db
+      .collection(`tv-shows`, ref => {
+        let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+        query = query.where('listId', '==', listId);
+        return query;
+      })
+      .snapshotChanges()
+      .pipe(take(1))
+      .subscribe(data => {
+        data.forEach(item => {
+          item.payload.doc.ref.delete();
+        });
+      });
+  }
+
+  private setupTvShowListSubscription() {
+    this.userStore
       .pipe(
+        select(userSelectors.getCurrentUser),
         filter((user: User) => {
-          return !!user && !!user.sub;
+          return !!user && !!user.userId;
         }),
         tap((user: User) => {
-          this.userTvShowLists.next(this.db.list(`tv-shows-lists/${user.sub}`));
+          this.userId = user.userId;
+          this.tvShowListsFirestoreCollection = this.db.collection(`tv-shows-lists`, ref => {
+            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+            query = query.where('userId', '==', this.userId);
+            return query;
+          });
         })
       )
       .subscribe();

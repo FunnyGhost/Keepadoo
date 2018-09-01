@@ -1,14 +1,13 @@
-import { HttpClient, HttpRequest } from '@angular/common/http';
+import { HttpRequest } from '@angular/common/http';
 import { HttpClientTestingModule, HttpTestingController } from '@angular/common/http/testing';
 import { inject, TestBed } from '@angular/core/testing';
-import { environment } from '../../environments/environment';
+import { environment } from 'src/environments/environment';
 import { MovieDiscover } from '../movie-list/core/models/movie-discover';
 import { MovieSearchResult } from '../movie-list/core/models/movie-search-result';
 import { TvShowSearchResult } from '../tv-show-list/core/models/tv-show-search-result';
 import { TMDBService } from './tmdb.service';
 
 describe('TMDBService', () => {
-  let httpClient: HttpClient;
   let httpTestingController: HttpTestingController;
 
   beforeEach(() => {
@@ -17,7 +16,6 @@ describe('TMDBService', () => {
       providers: [TMDBService]
     });
 
-    httpClient = TestBed.get(HttpClient);
     httpTestingController = TestBed.get(HttpTestingController);
   });
 
@@ -52,11 +50,10 @@ describe('TMDBService', () => {
     expect(req.request.method).toEqual('GET');
 
     req.flush(dataToReturn);
-
     httpTestingController.verify();
   }));
 
-  it('should filter movie search results without a poster from tmdb', done => {
+  it('should filter movie search results without a poster from tmdb', (done: any) => {
     inject([TMDBService], (service: TMDBService) => {
       const searchText = 'Thor';
       const dataToReturn = {
@@ -94,7 +91,6 @@ describe('TMDBService', () => {
       expect(req.request.method).toEqual('GET');
 
       req.flush(dataToReturn);
-
       httpTestingController.verify();
     })();
   });
@@ -110,7 +106,7 @@ describe('TMDBService', () => {
       ]
     };
 
-    service.discoverMovies().subscribe((data: MovieDiscover[]) => {});
+    service.discoverMovies().subscribe(() => {});
 
     const req = httpTestingController.expectOne((request: HttpRequest<any>) => {
       const containsUrl = request.url.includes(environment.tmdbConfig.apiUrl);
@@ -134,13 +130,11 @@ describe('TMDBService', () => {
     expect(req.request.method).toEqual('GET');
 
     req.flush(dataToReturn);
-
     httpTestingController.verify();
   }));
 
-  it('should filter discover results without a poster from tmdb', done => {
+  it('should filter discover results without a poster from tmdb', (done: any) => {
     inject([TMDBService], (service: TMDBService) => {
-      const searchText = 'Thor';
       const dataToReturn = {
         results: [
           {
@@ -175,7 +169,6 @@ describe('TMDBService', () => {
       expect(req.request.method).toEqual('GET');
 
       req.flush(dataToReturn);
-
       httpTestingController.verify();
     })();
   });
@@ -204,11 +197,10 @@ describe('TMDBService', () => {
     expect(req.request.method).toEqual('GET');
 
     req.flush(dataToReturn);
-
     httpTestingController.verify();
   }));
 
-  it('should filter tv search results without a poster from tmdb', done => {
+  it('should filter tv search results without a poster from tmdb', (done: any) => {
     inject([TMDBService], (service: TMDBService) => {
       const searchText = 'Vikings';
       const dataToReturn = {
@@ -246,7 +238,6 @@ describe('TMDBService', () => {
       expect(req.request.method).toEqual('GET');
 
       req.flush(dataToReturn);
-
       httpTestingController.verify();
     })();
   });
