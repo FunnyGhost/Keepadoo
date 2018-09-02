@@ -1,0 +1,27 @@
+.container {
+  display: flex;
+  flex-direction: row;
+  flex-wrap: wrap;
+  align-items: flex-start;
+
+  .tv-show-item {
+    margin: 8px;
+    position: relative;
+
+    .name {
+      position: absolute;
+      bottom: 4px;
+      background-color: rgba($color: black, $alpha: 0.7);
+      padding: 4px 0;
+      font-size: 0.8rem;
+      width: 100%;
+      height: 2.25rem;
+      font-weight: 300;
+
+      p {
+        padding-left: 4px;
+        margin-bottom: 0;
+      }
+    }
+  }
+}

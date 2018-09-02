@@ -1,0 +1,12 @@
+<div class="container">
+  <div *ngFor='let tvShow of tvShows' class='tv-show-item'>
+    <div class="box">
+      <img src="https://image.tmdb.org/t/p/w154/{{tvShow.poster_path}}" alt="" class="thumbnail">
+      <div class="name">
+        <p>
+          {{tvShow.name}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>
