@@ -1,0 +1,12 @@
+<div class="container">
+  <div *ngFor='let movie of movies' class='movie-item'>
+    <div class="box">
+      <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}" alt="" class="thumbnail">
+      <div class="title">
+        <p>
+          {{movie.title}}
+        </p>
+      </div>
+    </div>
+  </div>
+</div>

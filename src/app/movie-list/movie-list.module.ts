@@ -7,6 +7,7 @@ import { MovieListItemComponent } from './movie-list-item/movie-list-item.compon
 import { MovieSearchComponent } from './movie-list-item/movie-search/movie-search.component';
 import { MovieListRoutingModule } from './movie-list-routing.module';
 import { MovieListComponent } from './movie-list.component';
+import { GridItemsComponent } from './movie-list-item/grid-items/grid-items.component';
 
 @NgModule({
   imports: [CommonModule, MovieListRoutingModule, SharedModule, CoreModule],
@@ -14,7 +15,8 @@ import { MovieListComponent } from './movie-list.component';
     MovieListComponent,
     MovieListItemComponent,
     ListItemsComponent,
-    MovieSearchComponent
+    MovieSearchComponent,
+    GridItemsComponent
   ]
 })
 export class MovieListModule {}

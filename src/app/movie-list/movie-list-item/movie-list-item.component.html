@@ -27,7 +27,8 @@
           <div fxLayout="row wrap" fxLayoutAlign="space-between start">
             <kpd-movie-search (addMovieToList)="onAddMovieToList($event)" fxFlex.xl="30" fxFlex.lg="40" fxFlex.md="50" fxFlex.sm="70"></kpd-movie-search>
           </div>
-          <kpd-list-items *ngIf='movies.length' [movies]="movies" (removeMovieFromList)="deleteMovie($event)"></kpd-list-items>
+          <kpd-list-items *ngIf='movies.length && (displayMode$ | async) === displayModes.List' [movies]="movies" (removeMovieFromList)="deleteMovie($event)"></kpd-list-items>
+          <kpd-grid-items *ngIf='movies.length && (displayMode$ | async) === displayModes.Grid' [movies]="movies" (removeMovieFromList)="deleteMovie($event)"></kpd-grid-items>
         </mat-tab>
       </mat-tab-group>
     </mat-card-content>
