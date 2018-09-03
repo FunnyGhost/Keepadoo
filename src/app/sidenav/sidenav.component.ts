@@ -24,7 +24,8 @@ export class SidenavComponent implements OnInit {
   ngOnInit() {
     this.setupRouteListening();
 
-    this.movieLists$ = this.userStore.pipe(select(selectors.getMovieLists)).pipe(
+    this.movieLists$ = this.userStore.pipe(
+      select(selectors.getMovieLists),
       filter(() => this.showMovieLists),
       tap((data: MovieList[]) => {
         if (data.length > 0) {
@@ -33,7 +34,8 @@ export class SidenavComponent implements OnInit {
       })
     );
 
-    this.tvShowLists$ = this.userStore.pipe(select(selectors.getTvShowLists)).pipe(
+    this.tvShowLists$ = this.userStore.pipe(
+      select(selectors.getTvShowLists),
       filter(() => this.showTvShowLists),
       tap((data: TvShowList[]) => {
         if (data.length > 0) {
