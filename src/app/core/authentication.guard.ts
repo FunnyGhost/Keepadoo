@@ -6,6 +6,7 @@ import { Observable } from 'rxjs';
 import { map } from 'rxjs/operators';
 import * as userSelectors from '../state/state';
 import { UserState } from '../state/state';
+import * as userActions from '../state/user.action';
 
 @Injectable({
   providedIn: 'root'
@@ -20,6 +21,7 @@ export class AuthenticationGuard implements CanActivate {
         if (user) {
           return true;
         } else {
+          this.userStore.dispatch(new userActions.SetRedirectUrl(state.url));
           this.router.navigate(['/user/login']);
           return false;
         }

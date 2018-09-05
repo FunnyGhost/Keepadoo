@@ -1,10 +1,12 @@
 import { Injectable } from '@angular/core';
 import { Router } from '@angular/router';
-import { Store } from '@ngrx/store';
+import { select, Store } from '@ngrx/store';
 import { AngularFireAuth } from 'angularfire2/auth';
 import * as firebase from 'firebase/app';
 import { User } from 'firebase/app';
+import { take } from 'rxjs/operators';
 import { AuthenticationModel } from '../authentication.model';
+import * as selectors from '../state/state';
 import { UserState } from '../state/state';
 import * as actions from '../state/user.action';
 
@@ -12,23 +14,35 @@ import * as actions from '../state/user.action';
   providedIn: 'root'
 })
 export class AuthenticationService {
-  private readonly publicUrls: string[] = ['/user/login', '/user/register', '/'];
-
-  constructor(private afAuth: AngularFireAuth, store: Store<UserState>, router: Router) {
+  constructor(
+    private afAuth: AngularFireAuth,
+    private store: Store<UserState>,
+    private router: Router
+  ) {
     this.afAuth.authState.subscribe((user: User | null) => {
-      const currentUrl = router.url;
       if (user) {
         store.dispatch(new actions.SetCurrentUser({ userId: user.uid, email: user.email || '' }));
-        if (this.publicUrls.includes(currentUrl)) {
-          router.navigateByUrl('/movie-lists');
-        }
+        this.checkForRedirectUrl();
       } else {
         store.dispatch(new actions.ClearCurrentUser());
-        if (!this.publicUrls.includes(currentUrl)) {
-          router.navigateByUrl('/');
-        }
+        router.navigateByUrl('/');
       }
     });
+  }
+
+  private checkForRedirectUrl() {
+    this.store
+      .pipe(
+        select(selectors.getRedirectUrl),
+        take(1)
+      )
+      .subscribe((url: string) => {
+        let redirectUrl = '/';
+        if (url) {
+          redirectUrl = url;
+        }
+        this.router.navigateByUrl(redirectUrl);
+      });
   }
 
   public loginWithFacebook(): Promise<any> {

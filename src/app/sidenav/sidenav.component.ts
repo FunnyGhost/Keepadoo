@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, tap } from 'rxjs/operators';
+import { filter } from 'rxjs/operators';
 import { MovieList } from '../movie-list/core/models/movie-list';
 import * as selectors from '../state/state';
 import { UserState } from '../state/state';
@@ -24,22 +24,14 @@ export class SidenavComponent implements OnInit {
   ngOnInit() {
     this.setupRouteListening();
 
-    this.movieLists$ = this.userStore.pipe(select(selectors.getMovieLists)).pipe(
+    this.movieLists$ = this.userStore.pipe(
       filter(() => this.showMovieLists),
-      tap((data: MovieList[]) => {
-        if (data.length > 0) {
-          this.router.navigate(['movie-lists', data[data.length - 1].key]);
-        }
-      })
+      select(selectors.getMovieLists)
     );
 
-    this.tvShowLists$ = this.userStore.pipe(select(selectors.getTvShowLists)).pipe(
+    this.tvShowLists$ = this.userStore.pipe(
       filter(() => this.showTvShowLists),
-      tap((data: TvShowList[]) => {
-        if (data.length > 0) {
-          this.router.navigate(['tv-show-lists', data[data.length - 1].key]);
-        }
-      })
+      select(selectors.getTvShowLists)
     );
   }
 
