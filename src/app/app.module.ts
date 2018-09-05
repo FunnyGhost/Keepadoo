@@ -5,14 +5,13 @@ import { StoreDevtoolsModule } from '@ngrx/store-devtools';
 import { environment } from '../environments/environment';
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
-import { CallbackComponent } from './callback/callback.component';
 import { CoreModule } from './core/core.module';
+import { HomeComponent } from './home/home.component';
 import { SharedModule } from './shared/shared.module';
 import { SidenavComponent } from './sidenav/sidenav.component';
-import { HomeComponent } from './home/home.component';
 
 @NgModule({
-  declarations: [AppComponent, CallbackComponent, SidenavComponent, HomeComponent],
+  declarations: [AppComponent, SidenavComponent, HomeComponent],
   imports: [
     BrowserModule,
     BrowserAnimationsModule,
