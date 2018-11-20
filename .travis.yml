@@ -18,3 +18,5 @@ script:
   - yarn test
   - yarn lint
   - yarn docker-hub-build
+  - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+  - yarn docker-push
