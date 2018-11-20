@@ -22,11 +22,10 @@ jobs:
         - yarn lint
     - stage: build
       script:
-        - yarn docker-hub-build
+        - yarn build-prod
     - stage: publish
-      branches:
-        only:
-          - master
+      if: branch = master
       script:
+        - yarn docker-hub-build
         - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         - yarn docker-push
