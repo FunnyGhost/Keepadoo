@@ -16,7 +16,8 @@
     "docker-run": "docker run -d -p 8080:80 keepadoo",
     "docker-hub-build": "docker image build -t utukku/keepadoo:1.0 -f nginx.prod.dockerfile .",
     "docker-push": "docker push utukku/keepadoo:1.0 ",
-    "docker-deploy": "docker run -d -p 80:80 --name keepadoo utukku/keepadoo:1.0"
+    "docker-deploy": "docker run -d -p 80:80 --name keepadoo utukku/keepadoo:1.0",
+    "connect-to-DO": "ssh -i ~/.ssh/digital_ocean_key root@188.166.124.226"
   },
   "private": true,
   "dependencies": {
