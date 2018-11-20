@@ -20,3 +20,10 @@ script:
   - yarn docker-hub-build
   - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
   - yarn docker-push
+  - mkdir -p ~/.ssh
+  - echo "$RANDOM_VARIABLE" > ~/.ssh/id_rsa
+  - chmod 700 ~/.ssh/id_rsa
+  - eval "$(ssh-agent -s)"
+  - cat ~/.ssh/id_rsa
+  - ssh-add ~/.ssh/id_rsa
+  - ssh -o StrictHostKeyChecking=no root@188.166.124.226 < ./deploy.sh
