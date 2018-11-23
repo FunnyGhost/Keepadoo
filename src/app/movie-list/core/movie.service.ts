@@ -33,7 +33,7 @@ export class MovieService {
     return from(this.db.collection(`movies`).add({ ...movie, listId }));
   }
 
-  public deleteMovieFromList(listId: string, movieKey: string): Observable<void> {
+  public deleteMovieFromList(movieKey: string): Observable<void> {
     return from(
       this.db
         .collection(`movies`)

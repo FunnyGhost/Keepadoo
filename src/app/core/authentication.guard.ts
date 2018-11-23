@@ -17,7 +17,7 @@ export class AuthenticationGuard implements CanActivate {
   canActivate(route: ActivatedRouteSnapshot, state: RouterStateSnapshot): Observable<boolean> {
     return this.userStore.pipe(
       select(userSelectors.getCurrentUser),
-      map((user: User) => {
+      map((user: User | null) => {
         if (user) {
           return true;
         } else {

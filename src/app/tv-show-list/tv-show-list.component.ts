@@ -41,12 +41,12 @@ export class TvShowListComponent implements OnInit {
         map((params: ParamMap) => {
           return params.get('id');
         }),
-        switchMap((listId: string) => {
+        switchMap((listId: string | null) => {
           return this.userStore.pipe(select(userSelectors.getTvShowLists)).pipe(
             map((tvShowLists: TvShowList[]) => {
               return tvShowLists.find((tvShowList: TvShowList) => tvShowList.key === listId);
             }),
-            tap((tvShowList: TvShowList) => {
+            tap((tvShowList: TvShowList | undefined) => {
               if (tvShowList) {
                 this.tvShowStore.dispatch(new tvShowActions.SelectTvShowList(tvShowList));
               }

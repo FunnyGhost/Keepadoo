@@ -41,12 +41,12 @@ export class MovieListComponent implements OnInit {
         map((params: ParamMap) => {
           return params.get('id');
         }),
-        switchMap((listId: string) => {
+        switchMap((listId: string | null) => {
           return this.userStore.pipe(select(userSelectors.getMovieLists)).pipe(
             map((movieLists: MovieList[]) => {
               return movieLists.find((movieList: MovieList) => movieList.key === listId);
             }),
-            tap((movieList: MovieList) => {
+            tap((movieList: MovieList | undefined) => {
               if (movieList) {
                 this.movieStore.dispatch(new movieActions.SelectMovieList(movieList));
               }

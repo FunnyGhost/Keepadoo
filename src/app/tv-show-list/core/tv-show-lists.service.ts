@@ -60,16 +60,18 @@ export class TvShowListsService {
     this.userStore
       .pipe(
         select(userSelectors.getCurrentUser),
-        filter((user: User) => {
+        filter((user: User | null) => {
           return !!user && !!user.userId;
         }),
-        tap((user: User) => {
-          this.userId = user.userId;
-          this.tvShowListsFirestoreCollection = this.db.collection(`tv-shows-lists`, ref => {
-            let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
-            query = query.where('userId', '==', this.userId);
-            return query;
-          });
+        tap((user: User | null) => {
+          if (user) {
+            this.userId = user.userId;
+            this.tvShowListsFirestoreCollection = this.db.collection(`tv-shows-lists`, ref => {
+              let query: firebase.firestore.CollectionReference | firebase.firestore.Query = ref;
+              query = query.where('userId', '==', this.userId);
+              return query;
+            });
+          }
         })
       )
       .subscribe();
