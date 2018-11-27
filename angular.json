@@ -29,8 +29,7 @@
               },
               "src/_variables.scss",
               "src/styles.scss"
-            ],
-            "scripts": ["node_modules/auth0-js/build/auth0.js"]
+            ]
           },
           "configurations": {
             "production": {
