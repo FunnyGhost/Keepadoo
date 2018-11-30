@@ -25,7 +25,7 @@ jobs:
       script:
         - yarn docker-build
         - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        - docker login --username=_ --password=$HEROKU_KEY registry.heroku.com
-        - yarn docker-push-heroku
+        - yarn login-heroku
+        - yarn push-heroku
         - yarn release-heroku
         - yarn docker-push
