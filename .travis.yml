@@ -20,18 +20,10 @@ jobs:
       script:
         - yarn build-prod
     - stage: publish
-      if: branch = master
+      # if: branch = master
       script:
         - yarn docker-hub-build
         - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        - docker login --username=_ --password=$HEROKU_KEY registry.heroku.com
+        - docker push registry.heroku.com/$HEROKU_APP_NAME/web;
         - yarn docker-push
-
-before_deploy:
-  - docker login --username=_ --password=$HEROKU_KEY registry.heroku.com
-deploy:
-  provider: script
-  script:
-    - docker push registry.heroku.com/$HEROKU_APP_NAME/web;
-    - heroku container:release web --app $HEROKU_APP_NAME
-  on:
-    all_branches: true
