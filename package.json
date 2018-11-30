@@ -15,7 +15,7 @@
     "docker-run": "docker run -d -p 8080:80 keepadoo",
     "docker-build": "docker image build -t utukku/keepadoo:1.0 -t registry.heroku.com/keepadoo/web .",
     "docker-push": "docker push utukku/keepadoo:1.0 ",
-    "login-heroku": "heroku login",
+    "login-heroku": "heroku container:login",
     "push-heroku": "heroku container:push web --app keepadoo",
     "release-heroku": "heroku container:release web --app keepadoo"
   },
