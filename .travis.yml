@@ -2,7 +2,7 @@ language: node_js
 node_js:
   - '10'
 dist: trusty
-sudo: false
+sudo: true
 services:
   - docker
 cache:
@@ -10,6 +10,7 @@ cache:
     - node_modules
 before_script:
   - npm install -g @angular/cli
+  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 jobs:
   include:
     - stage: check
@@ -22,8 +23,9 @@ jobs:
     - stage: publish
       # if: branch = master
       script:
-        - yarn docker-hub-build
+        - yarn docker-build
         - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         - docker login --username=_ --password=$HEROKU_KEY registry.heroku.com
-        - docker push registry.heroku.com/$HEROKU_APP_NAME/web;
+        - yarn docker-push-heroku
+        - yarn release-heroku
         - yarn docker-push
