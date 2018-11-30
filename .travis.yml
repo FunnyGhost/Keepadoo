@@ -1,35 +1,35 @@
 language: node_js
 node_js:
-- '10'
+  - '10'
 dist: trusty
 sudo: false
 services:
-- docker
+  - docker
 cache:
   directories:
-  - node_modules
+    - node_modules
 before_script:
-- npm install -g @angular/cli
+  - npm install -g @angular/cli
 jobs:
   include:
-  - stage: check
-    script:
-    - yarn test
-    - yarn lint
-  - stage: build
-    script:
-    - yarn build-prod
-  - stage: publish
-    if: branch = master
-    script:
-    - yarn docker-hub-build
-    - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-    - yarn docker-push
+    - stage: check
+      script:
+        - yarn test
+        - yarn lint
+    - stage: build
+      script:
+        - yarn build-prod
+    - stage: publish
+      if: branch = master
+      script:
+        - yarn docker-hub-build
+        - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
+        - yarn docker-push
+
+before_deploy:
+  - echo "$HEROKU_PASSWORD" | docker login -u "$HEROKU_USERNAME" --password-stdin registry.heroku.com
 deploy:
-  provider: heroku
-  api_key:
-    secure: C61VNV+k5baPSD1axRcRboGOqMtiCe5QFgkBUb91NzXy8eI9aPmrwHz9bZkPIfQV9EdSxJnCUKKvdG1ioLNZs2w3KE28yYPIT9iS5DqnuGXrukduYws1QbhmeQSKLu7kNTzR/qs/hWylxPCRjUyUA6Zeqdwp+IXKkzjopQMb7KVfe7QrgB99uo9ILkbsPbdaI4eIzzmnW6ISxfBy21VmnGJGqcz2coHuhO6t1+B27TKd73Cv6Qf8cxibWlATlYSEqJimCWnDq+7Cdk9JofTXG+zq1aWCcFdG5HiN8qs2WU0yRFAhQTSg3VKFwEWXhRGAaknQfDFIrPhuHuLabm4gZnRRHZf7lXlsQfhNPMb4vzb0H3PtXNTFKfYpJknxwEht99XzgYejH3Vwmpff59uejZGXrriikTh6vnUfSqgLUHRr/qf8CMSaE2L5KqQJgjd4wtyt+U56XsGfLCWfuPh1cM/JeadTfIyYAgkU+a2I2sxcNksKVEyKCarPxUng9zPXML9dodhMMmz+oRbOYJWffR4yplJqz6i2eQU69jeJLBOyRAzGdepRtYo8dMoooW7lP7cYrznu8bQVz/CvVCV3iOPHwicpWK3Jo1eN9INUSOiwhj85qvqIttp/zWPY6hwcNkT71Hh/Ztk6NNSwmIUi7nG/PWKh3whMMkQPai80uP8=
-  app: keepadoo
-  on:
-    all_branches: true
-    repo: FunnyGhost/keepadoo
+  provider: script
+  script:
+    - docker push registry.heroku.com/$HEROKU_APP_NAME/web;
+    - heroku container:release web --app $HEROKU_APP_NAME
