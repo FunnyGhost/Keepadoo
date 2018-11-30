@@ -3,17 +3,13 @@ node_js:
   - '10'
 dist: trusty
 sudo: false
-
 services:
   - docker
-
 cache:
   directories:
     - node_modules
-
 before_script:
   - npm install -g @angular/cli
-
 jobs:
   include:
     - stage: check
@@ -29,3 +25,11 @@ jobs:
         - yarn docker-hub-build
         - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
         - yarn docker-push
+deploy:
+  provider: heroku
+  api_key:
+    secure: hDCWdVAXBVlx7x6QxNaTpwKeHPFWbX4pjKzaUtepAWZ60HRehc4mKKJP7uMLMoTQegfUmCbnxxGuP/ujmf9lE6NdxQa25t9KBPlR+QwXKAxCGzOFqnk5Pgw6T9ZAHNTQ4/cf3mGpiL+xaFstpfy+Jy3bK9HNugfG7OPczmMmJi3KnR4jML9c9a6MpbseL37/TewYtWf9n9L5a5R0u6+QpAk1fQdGMLSKGKP5XmdlTIkho9uMhQLTipHTDTiLBdk4RjeN6XUrHwup+L6Am7VntTcaH3/S4JnLOKcI8uq97mOGYCI9o0+7AyEczEMUkrrK3nDFnvJSo31zBkB4kMxEYXzO7SVdO/xPIg62HRO4wcToB0j14t98E0EKiQ/pgTwGUrgWkZ1+y+57bteTDqCA7OLkBSnUhHVt+AsNpXfRw2bqf0ONKsmbAiC3DiGfxd3lof3QUvgl4mPE58xD2UTdYd+3WRWCrFlkuR8eIfoe2PfCoeFVFEXQWzxu4Sb7EU1hcjgR8/YqGLzwl9O1IrqpXnfOHp/FqtgnEJpba0WhjANKiim22xXTsdb4z4j/DZwczG0mcKFKHEwEW/wI7wBYENlkIwFGRiAZ99QK+z83X7yN7gPttKF+NuioZDm3/twRtTSneG8Yxe+r2wQfw4Fb4w5Y1s8sxozaxHa6AZQvDSg=
+  app: keepadoo
+  on:
+    all_branches: true
+    repo: FunnyGhost/keepadoo
