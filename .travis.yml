@@ -22,12 +22,11 @@ jobs:
 
 before_deploy:
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
- deploy:
+deploy:
   provider: script
-  script:
-        yarn docker-build;
-        yarn login-heroku;
-        yarn push-heroku;
-        yarn release-heroku;
+  script: yarn docker-build;
+    yarn login-heroku;
+    yarn push-heroku;
+    yarn release-heroku;
   on:
     all_branches: true
