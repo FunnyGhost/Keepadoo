@@ -33,7 +33,7 @@ export class TvShowService {
     return from(this.db.collection(`tv-shows`).add({ ...tvShow, listId }));
   }
 
-  public deleteTvShowFromList(listId: string, tvShowKey: string): Observable<void> {
+  public deleteTvShowFromList(tvShowKey: string): Observable<void> {
     return from(
       this.db
         .collection(`tv-shows`)
