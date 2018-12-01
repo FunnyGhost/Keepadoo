@@ -74,7 +74,7 @@ export class MovieEffect {
   @Effect()
   removeMovie$ = this.actions$.pipe(
     ofType(movieActions.MovieActionTypes.RemoveMovieFromCurrentList),
-    map((action: any) =>
+    mergeMap((action: any) =>
       this.movieService.deleteMovieFromList(action.payload.key).pipe(
         map(() => new movieActions.RemoveMovieFromCurrentListSuccess(action.payload)),
         catchError(err => of(new movieActions.RemoveMovieFromCurrentListFailed(err)))
