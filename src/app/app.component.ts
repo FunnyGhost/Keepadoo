@@ -30,7 +30,7 @@ export class AppComponent implements OnInit {
   ngOnInit(): void {
     this.isLoggedIn$ = this.userStore
       .pipe(select(selectors.getCurrentUser))
-      .pipe(map((user: User) => !!user));
+      .pipe(map((user: User | null) => !!user));
   }
 
   logout(): void {

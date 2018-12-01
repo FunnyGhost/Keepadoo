@@ -22,7 +22,7 @@ export class UserEffect {
   @Effect()
   loadMovieLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.LoadMovieLists),
-    mergeMap((action: userActions.LoadMovieLists) =>
+    mergeMap((action: any) =>
       this.movieListsService.getMovieLists().pipe(
         map((movieLists: MovieList[]) => new userActions.LoadMovieListsSuccess(movieLists)),
         catchError(err => of(new userActions.LoadFailed(err)))
@@ -47,7 +47,7 @@ export class UserEffect {
   @Effect()
   addMovieList$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.AddMovieList),
-    mergeMap((action: userActions.AddMovieList) =>
+    mergeMap((action: any) =>
       this.movieListsService.addMovieList(action.payload.name).pipe(
         map((movieLists: MovieList[]) => new userActions.AddMovieListSuccess()),
         catchError(err => of(new userActions.LoadFailed(err)))
@@ -76,7 +76,7 @@ export class UserEffect {
   @Effect()
   deleteMovieList$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.DeleteMovieList),
-    mergeMap((action: userActions.DeleteMovieList) =>
+    mergeMap((action: any) =>
       this.movieListsService.deleteMovieList(action.payload).pipe(
         map((movieListKey: string) => new userActions.DeleteMovieListSuccess(movieListKey)),
         catchError(err => of(new userActions.DeleteMovieListFailed(err)))
@@ -87,7 +87,7 @@ export class UserEffect {
   @Effect()
   loadTvShowLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.LoadTvShowLists),
-    mergeMap((action: userActions.LoadTvShowLists) =>
+    mergeMap((action: any) =>
       this.tvShowListsService.getTvShowLists().pipe(
         map((tvShowLists: TvShowList[]) => new userActions.LoadTvShowListsSuccess(tvShowLists)),
         catchError(err => of(new userActions.LoadFailed(err)))
@@ -98,7 +98,7 @@ export class UserEffect {
   @Effect()
   addTvShowList$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.AddTvShowList),
-    mergeMap((action: userActions.AddTvShowList) =>
+    mergeMap((action: any) =>
       this.tvShowListsService.addTvShowList(action.payload.name).pipe(
         map((tvShowLists: TvShowList[]) => new userActions.AddTvShowListSuccess()),
         catchError(err => of(new userActions.LoadFailed(err)))
@@ -127,7 +127,7 @@ export class UserEffect {
   @Effect()
   deleteTvShowList$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.DeleteTvShowList),
-    mergeMap((action: userActions.DeleteTvShowList) =>
+    mergeMap((action: any) =>
       this.tvShowListsService.deleteTvShowList(action.payload).pipe(
         map((tvShowListKey: string) => new userActions.DeleteTvShowListSuccess(tvShowListKey)),
         catchError(err => of(new userActions.DeleteTvShowListFailed(err)))

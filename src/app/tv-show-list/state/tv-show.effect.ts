@@ -45,8 +45,13 @@ export class TvShowEffect {
   @Effect()
   addTvShow$ = this.actions$.pipe(
     ofType(tvShowActions.TvShowActionTypes.AddTvShowToCurrentList),
-    withLatestFrom(this.tvShowStore.pipe(select(tvShowSelectors.getCurrentList))),
-    mergeMap(([action, currentTvShowList]: [tvShowActions.AddTvShowToCurrentList, TvShowList]) =>
+    withLatestFrom(
+      this.tvShowStore.pipe(
+        select(tvShowSelectors.getCurrentList),
+        filter(Boolean)
+      )
+    ),
+    mergeMap(([action, currentTvShowList]: [any, TvShowList]) =>
       this.tvShowService.addTvShowToList(currentTvShowList.key, action.payload).pipe(
         map(() => new tvShowActions.AddTvShowToCurrentListSuccess()),
         catchError(err => of(new tvShowActions.AddTvShowToCurrentListFailed(err)))
@@ -69,13 +74,17 @@ export class TvShowEffect {
   @Effect()
   removeTvShow$ = this.actions$.pipe(
     ofType(tvShowActions.TvShowActionTypes.RemoveTvShowFromCurrentList),
-    withLatestFrom(this.tvShowStore.pipe(select(tvShowSelectors.getCurrentList))),
-    mergeMap(
-      ([action, currentTvShowList]: [tvShowActions.RemoveTvShowFromCurrentList, TvShowList]) =>
-        this.tvShowService.deleteTvShowFromList(currentTvShowList.key, action.payload.key).pipe(
-          map(() => new tvShowActions.RemoveTvShowFromCurrentListSuccess(action.payload)),
-          catchError(err => of(new tvShowActions.RemoveTvShowFromCurrentListFailed(err)))
-        )
+    withLatestFrom(
+      this.tvShowStore.pipe(
+        select(tvShowSelectors.getCurrentList),
+        filter(Boolean)
+      )
+    ),
+    mergeMap(([action, currentTvShowList]: [any, TvShowList]) =>
+      this.tvShowService.deleteTvShowFromList(action.payload.key).pipe(
+        map(() => new tvShowActions.RemoveTvShowFromCurrentListSuccess(action.payload)),
+        catchError(err => of(new tvShowActions.RemoveTvShowFromCurrentListFailed(err)))
+      )
     )
   );
 

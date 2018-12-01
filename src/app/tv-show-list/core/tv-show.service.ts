@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { TvShow } from './models/tv-show';
@@ -33,7 +33,7 @@ export class TvShowService {
     return from(this.db.collection(`tv-shows`).add({ ...tvShow, listId }));
   }
 
-  public deleteTvShowFromList(listId: string, tvShowKey: string): Observable<void> {
+  public deleteTvShowFromList(tvShowKey: string): Observable<void> {
     return from(
       this.db
         .collection(`tv-shows`)

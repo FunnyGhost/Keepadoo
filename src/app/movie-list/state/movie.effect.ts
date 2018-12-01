@@ -45,8 +45,13 @@ export class MovieEffect {
   @Effect()
   addMovie$ = this.actions$.pipe(
     ofType(movieActions.MovieActionTypes.AddMovieToCurrentList),
-    withLatestFrom(this.movieStore.pipe(select(movieSelectors.getCurrentList))),
-    mergeMap(([action, currentMovieList]: [movieActions.AddMovieToCurrentList, MovieList]) =>
+    withLatestFrom(
+      this.movieStore.pipe(
+        select(movieSelectors.getCurrentList),
+        filter(Boolean)
+      )
+    ),
+    mergeMap(([action, currentMovieList]: [any, MovieList]) =>
       this.movieService.addMovieToList(currentMovieList.key, action.payload).pipe(
         map(() => new movieActions.AddMovieToCurrentListSuccess()),
         catchError(err => of(new movieActions.AddMovieToCurrentListFailed(err)))
@@ -69,9 +74,8 @@ export class MovieEffect {
   @Effect()
   removeMovie$ = this.actions$.pipe(
     ofType(movieActions.MovieActionTypes.RemoveMovieFromCurrentList),
-    withLatestFrom(this.movieStore.pipe(select(movieSelectors.getCurrentList))),
-    mergeMap(([action, currentMovieList]: [movieActions.RemoveMovieFromCurrentList, MovieList]) =>
-      this.movieService.deleteMovieFromList(currentMovieList.key, action.payload.key).pipe(
+    mergeMap((action: any) =>
+      this.movieService.deleteMovieFromList(action.payload.key).pipe(
         map(() => new movieActions.RemoveMovieFromCurrentListSuccess(action.payload)),
         catchError(err => of(new movieActions.RemoveMovieFromCurrentListFailed(err)))
       )
