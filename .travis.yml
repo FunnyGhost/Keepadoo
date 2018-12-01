@@ -10,7 +10,6 @@ cache:
     - node_modules
 before_script:
   - npm install -g @angular/cli
-  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 jobs:
   include:
     - stage: check
@@ -20,12 +19,15 @@ jobs:
     - stage: build
       script:
         - yarn build-prod
-    - stage: publish
-      # if: branch = master
-      script:
-        - yarn docker-build
-        - docker login -u $DOCKER_USERNAME -p $DOCKER_PASSWORD
-        - yarn login-heroku
-        - yarn push-heroku
-        - yarn release-heroku
-        - yarn docker-push
+
+before_deploy:
+  - wget -qO- https://toolbelt.heroku.com/install.sh | sh
+ deploy:
+  provider: script
+  script:
+        yarn docker-build;
+        yarn login-heroku;
+        yarn push-heroku;
+        yarn release-heroku;
+  on:
+    all_branches: true
