@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
+import { AngularFirestore, AngularFirestoreCollection } from '@angular/fire/firestore';
 import { select, Store } from '@ngrx/store';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
 import { from, Observable } from 'rxjs';
 import { filter, map, mapTo, take, tap } from 'rxjs/operators';
 import { User } from '../../core/models/user';

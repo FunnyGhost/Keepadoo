@@ -1,5 +1,5 @@
 import { Injectable } from '@angular/core';
-import { AngularFirestore } from 'angularfire2/firestore';
+import { AngularFirestore } from '@angular/fire/firestore';
 import { from, Observable } from 'rxjs';
 import { map, take } from 'rxjs/operators';
 import { Movie } from './models/movie';
@@ -33,7 +33,7 @@ export class MovieService {
     return from(this.db.collection(`movies`).add({ ...movie, listId }));
   }
 
-  public deleteMovieFromList(movieKey: string): Observable<void> {
+  public deleteMovieFromList(movieKey: string): Observable<any> {
     return from(
       this.db
         .collection(`movies`)
