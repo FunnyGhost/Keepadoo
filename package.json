@@ -11,12 +11,13 @@
     "test:watch": "jest --clearCache && jest --watch",
     "lint": "ng lint",
     "e2e": "ng e2e",
-    "build-docker-image": "docker build -t keepadoo -f nginx.prod.dockerfile .",
+    "build-docker-image": "docker build -t keepadoo .",
     "docker-run": "docker run -d -p 8080:80 keepadoo",
-    "docker-hub-build": "docker image build -t utukku/keepadoo:1.0 -f nginx.prod.dockerfile .",
+    "docker-build": "docker image build -t utukku/keepadoo:1.0 -t registry.heroku.com/keepadoo/web .",
     "docker-push": "docker push utukku/keepadoo:1.0 ",
-    "docker-deploy": "docker run -d -p 80:80 --name keepadoo utukku/keepadoo:1.0",
-    "connect-to-DO": "ssh -i ~/.ssh/digital_ocean_key root@188.166.124.226"
+    "login-heroku": "heroku container:login",
+    "push-heroku": "heroku container:push web --app keepadoo",
+    "release-heroku": "heroku container:release web --app keepadoo"
   },
   "private": true,
   "dependencies": {

@@ -1,33 +1,56 @@
 <mat-sidenav-container class="sidenav-container mat-typography">
-    <mat-sidenav #drawer class="sidenav" fixedInViewport="true" [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
-        [mode]="(isHandset$ | async) ? 'push' : 'side'" [opened]="!(isHandset$ | async)">
-        <kpd-sidenav></kpd-sidenav>
-    </mat-sidenav>
-    <mat-sidenav-content class="app-sidenav-content">
-        <mat-toolbar color="primary">
-            <mat-toolbar-row>
-                <button type="button" aria-label="Toggle sidenav" mat-icon-button (click)="drawer.toggle()" *ngIf="isHandset$ | async">
-                    <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-                </button>
-                <span class="title">Keepadoo</span>
-            </mat-toolbar-row>
-            <mat-toolbar-row class='secondary-toolbar'>
-                <a [routerLink]="['movie-lists']" class='link movies-lists-link' routerLinkActive='active'>Movie lists</a>
-                <a [routerLink]="['tv-show-lists']" class='link tv-shows-lists-link' routerLinkActive='active'>Tv show lists</a>
-                <a [routerLink]="['/user/login']" class="link login-button" *ngIf="!(isLoggedIn$ | async)" routerLinkActive='active'>Login</a>
-                <a (click)="logout()" class="link logout-button" *ngIf="(isLoggedIn$ | async)">Logout</a>
-            </mat-toolbar-row>
-        </mat-toolbar>
-        <div class="error-container" *ngIf='hasError$ | async'>
-            <div class="error">
-                Some error occured. Please refresh the page or try again later.
-            </div>
-        </div>
-        <div class="wrapper">
-            <div class="loading" *ngIf='isLoading$ | async'>
-                <mat-spinner color='accent'></mat-spinner>
-            </div>
-            <router-outlet></router-outlet>
-        </div>
-    </mat-sidenav-content>
+  <mat-sidenav
+    #drawer
+    class="sidenav"
+    fixedInViewport="true"
+    [attr.role]="(isHandset$ | async) ? 'dialog' : 'navigation'"
+    [mode]="(isHandset$ | async) ? 'push' : 'side'"
+    [opened]="!(isHandset$ | async)"
+  >
+    <kpd-sidenav></kpd-sidenav>
+  </mat-sidenav>
+  <mat-sidenav-content class="app-sidenav-content">
+    <mat-toolbar color="primary">
+      <mat-toolbar-row>
+        <button
+          type="button"
+          aria-label="Toggle sidenav"
+          mat-icon-button
+          (click)="drawer.toggle()"
+          *ngIf="(isHandset$ | async)"
+        >
+          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+        </button>
+        <span class="title">Keepadoo</span>
+      </mat-toolbar-row>
+      <mat-toolbar-row class="secondary-toolbar">
+        <a [routerLink]="['movie-lists']" class="link movies-lists-link" routerLinkActive="active"
+          >Movie lists</a
+        >
+        <a
+          [routerLink]="['tv-show-lists']"
+          class="link tv-shows-lists-link"
+          routerLinkActive="active"
+          >Tv show lists</a
+        >
+        <a
+          [routerLink]="['/user/login']"
+          class="link login-button"
+          *ngIf="!(isLoggedIn$ | async)"
+          routerLinkActive="active"
+          >Login</a
+        >
+        <a (click)="logout()" class="link logout-button" *ngIf="(isLoggedIn$ | async)">Logout</a>
+      </mat-toolbar-row>
+    </mat-toolbar>
+    <div class="error-container" *ngIf="(hasError$ | async)">
+      <div class="error">Some error occured. Please refresh the page or try again later.</div>
+    </div>
+    <div class="wrapper">
+      <div class="loading" *ngIf="(isLoading$ | async)">
+        <mat-spinner color="accent"></mat-spinner>
+      </div>
+      <router-outlet></router-outlet>
+    </div>
+  </mat-sidenav-content>
 </mat-sidenav-container>
