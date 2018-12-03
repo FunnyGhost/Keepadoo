@@ -59,8 +59,14 @@ export class LoadMovieLists implements Action {
   readonly type = UserActionTypes.LoadMovieLists;
 }
 
-export class LoadFailed implements Action {
+export class LoadMovieListsFailed implements Action {
   readonly type = UserActionTypes.LoadMovieListsFailed;
+
+  constructor(public payload: string) {}
+}
+
+export class LoadDiscoverMoviesFailed implements Action {
+  readonly type = UserActionTypes.LoadDiscoverMoviesFailed;
 
   constructor(public payload: string) {}
 }
@@ -129,6 +135,12 @@ export class LoadTvShowListsSuccess implements Action {
   constructor(public payload: TvShowList[]) {}
 }
 
+export class LoadTvShowListsFailed implements Action {
+  readonly type = UserActionTypes.LoadTvShowListsFailed;
+
+  constructor(public payload: string) {}
+}
+
 export class ClearTvShowLists implements Action {
   readonly type = UserActionTypes.ClearTvShowLists;
 }
@@ -179,10 +191,11 @@ export type UserActions =
   | SetUserMessage
   | ClearUserMessage
   | LoadMovieLists
-  | LoadFailed
   | LoadMovieListsSuccess
+  | LoadMovieListsFailed
   | LoadDiscoverMovies
   | LoadDiscoverMoviesSuccess
+  | LoadDiscoverMoviesFailed
   | ClearMovieLists
   | AddMovieList
   | AddMovieListSuccess
@@ -192,6 +205,7 @@ export type UserActions =
   | DeleteMovieListFailed
   | LoadTvShowLists
   | LoadTvShowListsSuccess
+  | LoadTvShowListsFailed
   | ClearTvShowLists
   | AddTvShowList
   | AddTvShowListSuccess
