@@ -23,10 +23,31 @@ export interface UserState {
 
 const getUserFeatureState = createFeatureSelector<UserState>('users');
 
-export const getCurrentUser = createSelector(getUserFeatureState, state => state.currentUser);
-export const getMovieLists = createSelector(getUserFeatureState, state => state.movieLists);
-export const getDiscoverMovies = createSelector(getUserFeatureState, state => state.discoverMovies);
-export const getTvShowLists = createSelector(getUserFeatureState, state => state.tvShowLists);
-export const getMessage = createSelector(getUserFeatureState, state => state.message);
-export const getRedirectUrl = createSelector(getUserFeatureState, state => state.redirectUrl);
-export const getError = createSelector(getUserFeatureState, state => state.error);
+export const getCurrentUser = createSelector(
+  getUserFeatureState,
+  state => state.currentUser
+);
+export const getMovieLists = createSelector(
+  getUserFeatureState,
+  state => state.movieLists
+);
+export const getDiscoverMovies = createSelector(
+  getUserFeatureState,
+  state => state.discoverMovies
+);
+export const getTvShowLists = createSelector(
+  getUserFeatureState,
+  state => state.tvShowLists
+);
+export const getMessage = createSelector(
+  getUserFeatureState,
+  state => state.message
+);
+export const getRedirectUrl = createSelector(
+  getUserFeatureState,
+  state => state.redirectUrl
+);
+export const getError = createSelector(
+  getUserFeatureState,
+  state => state.error
+);
