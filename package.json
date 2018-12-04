@@ -10,7 +10,6 @@
     "test:snapshot": "jest --coverage -u",
     "test:watch": "jest --clearCache && jest --watch",
     "lint": "ng lint",
-    "e2e": "ng e2e",
     "build-docker-image": "docker build -t keepadoo .",
     "docker-run": "docker run -d -p 8080:80 keepadoo",
     "docker-build": "docker image build -t utukku/keepadoo:1.0 -t registry.heroku.com/keepadoo/web .",
