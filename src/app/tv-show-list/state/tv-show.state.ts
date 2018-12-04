@@ -21,9 +21,18 @@ export interface TvShowState {
 // Selectors
 const getTvShowFeatureState = createFeatureSelector<TvShowState>('tv-shows');
 
-export const getDisplayMode = createSelector(getTvShowFeatureState, state => state.displayMode);
-export const getCurrentList = createSelector(getTvShowFeatureState, state => state.currentList);
-export const getError = createSelector(getTvShowFeatureState, state => state.error);
+export const getDisplayMode = createSelector(
+  getTvShowFeatureState,
+  state => state.displayMode
+);
+export const getCurrentList = createSelector(
+  getTvShowFeatureState,
+  state => state.currentList
+);
+export const getError = createSelector(
+  getTvShowFeatureState,
+  state => state.error
+);
 export const getTvShowsInCurrentList = createSelector(
   getTvShowFeatureState,
   state => state.tvShowsInCurrentList
