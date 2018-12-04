@@ -3,7 +3,7 @@ import { TvShow } from '../core/models/tv-show';
 import { TvShowActions, TvShowActionTypes } from './tv-show.action';
 import { TvShowState } from './tv-show.state';
 
-const initialState: TvShowState = {
+export const initialState: TvShowState = {
   displayMode: DisplayMode.List,
   currentList: null,
   tvShowsInCurrentList: [],

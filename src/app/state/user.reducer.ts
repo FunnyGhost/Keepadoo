@@ -3,7 +3,7 @@ import { TvShowList } from '../tv-show-list/core/models/tv-show-list';
 import { UserState } from './state';
 import { UserActions, UserActionTypes } from './user.action';
 
-const initialState: UserState = {
+export const initialState: UserState = {
   currentUser: null,
   movieLists: [],
   movieListsLoading: false,
@@ -54,6 +54,13 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         movieListsLoading: false,
         error: ''
       };
+    case UserActionTypes.LoadMovieListsFailed:
+      return {
+        ...state,
+        movieLists: [],
+        movieListsLoading: false,
+        error: action.payload
+      };
     case UserActionTypes.LoadDiscoverMovies:
       return {
         ...state,
@@ -66,10 +73,10 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         discoverMoviesLoading: false,
         error: ''
       };
-    case UserActionTypes.LoadMovieListsFailed:
+    case UserActionTypes.LoadDiscoverMoviesFailed:
       return {
         ...state,
-        movieLists: [],
+        discoverMovies: [],
         discoverMoviesLoading: false,
         error: action.payload
       };
@@ -108,13 +115,22 @@ export function reducer(state: UserState = initialState, action: UserActions): U
       };
     case UserActionTypes.LoadTvShowLists:
       return {
-        ...state
+        ...state,
+        tvShowListsLoading: true
       };
     case UserActionTypes.LoadTvShowListsSuccess:
       return {
         ...state,
         tvShowLists: action.payload,
+        tvShowListsLoading: false,
         error: ''
+      };
+    case UserActionTypes.LoadTvShowListsFailed:
+      return {
+        ...state,
+        tvShowLists: [],
+        tvShowListsLoading: false,
+        error: action.payload
       };
     case UserActionTypes.AddTvShowList:
       return {
@@ -131,7 +147,7 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         ...state,
         error: action.payload
       };
-    case UserActionTypes.LoadMovieLists:
+    case UserActionTypes.DeleteTvShowList:
       return {
         ...state
       };
@@ -142,7 +158,7 @@ export function reducer(state: UserState = initialState, action: UserActions): U
         tvShowLists: state.tvShowLists.filter(
           (tvShowList: TvShowList) => tvShowList.key !== action.payload
         ),
-        message: 'Movie list deleted'
+        message: 'Tv-show list deleted'
       };
     case UserActionTypes.DeleteTvShowListFailed:
       return {

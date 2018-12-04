@@ -3,7 +3,7 @@ import { Movie } from '../core/models/movie';
 import { MovieActions, MovieActionTypes } from './movie.action';
 import { MovieState } from './movie.state';
 
-const initialState: MovieState = {
+export const initialState: MovieState = {
   displayMode: DisplayMode.List,
   currentList: null,
   moviesInCurrentList: [],
