@@ -62,13 +62,13 @@ export class UserEffect {
   );
 
   @Effect()
-  reloadUserMovieLists = this.actions$.pipe(
+  reloadUserMovieLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.SetCurrentUser),
     mapTo(new userActions.LoadMovieLists())
   );
 
   @Effect()
-  clearUserMovieLists = this.actions$.pipe(
+  clearUserMovieLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.ClearCurrentUser),
     mapTo(new userActions.ClearMovieLists())
   );
