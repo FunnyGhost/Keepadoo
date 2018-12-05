@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, map, mapTo, mergeMap, withLatestFrom } from 'rxjs/operators';
 import * as userActions from '../../state//user.action';
 import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
@@ -39,7 +39,7 @@ export class MovieEffect {
   @Effect()
   selectMovieList$ = this.actions$.pipe(
     ofType(movieActions.MovieActionTypes.SelectMovieList),
-    map(() => new movieActions.LoadMoviesInList())
+    mapTo(new movieActions.LoadMoviesInList())
   );
 
   @Effect()
@@ -53,7 +53,7 @@ export class MovieEffect {
     ),
     mergeMap(([action, currentMovieList]: [any, MovieList]) =>
       this.movieService.addMovieToList(currentMovieList.key, action.payload).pipe(
-        map(() => new movieActions.AddMovieToCurrentListSuccess()),
+        mapTo(new movieActions.AddMovieToCurrentListSuccess()),
         catchError(err => of(new movieActions.AddMovieToCurrentListFailed(err)))
       )
     )
@@ -62,13 +62,13 @@ export class MovieEffect {
   @Effect()
   addMovieSuccessThenLoad$ = this.actions$.pipe(
     ofType(movieActions.MovieActionTypes.AddMovieToCurrentListSuccess),
-    map(() => new movieActions.LoadMoviesInList())
+    mapTo(new movieActions.LoadMoviesInList())
   );
 
   @Effect()
   addMovieSuccessThenSetMessage$ = this.actions$.pipe(
     ofType(movieActions.MovieActionTypes.AddMovieToCurrentListSuccess),
-    map(() => new userActions.SetUserMessage('Movie added to list'))
+    mapTo(new userActions.SetUserMessage('Movie added to list'))
   );
 
   @Effect()
@@ -76,7 +76,7 @@ export class MovieEffect {
     ofType(movieActions.MovieActionTypes.RemoveMovieFromCurrentList),
     mergeMap((action: any) =>
       this.movieService.deleteMovieFromList(action.payload.key).pipe(
-        map(() => new movieActions.RemoveMovieFromCurrentListSuccess(action.payload)),
+        mapTo(new movieActions.RemoveMovieFromCurrentListSuccess(action.payload)),
         catchError(err => of(new movieActions.RemoveMovieFromCurrentListFailed(err)))
       )
     )
@@ -85,6 +85,6 @@ export class MovieEffect {
   @Effect()
   removeMovieSuccess$ = this.actions$.pipe(
     ofType(movieActions.MovieActionTypes.RemoveMovieFromCurrentListSuccess),
-    map(() => new userActions.SetUserMessage('Movie removed from list'))
+    mapTo(new userActions.SetUserMessage('Movie removed from list'))
   );
 }

@@ -2,7 +2,7 @@ import { Injectable } from '@angular/core';
 import { Actions, Effect, ofType } from '@ngrx/effects';
 import { select, Store } from '@ngrx/store';
 import { of } from 'rxjs';
-import { catchError, filter, map, mergeMap, withLatestFrom } from 'rxjs/operators';
+import { catchError, filter, map, mapTo, mergeMap, withLatestFrom } from 'rxjs/operators';
 import * as userActions from '../../state//user.action';
 import { TvShow } from '../core/models/tv-show';
 import { TvShowList } from '../core/models/tv-show-list';
@@ -39,7 +39,7 @@ export class TvShowEffect {
   @Effect()
   selectTvShowList$ = this.actions$.pipe(
     ofType(tvShowActions.TvShowActionTypes.SelectTvShowList),
-    map(() => new tvShowActions.LoadTvShowsInList())
+    mapTo(new tvShowActions.LoadTvShowsInList())
   );
 
   @Effect()
@@ -53,7 +53,7 @@ export class TvShowEffect {
     ),
     mergeMap(([action, currentTvShowList]: [any, TvShowList]) =>
       this.tvShowService.addTvShowToList(currentTvShowList.key, action.payload).pipe(
-        map(() => new tvShowActions.AddTvShowToCurrentListSuccess()),
+        mapTo(new tvShowActions.AddTvShowToCurrentListSuccess()),
         catchError(err => of(new tvShowActions.AddTvShowToCurrentListFailed(err)))
       )
     )
@@ -62,13 +62,13 @@ export class TvShowEffect {
   @Effect()
   addTvShowSuccessThenLoad$ = this.actions$.pipe(
     ofType(tvShowActions.TvShowActionTypes.AddTvShowToCurrentListSuccess),
-    map(() => new tvShowActions.LoadTvShowsInList())
+    mapTo(new tvShowActions.LoadTvShowsInList())
   );
 
   @Effect()
   addTvShowSuccessThenSetMessage$ = this.actions$.pipe(
     ofType(tvShowActions.TvShowActionTypes.AddTvShowToCurrentListSuccess),
-    map(() => new userActions.SetUserMessage('Tv show added to list'))
+    mapTo(new userActions.SetUserMessage('Tv show added to list'))
   );
 
   @Effect()
