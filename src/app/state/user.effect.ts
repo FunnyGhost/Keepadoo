@@ -22,7 +22,7 @@ export class UserEffect {
   @Effect()
   loadMovieLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.LoadMovieLists),
-    mergeMap((action: any) =>
+    mergeMapTo(
       this.movieListsService.getMovieLists().pipe(
         map((movieLists: MovieList[]) => new userActions.LoadMovieListsSuccess(movieLists)),
         catchError(err => of(new userActions.LoadMovieListsFailed(err)))
@@ -49,7 +49,7 @@ export class UserEffect {
     ofType(userActions.UserActionTypes.AddMovieList),
     mergeMap((action: any) =>
       this.movieListsService.addMovieList(action.payload.name).pipe(
-        map((movieLists: MovieList[]) => new userActions.AddMovieListSuccess()),
+        mapTo(new userActions.AddMovieListSuccess()),
         catchError(err => of(new userActions.AddMovieListFailed(err)))
       )
     )
@@ -58,7 +58,7 @@ export class UserEffect {
   @Effect()
   addMovieListSuccess$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.AddMovieListSuccess),
-    map(() => new userActions.LoadMovieLists())
+    mapTo(new userActions.LoadMovieLists())
   );
 
   @Effect()
@@ -87,7 +87,7 @@ export class UserEffect {
   @Effect()
   loadTvShowLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.LoadTvShowLists),
-    mergeMap((action: any) =>
+    mergeMapTo(
       this.tvShowListsService.getTvShowLists().pipe(
         map((tvShowLists: TvShowList[]) => new userActions.LoadTvShowListsSuccess(tvShowLists)),
         catchError(err => of(new userActions.LoadTvShowListsFailed(err)))
@@ -100,7 +100,7 @@ export class UserEffect {
     ofType(userActions.UserActionTypes.AddTvShowList),
     mergeMap((action: any) =>
       this.tvShowListsService.addTvShowList(action.payload.name).pipe(
-        map((tvShowLists: TvShowList[]) => new userActions.AddTvShowListSuccess()),
+        mapTo(new userActions.AddTvShowListSuccess()),
         catchError(err => of(new userActions.AddTvShowListFailed(err)))
       )
     )
@@ -109,19 +109,19 @@ export class UserEffect {
   @Effect()
   addTvShowListSuccess$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.AddTvShowListSuccess),
-    map(() => new userActions.LoadTvShowLists())
+    mapTo(new userActions.LoadTvShowLists())
   );
 
   @Effect()
   reloadUserTvShowLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.SetCurrentUser),
-    map(() => new userActions.LoadTvShowLists())
+    mapTo(new userActions.LoadTvShowLists())
   );
 
   @Effect()
-  clearserTvShowLists$ = this.actions$.pipe(
+  clearUserTvShowLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.ClearCurrentUser),
-    map(() => new userActions.ClearTvShowLists())
+    mapTo(new userActions.ClearTvShowLists())
   );
 
   @Effect()
