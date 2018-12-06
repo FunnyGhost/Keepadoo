@@ -22,7 +22,7 @@ export class UserEffect {
   @Effect()
   loadMovieLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.LoadMovieLists),
-    mergeMapTo(
+    mergeMap((action: any) =>
       this.movieListsService.getMovieLists().pipe(
         map((movieLists: MovieList[]) => new userActions.LoadMovieListsSuccess(movieLists)),
         catchError(err => of(new userActions.LoadMovieListsFailed(err)))
@@ -87,7 +87,7 @@ export class UserEffect {
   @Effect()
   loadTvShowLists$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.LoadTvShowLists),
-    mergeMapTo(
+    mergeMap((action: any) =>
       this.tvShowListsService.getTvShowLists().pipe(
         map((tvShowLists: TvShowList[]) => new userActions.LoadTvShowListsSuccess(tvShowLists)),
         catchError(err => of(new userActions.LoadTvShowListsFailed(err)))
@@ -109,7 +109,7 @@ export class UserEffect {
   @Effect()
   addTvShowListSuccess$ = this.actions$.pipe(
     ofType(userActions.UserActionTypes.AddTvShowListSuccess),
-    mapTo(new userActions.LoadTvShowLists())
+    map(() => new userActions.LoadTvShowLists())
   );
 
   @Effect()
