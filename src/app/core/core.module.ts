@@ -1,6 +1,6 @@
 import { CommonModule } from '@angular/common';
-import { HttpClientModule } from '@angular/common/http';
-import { NgModule } from '@angular/core';
+import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
+import { ErrorHandler, NgModule } from '@angular/core';
 import { AngularFireModule } from '@angular/fire';
 import { AngularFireAuthModule } from '@angular/fire/auth';
 import { AngularFirestoreModule } from '@angular/fire/firestore';
@@ -10,6 +10,10 @@ import { StoreModule } from '@ngrx/store';
 import { environment } from '../../environments/environment';
 import { UserEffect } from '../state/user.effect';
 import { reducer } from '../state/user.reducer';
+import { HttpErrorInterceptor } from './rollbar/http-error.interceptor';
+import { RollbarErrorHandler } from './rollbar/rollbar-error-handler';
+import { rollbarFactory } from './rollbar/rollbar-factory';
+import { RollbarService } from './rollbar/rollbar.service';
 
 @NgModule({
   imports: [
@@ -24,7 +28,11 @@ import { reducer } from '../state/user.reducer';
     EffectsModule.forFeature([UserEffect]),
     MatSnackBarModule
   ],
-  providers: [],
+  providers: [
+    { provide: ErrorHandler, useClass: RollbarErrorHandler },
+    { provide: RollbarService, useFactory: rollbarFactory },
+    { provide: HTTP_INTERCEPTORS, useClass: HttpErrorInterceptor, multi: true }
+  ],
   declarations: []
 })
 export class CoreModule {}
