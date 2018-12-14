@@ -1,5 +1,5 @@
 export const rollbarConfig = {
-  accessToken: '8b81f5fd6d5047fabba009d379959ff1',
+  accessToken: 'df589c68fb6346f2b8e7ebac66d3d249',
   captureUncaught: true,
   captureUnhandledRejections: true
 };

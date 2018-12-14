@@ -28,6 +28,7 @@ export class AppComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
+    window.onerror('TestError: Hello world', window.location.href);
     this.isLoggedIn$ = this.userStore
       .pipe(select(selectors.getCurrentUser))
       .pipe(map((user: User | null) => !!user));
