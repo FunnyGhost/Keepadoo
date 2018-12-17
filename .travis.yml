@@ -19,13 +19,13 @@ jobs:
         - yarn build-prod
     - stage: check
       script:
-        - yarn test
+        - yarn test:ci
         - yarn e2e:ci
         - yarn lint
     - stage: publish
       if: branch = master
       script:
-        - yarn docker-build
+        - yarn docker-build-heroku
         - yarn login-heroku
         - yarn push-heroku
         - yarn release-heroku
