@@ -11,7 +11,7 @@
     "test:snapshot": "jest --coverage -u",
     "test:watch": "jest --clearCache && jest --watch",
     "e2e": "cypress open",
-    "cy:run": "cypress run --record --key a381f13e-bf4e-4506-8af0-5dd128b93248",
+    "cy:run": "$(npm bin)/cypress run --record --key a381f13e-bf4e-4506-8af0-5dd128b93248",
     "e2e:ci": "start-server-and-test start:ci  http://localhost:4200 cy:run",
     "lint": "ng lint",
     "build-docker-image": "docker build -t keepadoo .",
