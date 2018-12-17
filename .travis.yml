@@ -8,6 +8,8 @@ services:
 cache:
   directories:
     - node_modules
+    - ~/.npm
+    - ~/.cache
     - dist
 before_script:
   - npm install -g @angular/cli
