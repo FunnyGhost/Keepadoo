@@ -11,8 +11,10 @@ cache:
     - ~/.npm
     - ~/.cache
     - dist
+install:
+  - npm ci
 before_script:
-  - yarn add -g @angular/cli
+  - npm install -g @angular/cli
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 jobs:
   include:
