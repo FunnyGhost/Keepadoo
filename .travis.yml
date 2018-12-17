@@ -16,11 +16,9 @@ jobs:
   include:
     - stage: build
       script:
-        - ls
         - yarn build-prod
     - stage: check
       script:
-        - ls
         - yarn test
         - yarn e2e:ci
         - yarn lint
