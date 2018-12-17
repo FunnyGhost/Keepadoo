@@ -5,7 +5,10 @@ dist: trusty
 sudo: true
 services:
   - docker
-cache: yarn
+cache:
+  yarn: true
+  directories:
+    - dist
 before_script:
   - npm install -g @angular/cli
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
