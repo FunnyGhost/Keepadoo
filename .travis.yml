@@ -6,9 +6,10 @@ sudo: true
 services:
   - docker
 cache:
+  yarn: true
   directories:
     - node_modules
-    - ~/.cache/Cypress
+    - ~/.cache
     - dist
 before_script:
   - npm install -g @angular/cli
