@@ -8,18 +8,20 @@ services:
 cache:
   directories:
     - node_modules
+    - dist
 before_script:
   - npm install -g @angular/cli
   - wget -qO- https://toolbelt.heroku.com/install.sh | sh
 jobs:
   include:
-    - stage: check
-      script:
-        - yarn test
-        - yarn lint
     - stage: build
       script:
         - yarn build-prod
+    - stage: check
+      script:
+        - yarn test
+        - yarn e2e:ci
+        - yarn lint
     - stage: publish
       if: branch = master
       script:
