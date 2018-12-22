@@ -1,3 +1,10 @@
-<div *ngIf="(selectedMovie$ | async) as movie; else loading">{{ movie.title }}</div>
+<mat-card *ngIf="(selectedMovie$ | async) as movie; else loading">
+  <mat-card-header>
+    <mat-card-title>
+      <h2>{{ movie.title }}</h2>
+    </mat-card-title>
+  </mat-card-header>
+  <mat-card-content> {{ movie.description }} </mat-card-content>
+</mat-card>
 
 <ng-template #loading>Loading...</ng-template>
