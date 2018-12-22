@@ -2,11 +2,13 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter } from 'rxjs/operators';
+import { filter, map } from 'rxjs/operators';
 import { MovieList } from '../movie-list/core/models/movie-list';
 import * as selectors from '../state/state';
 import { UserState } from '../state/state';
 import { TvShowList } from '../tv-show-list/core/models/tv-show-list';
+import { User } from '../core/models/user';
+import { AuthenticationService } from '../core/authentication.service';
 
 @Component({
   selector: 'kpd-sidenav',
@@ -14,12 +16,18 @@ import { TvShowList } from '../tv-show-list/core/models/tv-show-list';
   styleUrls: ['./sidenav.component.scss']
 })
 export class SidenavComponent implements OnInit {
+  isLoggedIn$: Observable<boolean>;
   showMovieLists: boolean;
+  showSubNav = false;
   movieLists$: Observable<MovieList[]>;
   showTvShowLists: boolean;
   tvShowLists$: Observable<TvShowList[]>;
 
-  constructor(private userStore: Store<UserState>, private router: Router) {}
+  constructor(
+    private authService: AuthenticationService,
+    private userStore: Store<UserState>,
+    private router: Router
+  ) {}
 
   ngOnInit() {
     this.setupRouteListening();
@@ -33,6 +41,14 @@ export class SidenavComponent implements OnInit {
       filter(() => this.showTvShowLists),
       select(selectors.getTvShowLists)
     );
+
+    this.isLoggedIn$ = this.userStore
+      .pipe(select(selectors.getCurrentUser))
+      .pipe(map((user: User | null) => !!user));
+  }
+
+  public toggleSubNavigation() {
+    this.showSubNav = !this.showSubNav;
   }
 
   private setupRouteListening() {
@@ -48,5 +64,9 @@ export class SidenavComponent implements OnInit {
           this.showMovieLists = false;
         }
       });
+  }
+
+  logout(): void {
+    this.authService.logout();
   }
 }

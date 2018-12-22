@@ -11,7 +11,8 @@
 
 .sidenav {
   width: 200px;
-  box-shadow: 3px 0 6px rgba(0, 0, 0, 0.24);
+  border: none;
+  background-color: transparent;
 }
 
 .app-sidenav-content {
@@ -35,8 +36,12 @@
   }
 }
 
+.mat-toolbar-row {
+  padding: 0 2rem;
+}
+
 .wrapper {
-  margin: 1rem;
+  margin: 2rem;
   position: relative;
 
   .loading {
@@ -55,7 +60,6 @@
 }
 
 .secondary-toolbar {
-  background-color: $primary;
 
   a {
     cursor: pointer;

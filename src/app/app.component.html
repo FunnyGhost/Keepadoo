@@ -10,17 +10,9 @@
     <kpd-sidenav></kpd-sidenav>
   </mat-sidenav>
   <mat-sidenav-content class="app-sidenav-content">
-    <mat-toolbar color="primary">
+    <!-- <mat-toolbar color="primary">
       <mat-toolbar-row>
-        <button
-          type="button"
-          aria-label="Toggle sidenav"
-          mat-icon-button
-          (click)="drawer.toggle()"
-          *ngIf="(isHandset$ | async)"
-        >
-          <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
-        </button>
+        
         <h1 class="title">Keepadoo</h1>
       </mat-toolbar-row>
       <mat-toolbar-row class="secondary-toolbar">
@@ -42,7 +34,18 @@
         >
         <a (click)="logout()" class="link logout-button" *ngIf="(isLoggedIn$ | async)">Logout</a>
       </mat-toolbar-row>
-    </mat-toolbar>
+    </mat-toolbar> -->
+
+    <button
+      type="button"
+      aria-label="Toggle sidenav"
+      mat-icon-button
+      (click)="drawer.toggle()"
+      *ngIf="(isHandset$ | async)"
+    >
+      <mat-icon aria-label="Side nav toggle icon">menu</mat-icon>
+    </button>
+    
     <div class="error-container" *ngIf="(hasError$ | async)">
       <div class="error">Some error occured. Please refresh the page or try again later.</div>
     </div>

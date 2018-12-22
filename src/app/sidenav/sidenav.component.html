@@ -1,9 +1,30 @@
-<mat-toolbar color="primary">Lists</mat-toolbar>
-<mat-nav-list *ngIf="showMovieLists">
+<h1 class="logo">Keepadoo</h1>
+<mat-nav-list *ngIf="!showSubNav">
+  <a mat-list-item [routerLink]="['movie-lists']" class="link movies-lists-link" routerLinkActive="active" (click)="toggleSubNavigation()"
+    >Movie lists</a
+  >
+  <a mat-list-item
+    [routerLink]="['tv-show-lists']"
+    class="link tv-shows-lists-link"
+    routerLinkActive="active"
+    >Tv show lists</a
+  >
+  <a mat-list-item
+    [routerLink]="['/user/login']"
+    class="link login-button"
+    *ngIf="!(isLoggedIn$ | async)"
+    routerLinkActive="active"
+    >Login</a
+  >
+  <a mat-list-item (click)="logout()" class="link logout-button" *ngIf="(isLoggedIn$ | async)">Logout</a>
+</mat-nav-list>
+<mat-nav-list *ngIf="showMovieLists && showSubNav">
+  <a mat-list-item (click)="toggleSubNavigation()" *ngIf="showSubNav">Go back</a>
   <a mat-list-item class="movie-list" *ngFor="let movieList of movieLists$ | async" [routerLink]="['/movie-lists', movieList.key]"
     routerLinkActive='mat-list-item-focus'>{{movieList.name}}</a>
 </mat-nav-list>
-<mat-nav-list *ngIf="showTvShowLists">
+<mat-nav-list *ngIf="showTvShowLists && showSubNav">
+  <a mat-list-item (click)="toggleSubNavigation()" *ngIf="showSubNav">Go back</a>
   <a mat-list-item class="tv-show-list" *ngFor="let tvShowList of tvShowLists$ | async" [routerLink]="['/tv-show-lists', tvShowList.key]"
     routerLinkActive='mat-list-item-focus'>{{tvShowList.name}}</a>
 </mat-nav-list>
