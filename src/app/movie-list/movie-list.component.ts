@@ -2,16 +2,14 @@ import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { ActivatedRoute, ParamMap } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map, switchMap, tap } from 'rxjs/operators';
+import { map, switchMap, tap } from 'rxjs/operators';
 import { ModalService } from '../core/modal.service';
-import { ConfirmDeleteComponent } from '../shared/modals/confirm-delete/confirm-delete.component';
 import { NewListComponent } from '../shared/modals/new-list/new-list.component';
 import * as userSelectors from '../state/state';
 import { UserState } from '../state/state';
 import * as userActions from '../state/user.action';
 import { MovieList } from './core/models/movie-list';
 import * as movieActions from './state/movie.action';
-import * as movieSelectors from './state/movie.state';
 import { MovieState } from './state/movie.state';
 
 @Component({
@@ -31,11 +29,6 @@ export class MovieListComponent implements OnInit {
   ) {}
 
   ngOnInit() {
-    this.movieList$ = this.movieStore.pipe(
-      select(movieSelectors.getCurrentList),
-      filter(Boolean)
-    );
-
     this.route.paramMap
       .pipe(
         map((params: ParamMap) => {
@@ -62,14 +55,6 @@ export class MovieListComponent implements OnInit {
       if (result) {
         const movieListToAdd = { name: result } as MovieList;
         this.userStore.dispatch(new userActions.AddMovieList(movieListToAdd));
-      }
-    });
-  }
-
-  deleteList(listId: string): void {
-    this.modalService.openModal(ConfirmDeleteComponent).subscribe(result => {
-      if (result) {
-        this.userStore.dispatch(new userActions.DeleteMovieList(listId));
       }
     });
   }

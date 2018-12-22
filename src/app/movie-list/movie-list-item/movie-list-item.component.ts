@@ -1,9 +1,13 @@
-import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
+import { ChangeDetectionStrategy, Component, OnInit } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
 import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
+import { ModalService } from 'src/app/core/modal.service';
+import { ConfirmDeleteComponent } from 'src/app/shared/modals/confirm-delete/confirm-delete.component';
+import { UserState } from 'src/app/state/state';
 import { filter } from '../../../../node_modules/rxjs/operators';
+import * as userActions from '../../state/user.action';
 import { DisplayMode } from '../core/models/enums';
 import { Movie } from '../core/models/movie';
 import { MovieList } from '../core/models/movie-list';
@@ -19,18 +23,17 @@ import { MovieState } from '../state/movie.state';
   changeDetection: ChangeDetectionStrategy.OnPush
 })
 export class MovieListItemComponent implements OnInit {
-  @Output()
-  deleteList = new EventEmitter<string>();
-
   public displayMode$: Observable<DisplayMode>;
   public displayModes = DisplayMode;
   public movies$: Observable<Movie[]>;
   public currentMovieList$: Observable<MovieList>;
 
   constructor(
+    private userStore: Store<UserState>,
     private store: Store<MovieState>,
-    public router: Router,
-    public route: ActivatedRoute
+    private router: Router,
+    private activatedRoute: ActivatedRoute,
+    private modalService: ModalService
   ) {}
 
   ngOnInit() {
@@ -43,7 +46,11 @@ export class MovieListItemComponent implements OnInit {
   }
 
   onDeleteList(listId: string): void {
-    this.deleteList.emit(listId);
+    this.modalService.openModal(ConfirmDeleteComponent).subscribe(result => {
+      if (result) {
+        this.userStore.dispatch(new userActions.DeleteMovieList(listId));
+      }
+    });
   }
 
   onDisplayModeChanged(change: MatButtonToggleChange): void {
@@ -60,6 +67,6 @@ export class MovieListItemComponent implements OnInit {
 
   selectMovie(movie: Movie): void {
     this.store.dispatch(new actions.SelectMovie(movie));
-    this.router.navigate(['../movies', movie.key], { relativeTo: this.route });
+    this.router.navigate(['movies', movie.key], { relativeTo: this.activatedRoute });
   }
 }
