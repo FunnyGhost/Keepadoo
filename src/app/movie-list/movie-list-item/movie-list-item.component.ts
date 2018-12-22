@@ -52,4 +52,8 @@ export class MovieListItemComponent implements OnInit {
   onAddMovieToList(selectedMovie: MovieSearchResult) {
     this.store.dispatch(new actions.AddMovieToCurrentList(selectedMovie));
   }
+
+  selectMovie(movie: Movie): void {
+    this.store.dispatch(new actions.SelectMovie(movie));
+  }
 }

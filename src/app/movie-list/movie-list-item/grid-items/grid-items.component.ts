@@ -13,11 +13,18 @@ export class GridItemsComponent implements OnInit {
   @Output()
   removeMovieFromList = new EventEmitter<string>();
 
+  @Output()
+  selectMovie = new EventEmitter<Movie>();
+
   constructor() {}
 
   ngOnInit() {}
 
   onDeleteMovieFromList(movie: Movie): void {
     this.removeMovieFromList.emit(movie.key);
+  }
+
+  onSelectMovie(movie: Movie): void {
+    this.selectMovie.emit(movie);
   }
 }
