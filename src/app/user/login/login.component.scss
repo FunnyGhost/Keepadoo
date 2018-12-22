@@ -7,20 +7,18 @@
   align-items: center;
 
   mat-card {
-    width: 300px;
+    width: 280px;
+    padding: 2rem;
 
     div.title {
       font-size: 24px;
-      margin-bottom: 8px;
+      margin-bottom: 20px;
+      margin-top: 10px;
     }
 
     form {
       display: flex;
       flex-direction: column;
-
-      mat-form-field {
-        margin: 16px 0;
-      }
 
       .error {
         color: $warn;
@@ -32,7 +30,7 @@
       }
 
       button {
-        margin-top: 8px;
+        margin-top: 1rem;
       }
 
       a.register-link {

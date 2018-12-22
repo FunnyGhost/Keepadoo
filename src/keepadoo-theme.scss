@@ -7,7 +7,6 @@ $keepadoo-theme-accent: mat-palette($mat-lime, A700);
 $keepadoo-theme-warn: mat-palette($mat-red);
 
 $keepadoo-theme: mat-dark-theme(
-  $keepadoo-theme-primary,
   $keepadoo-theme-accent,
   $keepadoo-theme-warn
 );
