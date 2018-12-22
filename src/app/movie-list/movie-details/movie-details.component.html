@@ -1,0 +1,3 @@
+<div *ngIf="(selectedMovie$ | async) as movie; else loading">{{ movie.title }}</div>
+
+<ng-template #loading>Loading...</ng-template>
