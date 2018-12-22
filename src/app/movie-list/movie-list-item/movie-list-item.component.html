@@ -12,25 +12,19 @@
       </mat-card-subtitle>
     </mat-card-header>
     <mat-card-content>
-      <mat-tab-group>
-        <mat-tab label="Movies">
-          <div>
-            <mat-button-toggle-group [value]='displayMode$ | async' (change)='onDisplayModeChanged($event)'>
-              <mat-button-toggle [value]="displayModes.Grid">
-                <mat-icon>grid_on</mat-icon>
-              </mat-button-toggle>
-              <mat-button-toggle [value]="displayModes.List">
-                <mat-icon>list</mat-icon>
-              </mat-button-toggle>
-            </mat-button-toggle-group>
-          </div>
-          <div fxLayout="row wrap" fxLayoutAlign="space-between start">
-            <kpd-movie-search (addMovieToList)="onAddMovieToList($event)" fxFlex.xl="30" fxFlex.lg="40" fxFlex.md="50" fxFlex.sm="70"></kpd-movie-search>
-          </div>
-          <kpd-list-items *ngIf='movies.length && (displayMode$ | async) === displayModes.List' [movies]="movies" (removeMovieFromList)="deleteMovie($event)"></kpd-list-items>
-          <kpd-grid-items *ngIf='movies.length && (displayMode$ | async) === displayModes.Grid' [movies]="movies" (removeMovieFromList)="deleteMovie($event)"></kpd-grid-items>
-        </mat-tab>
-      </mat-tab-group>
+      <div fxLayout="row wrap" fxLayoutAlign="space-between start">
+        <kpd-movie-search (addMovieToList)="onAddMovieToList($event)" fxFlex.xl="30" fxFlex.lg="40" fxFlex.md="50" fxFlex.sm="70"></kpd-movie-search>
+        <mat-button-toggle-group [value]='displayMode$ | async' (change)='onDisplayModeChanged($event)'>
+          <mat-button-toggle [value]="displayModes.Grid">
+            <mat-icon>grid_on</mat-icon>
+          </mat-button-toggle>
+          <mat-button-toggle [value]="displayModes.List">
+            <mat-icon>list</mat-icon>
+          </mat-button-toggle>
+        </mat-button-toggle-group>
+      </div>
+      <kpd-list-items *ngIf='movies.length && (displayMode$ | async) === displayModes.List' [movies]="movies" (removeMovieFromList)="deleteMovie($event)"></kpd-list-items>
+      <kpd-grid-items *ngIf='movies.length && (displayMode$ | async) === displayModes.Grid' [movies]="movies" (removeMovieFromList)="deleteMovie($event)"></kpd-grid-items>
     </mat-card-content>
   </mat-card>
 </ng-container>

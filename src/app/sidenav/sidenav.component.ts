@@ -2,7 +2,7 @@ import { Component, OnInit } from '@angular/core';
 import { NavigationEnd, Router, RouterEvent } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
-import { filter, map } from 'rxjs/operators';
+import { filter, map, tap } from 'rxjs/operators';
 import { MovieList } from '../movie-list/core/models/movie-list';
 import * as selectors from '../state/state';
 import { UserState } from '../state/state';
@@ -39,7 +39,8 @@ export class SidenavComponent implements OnInit {
 
     this.tvShowLists$ = this.userStore.pipe(
       filter(() => this.showTvShowLists),
-      select(selectors.getTvShowLists)
+      select(selectors.getTvShowLists),
+      tap(data => console.log(data))
     );
 
     this.isLoggedIn$ = this.userStore
@@ -59,9 +60,11 @@ export class SidenavComponent implements OnInit {
         if (currentEvent.url.includes('movie-lists')) {
           this.showMovieLists = true;
           this.showTvShowLists = false;
+          console.log('movie-lists', this.showTvShowLists);
         } else if (currentEvent.url.includes('tv-show-lists')) {
           this.showTvShowLists = true;
           this.showMovieLists = false;
+          console.log('tv-show-lists', this.showTvShowLists);
         }
       });
   }

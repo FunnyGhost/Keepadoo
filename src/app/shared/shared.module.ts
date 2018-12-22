@@ -18,7 +18,6 @@ import {
   MatSidenavModule,
   MatSortModule,
   MatTableModule,
-  MatTabsModule,
   MatToolbarModule
 } from '@angular/material';
 import { ConfirmDeleteComponent } from './modals/confirm-delete/confirm-delete.component';
@@ -36,7 +35,6 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     MatIconModule,
     MatListModule,
     MatCardModule,
-    MatTabsModule,
     FlexLayoutModule,
     MatFormFieldModule,
     MatDialogModule,
@@ -61,7 +59,6 @@ import { NewListComponent } from './modals/new-list/new-list.component';
     MatIconModule,
     MatListModule,
     MatCardModule,
-    MatTabsModule,
     FlexLayoutModule,
     MatFormFieldModule,
     MatDialogModule,
