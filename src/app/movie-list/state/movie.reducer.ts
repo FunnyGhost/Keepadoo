@@ -6,6 +6,7 @@ import { MovieState } from './movie.state';
 export const initialState: MovieState = {
   displayMode: DisplayMode.List,
   currentList: null,
+  currentMovie: null,
   moviesInCurrentList: [],
   loadMoviesInListLoading: false,
   addMovieLoading: false,
@@ -19,6 +20,8 @@ export function reducer(state: MovieState = initialState, action: MovieActions):
       return { ...state, displayMode: action.payload };
     case MovieActionTypes.SelectMovieList:
       return { ...state, currentList: action.payload };
+    case MovieActionTypes.SelectMovie:
+      return { ...state, currentMovie: action.payload };
     case MovieActionTypes.LoadMoviesInList:
       return { ...state, loadMoviesInListLoading: true, error: '' };
     case MovieActionTypes.LoadMoviesInListSuccess:

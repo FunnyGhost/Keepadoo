@@ -11,6 +11,7 @@ export interface State extends State {
 export interface MovieState {
   displayMode: DisplayMode;
   currentList: MovieList | null;
+  currentMovie: Movie | null;
   moviesInCurrentList: Movie[];
   loadMoviesInListLoading: boolean;
   addMovieLoading: boolean;
@@ -28,6 +29,10 @@ export const getDisplayMode = createSelector(
 export const getCurrentList = createSelector(
   getMovieFeatureState,
   state => state.currentList
+);
+export const getCurrentMovie = createSelector(
+  getMovieFeatureState,
+  state => state.currentMovie
 );
 export const getError = createSelector(
   getMovieFeatureState,

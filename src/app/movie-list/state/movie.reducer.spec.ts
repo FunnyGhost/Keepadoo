@@ -35,6 +35,16 @@ describe('Movie reducer', () => {
       expect(state.currentList).toEqual(movieListToSelect);
     });
   });
+  describe('SelectMovie action', () => {
+    it('should set the selected movie', () => {
+      const { initialState } = fromMovie;
+      const movieToSelect: Movie = { key: '123', title: 'Dark Knight rises', listId: '34543' };
+      const action = new fromActions.SelectMovie(movieToSelect);
+      const state = fromMovie.reducer(initialState, action);
+
+      expect(state.currentMovie).toEqual(movieToSelect);
+    });
+  });
   describe('LoadMoviesInList action', () => {
     let state: MovieState;
     beforeAll(() => {
