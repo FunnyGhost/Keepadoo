@@ -7,6 +7,7 @@ import { MovieSearchResult } from '../core/models/movie-search-result';
 export enum MovieActionTypes {
   ChangeListDisplayMode = '[Movie] Change list display mode',
   SelectMovieList = '[Movie] Select movie list',
+  SelectMovie = '[Movie] Select movie',
   LoadMoviesInList = '[Movie] Load movies in list',
   LoadMoviesInListSuccess = '[Movie] Load movies in list success',
   LoadMoviesInListFailed = '[Movie] Load movies in list failed',
@@ -28,6 +29,12 @@ export class SelectMovieList implements Action {
   readonly type = MovieActionTypes.SelectMovieList;
 
   constructor(public payload: MovieList) {}
+}
+
+export class SelectMovie implements Action {
+  readonly type = MovieActionTypes.SelectMovie;
+
+  constructor(public payload: Movie) {}
 }
 
 export class LoadMoviesInList implements Action {
@@ -83,6 +90,7 @@ export class RemoveMovieFromCurrentListSuccess implements Action {
 export type MovieActions =
   | ChangeListDisplayMode
   | SelectMovieList
+  | SelectMovie
   | LoadMoviesInList
   | LoadMoviesInListFailed
   | LoadMoviesInListSuccess

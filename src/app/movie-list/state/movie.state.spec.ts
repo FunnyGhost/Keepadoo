@@ -50,6 +50,24 @@ describe('Movie selectors', () => {
       expect(result).toEqual(currentListToUse);
     });
   });
+  describe('getCurrentMovie', () => {
+    const currentMovieToUse: Movie = {
+      key: '123',
+      listId: '4df4f',
+      title: 'Dark Knight rises'
+    };
+    it('should return the current movie', () => {
+      let result;
+
+      store.select(fromSelectors.getCurrentMovie).subscribe(value => {
+        result = value;
+      });
+      expect(result).toBeNull();
+
+      store.dispatch(new fromActions.SelectMovie(currentMovieToUse));
+      expect(result).toEqual(currentMovieToUse);
+    });
+  });
   describe('getError', () => {
     const errorToUse = 'You failed!';
     it('should return the current error', () => {

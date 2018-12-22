@@ -1,11 +1,9 @@
 <div class="container">
-  <div *ngFor='let movie of movies' class='movie-item'>
+  <div *ngFor="let movie of movies" class="movie-item" (click)="onSelectMovie(movie)">
     <div class="box">
-      <img src="https://image.tmdb.org/t/p/w154/{{movie.poster_path}}" alt="" class="thumbnail">
+      <img src="https://image.tmdb.org/t/p/w154/{{ movie.poster_path }}" alt="" class="thumbnail" />
       <div class="title">
-        <p>
-          {{movie.title}}
-        </p>
+        <p>{{ movie.title }}</p>
       </div>
     </div>
   </div>
