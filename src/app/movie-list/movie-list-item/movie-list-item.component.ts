@@ -1,5 +1,6 @@
 import { ChangeDetectionStrategy, Component, EventEmitter, OnInit, Output } from '@angular/core';
 import { MatButtonToggleChange } from '@angular/material';
+import { ActivatedRoute, Router } from '@angular/router';
 import { select, Store } from '@ngrx/store';
 import { Observable } from 'rxjs';
 import { filter } from '../../../../node_modules/rxjs/operators';
@@ -26,7 +27,11 @@ export class MovieListItemComponent implements OnInit {
   public movies$: Observable<Movie[]>;
   public currentMovieList$: Observable<MovieList>;
 
-  constructor(private store: Store<MovieState>) {}
+  constructor(
+    private store: Store<MovieState>,
+    public router: Router,
+    public route: ActivatedRoute
+  ) {}
 
   ngOnInit() {
     this.currentMovieList$ = this.store.pipe(
@@ -55,5 +60,6 @@ export class MovieListItemComponent implements OnInit {
 
   selectMovie(movie: Movie): void {
     this.store.dispatch(new actions.SelectMovie(movie));
+    this.router.navigate(['../movies', movie.key], { relativeTo: this.route });
   }
 }
